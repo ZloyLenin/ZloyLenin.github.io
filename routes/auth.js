@@ -17,39 +17,10 @@ router.post('/register', async (req, res) => {
 
 // Авторизация
 router.post('/login', async (req, res) => {
-  try {
-    const { username, password } = req.body;
-
-    // Поиск пользователя
-    const result = await db.query(
-      'SELECT * FROM users WHERE username = $1',
-      [username]
-    );
-
-    if (result.rows.length === 0) {
-      return res.status(401).json({ error: 'Неверные учетные данные' });
-    }
-
-    const user = result.rows[0];
-
-    // Проверка пароля
-    const isValidPassword = await bcrypt.compare(password, user.password);
-
-    if (!isValidPassword) {
-      return res.status(401).json({ error: 'Неверные учетные данные' });
-    }
-
-    // Создание токена
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '24h' }
-    );
-
-    res.json({ token });
-  } catch (error) {
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
+  console.log('Login attempt (currently disabled).');
+  // Отправляем успешный ответ, чтобы клиентская часть не зависала
+  // Но авторизация фактически не происходит.
+  res.status(200).json({ token: 'mock-token', message: 'Вход временно отключен.' });
 });
 
 // Получение профиля пользователя
