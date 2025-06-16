@@ -7,38 +7,12 @@ const auth = require('../middleware/auth');
 
 // Регистрация
 router.post('/register', async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-
-    // Проверка существующего пользователя
-    const userExists = await db.query(
-      'SELECT * FROM users WHERE email = $1 OR username = $2',
-      [email, username]
-    );
-
-    if (userExists.rows.length > 0) {
-      return res.status(400).json({ error: 'Пользователь уже существует' });
-    }
-
-    // Хеширование пароля
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Создание пользователя
-    const result = await db.query(
-      'INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id',
-      [username, email, hashedPassword]
-    );
-
-    const token = jwt.sign(
-      { id: result.rows[0].id },
-      process.env.JWT_SECRET || 'your-secret-key',
-      { expiresIn: '24h' }
-    );
-
-    res.status(201).json({ token });
-  } catch (error) {
-    res.status(500).json({ error: 'Ошибка сервера' });
-  }
+  console.log('Registration attempt (currently disabled).');
+  // Отправляем успешный ответ, чтобы клиентская часть не зависала
+  // Но регистрация фактически не происходит.
+  res.status(200).json({ message: 'Регистрация временно отключена. Используйте существующий аккаунт.' });
+  // Чтобы полностью отключить регистрацию, можно закомментировать всю секцию выше
+  // или вернуть ошибку 403, если регистрация нежелательна.
 });
 
 // Авторизация
