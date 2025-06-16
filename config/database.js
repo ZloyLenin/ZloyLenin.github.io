@@ -1,17 +1,17 @@
-const path = require('path');
-require('dotenv').config();
+import postgres from 'postgres';
+import path from 'path';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const connectionString = process.env.DATABASE_URL || 'postgres://postgres:2525@localhost:5432/auth_db';
+const sql = postgres(connectionString);
 
 const config = {
   development: {
     postgres: {
-      client: 'pg',
-      connection: {
-        host: process.env.DB_HOST,
-        port: process.env.DB_PORT,
-        user: process.env.DB_USER,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DB_NAME
-      },
+      client: 'postgres',
+      connection: connectionString,
       migrations: {
         directory: path.join(__dirname, '..', 'migrations')
       }
@@ -21,7 +21,8 @@ const config = {
 
 const environment = process.env.NODE_ENV || 'development';
 
-module.exports = {
+export default {
+  sql,
   config: config[environment]['postgres'],
   isUsingSQLite: false
 }; 
