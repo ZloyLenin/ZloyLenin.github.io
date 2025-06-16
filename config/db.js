@@ -3,4 +3,6 @@ const postgres = require('postgres');
 const connectionString = process.env.DATABASE_URL || 'postgres://postgres:2525@localhost:5432/auth_db';
 const sql = postgres(connectionString);
 
-module.exports = sql; 
+module.exports = {
+  query: (text, params) => sql.query(text, params)
+}; 
