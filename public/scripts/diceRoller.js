@@ -205,11 +205,17 @@ function initDiceRoller(modal, modalContent) {
   // Добавляю обработчик закрытия
   const closeBtn = form.querySelector('#modalCloseBtn');
   if (closeBtn) {
-    closeBtn.onclick = (e) => {
-      e.preventDefault();
+    closeBtn.onclick = () => {
       // Закрываем ближайший .fantasy-modal
       const modalEl = modal.closest('.fantasy-modal') || modal;
       modalEl.classList.remove('active');
+      // Enable resetZoomBtn when modal is closed
+      const resetZoomBtn = document.getElementById('resetZoomBtn');
+      if (resetZoomBtn) {
+        resetZoomBtn.disabled = false;
+        resetZoomBtn.style.pointerEvents = 'auto';
+        resetZoomBtn.style.opacity = '1';
+      }
     };
   }
   // Делегирование на modalContent (на случай динамики)
@@ -217,6 +223,13 @@ function initDiceRoller(modal, modalContent) {
     if (e.target && e.target.id === 'modalCloseBtn') {
       const modalEl = modal.closest('.fantasy-modal') || modal;
       modalEl.classList.remove('active');
+      // Enable resetZoomBtn when modal is closed
+      const resetZoomBtn = document.getElementById('resetZoomBtn');
+      if (resetZoomBtn) {
+        resetZoomBtn.disabled = false;
+        resetZoomBtn.style.pointerEvents = 'auto';
+        resetZoomBtn.style.opacity = '1';
+      }
     }
   });
 }
@@ -232,11 +245,25 @@ export function showDiceRoller(modal, modalHeader, modalContent) {
   modal.classList.add('active');
   initDiceRoller(modal, modalContent);
   
+  // Disable resetZoomBtn when modal is active
+  const resetZoomBtn = document.getElementById('resetZoomBtn');
+  if (resetZoomBtn) {
+    resetZoomBtn.disabled = true;
+    resetZoomBtn.style.pointerEvents = 'none'; // Make it non-clickable
+    resetZoomBtn.style.opacity = '0.5'; // Visually indicate it's disabled
+  }
+
   // Добавляем обработчик закрытия
   const closeBtn = modal.querySelector('#modalCloseBtn');
   if (closeBtn) {
     closeBtn.onclick = () => {
       modal.classList.remove('active');
+      // Enable resetZoomBtn when modal is closed
+      if (resetZoomBtn) {
+        resetZoomBtn.disabled = false;
+        resetZoomBtn.style.pointerEvents = 'auto';
+        resetZoomBtn.style.opacity = '1';
+      }
     };
   }
 } 

@@ -138,7 +138,7 @@ html[data-theme="dark"] .sidebar-title {
 }
 
 html[data-theme="dark"] #board-container {
-  background: #23180f; /* Match dark theme background */
+  background: #18120a; /* Match dark theme background */
 }
 
 /* Board styles */
@@ -150,7 +150,7 @@ html[data-theme="dark"] #board-container {
 }
 
 html[data-theme="dark"] #board {
-  background: #23180f; /* Dark theme background */
+  background: #18120a; /* Dark theme background */
 }
 
 /* Buttons */
@@ -457,36 +457,57 @@ html[data-theme="dark"] .filter-btn:hover {
   justify-content: center;
 }
 
-.modal-content {
+.modal-content, .fantasy-modal-content {
   background: var(--f-parchment-light);
   color: var(--f-accent-brown);
-  margin: auto;
-  padding: 20px;
-  border: 2px solid var(--f-border-light);
-  border-radius: 12px;
-  box-shadow: 0 4px 12px var(--f-shadow-light);
-  max-width: 500px;
-  width: 90%;
-  box-sizing: border-box;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 var(--f-shadow-light), 0 1.5px 8px var(--f-shadow-light);
 }
 
-html[data-theme="dark"] .modal-content {
-  background: #23180f;
+html[data-theme="dark"] .modal-content, html[data-theme="dark"] .fantasy-modal-content {
+  background: var(--f-parchment-dark);
   color: var(--f-accent-gold);
-  border-color: #5d432c;
-  box-shadow: 0 4px 12px #0d0901;
+  box-shadow: 0 8px 32px 0 var(--f-shadow-dark), 0 1.5px 8px var(--f-shadow-dark);
+}
+
+.modal-header h3 {
+  color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .modal-header h3 {
+  color: var(--f-accent-gold);
+}
+
+.modal-actions #modalCloseBtn {
+  background: var(--f-accent-burgundy);
+  color: var(--f-parchment-light);
+}
+
+.modal-actions #modalCloseBtn:hover {
+  background: var(--f-parchment-light);
+  color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .modal-actions #modalCloseBtn {
+  background: var(--f-accent-gold);
+  color: var(--f-parchment-dark);
+}
+
+html[data-theme="dark"] .modal-actions #modalCloseBtn:hover {
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
 }
 
 /* Floating buttons */
 .fantasy-fab-dice {
-  position: fixed !important; /* Override any other positioning */
+  position: fixed !important;
   right: 32px;
   bottom: 32px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background: var(--f-accent-burgundy);
-  color: #ffe9b3;
+  color: var(--f-parchment-light);
   font-size: 2em;
   display: flex;
   align-items: center;
@@ -494,38 +515,38 @@ html[data-theme="dark"] .modal-content {
   box-shadow: 0 4px 12px var(--f-shadow-light);
   cursor: pointer;
   transition: var(--f-transition);
-  border: none; /* Ensure no default border */
+  border: none;
 }
 
 html[data-theme="dark"] .fantasy-fab-dice {
-  background: var(--copper-accent);
-  color: #ffe9b3;
-  box-shadow: 0 4px 12px var(--deep-shadow);
+  background: var(--f-accent-gold);
+  color: var(--f-parchment-dark);
+  box-shadow: 0 4px 12px var(--f-shadow-dark);
 }
 
 .fantasy-fab-dice:hover {
-  background: #ffe9b3;
+  background: var(--f-parchment-light);
   color: var(--f-accent-burgundy);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px var(--f-shadow-light);
 }
 
 html[data-theme="dark"] .fantasy-fab-dice:hover {
-  background: #ffe9b3;
-  color: var(--copper-accent);
-  box-shadow: 0 6px 20px var(--deep-shadow);
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
+  box-shadow: 0 6px 20px var(--f-shadow-dark);
 }
 
 /* New styles for board-zoom-button */
 .board-zoom-button {
   position: absolute;
-  top: 32px;
-  left: 32px;
+  top: 20px;
+  right: 20px;
   width: 60px;
   height: 60px;
   border-radius: 50%;
   background: var(--f-accent-burgundy);
-  color: #ffe9b3;
+  color: var(--f-parchment-light);
   font-size: 2em;
   display: flex;
   align-items: center;
@@ -538,32 +559,32 @@ html[data-theme="dark"] .fantasy-fab-dice:hover {
 }
 
 html[data-theme="dark"] .board-zoom-button {
-  background: var(--copper-accent);
-  color: #ffe9b3;
-  box-shadow: 0 4px 12px var(--deep-shadow);
+  background: var(--f-accent-gold);
+  color: var(--f-parchment-dark);
+  box-shadow: 0 4px 12px var(--f-shadow-dark);
 }
 
 .board-zoom-button:hover {
-  background: #ffe9b3;
+  background: var(--f-parchment-light);
   color: var(--f-accent-burgundy);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px var(--f-shadow-light);
 }
 
 html[data-theme="dark"] .board-zoom-button:hover {
-  background: #ffe9b3;
-  color: var(--copper-accent);
-  box-shadow: 0 6px 20px var(--deep-shadow);
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
+  box-shadow: 0 6px 16px var(--f-shadow-dark);
 }
 
-/* Scrollbar styles (unified) */
+/* Global Scrollbar Styles */
 ::-webkit-scrollbar {
   width: 12px;
   background: var(--f-parchment-light);
 }
 
 html[data-theme="dark"] ::-webkit-scrollbar {
-  background: #18120a;
+  background: var(--f-parchment-dark);
 }
 
 ::-webkit-scrollbar-thumb {
@@ -572,7 +593,7 @@ html[data-theme="dark"] ::-webkit-scrollbar {
 }
 
 html[data-theme="dark"] ::-webkit-scrollbar-thumb {
-  background: var(--copper-accent); /* Changed to orange */
+  background: var(--f-accent-gold);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -580,7 +601,7 @@ html[data-theme="dark"] ::-webkit-scrollbar-thumb {
 }
 
 html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
-  background: var(--mahogany); /* Darker orange on hover for dark theme */
+  background: var(--f-accent-silver);
 }
 
 /* Responsive adjustments */
@@ -599,16 +620,16 @@ html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
     width: 100%;
     padding: 8px 16px;
     border-right: none;
-    border-bottom: 1px solid var(--f-border-light); /* Add border to bottom for mobile */
+    border-bottom: 1px solid var(--f-border-light);
   }
 
   html[data-theme="dark"] aside {
-    border-bottom: 1px solid #5d432c;
+    border-bottom: 1px solid var(--f-border-dark);
   }
 
   main {
     flex-direction: column;
-    padding: 16px; /* Adjust padding for smaller screens */
+    padding: 16px;
   }
 
   #board-container {
@@ -619,11 +640,11 @@ html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
     width: 100%;
     border-left: none;
     border-top: 1px solid var(--f-border-light);
-    padding: 16px; /* Adjust padding for smaller screens */
+    padding: 16px;
   }
 
   html[data-theme="dark"] .search-sidebar {
-    border-top: 1px solid #5d432c;
+    border-top: 1px solid var(--f-border-dark);
   }
 
   .view-btn, .sidebar-btn, .account-button, .filter-btn {
@@ -634,36 +655,36 @@ html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
     width: 48px;
     height: 48px;
     font-size: 1.4em;
-    right: 16px; /* Adjust position for smaller screens */
+    right: 16px;
     bottom: 16px;
   }
 
   .modal-content {
     padding: 16px;
-    width: 95%; /* Make modal wider on small screens */
+    width: 95%;
   }
 
   #searchInput {
-    padding: 10px 40px 10px 16px; /* Adjust padding for smaller screens */
+    padding: 10px 40px 10px 16px;
   }
 }
 
 /* Specific styles for board elements (cards, items, etc. - if applicable on board.html) */
 /* Assuming 'New note' and 'Adskoe vozmezdie' are cards on the board */
-.board-card { /* Generic class for items on the board, adjust as needed */
+.board-card {
   background: var(--f-parchment-light);
   border: 2px solid var(--f-border-light);
   border-radius: 12px;
   box-shadow: 4px 4px 16px var(--f-shadow-light);
   padding: 16px;
   transition: var(--f-transition);
-  position: absolute; /* Allows for drag and drop, adjust if using flex/grid */
+  position: absolute;
 }
 
 html[data-theme="dark"] .board-card {
-  background: #23180f;
-  border-color: #5d432c;
-  box-shadow: 4px 4px 16px #0d0901;
+  background: var(--f-parchment-dark);
+  border-color: var(--f-border-dark);
+  box-shadow: 4px 4px 16px var(--f-shadow-dark);
 }
 
 .board-card:hover {
@@ -672,8 +693,8 @@ html[data-theme="dark"] .board-card {
 }
 
 html[data-theme="dark"] .board-card:hover {
-  box-shadow: 0 6px 24px var(--deep-shadow);
-  border-color: var(--mahogany);
+  box-shadow: 0 6px 24px var(--f-shadow-dark);
+  border-color: var(--f-accent-gold);
 }
 
 .board-card-title {
@@ -684,7 +705,7 @@ html[data-theme="dark"] .board-card:hover {
 }
 
 html[data-theme="dark"] .board-card-title {
-  color: #ffd700;
+  color: var(--f-accent-gold);
 }
 
 .board-card-content {
@@ -693,7 +714,7 @@ html[data-theme="dark"] .board-card-title {
 }
 
 html[data-theme="dark"] .board-card-content {
-  color: #ffe9b3;
+  color: var(--f-accent-silver);
 }
 
 /* Ensure icons within buttons use inherited color */
@@ -706,7 +727,7 @@ html[data-theme="dark"] .board-card-content {
 
 /* Specific styles for filter count span */
 .filter-btn .filter-count {
-  background: #ffe9b3;
+  background: var(--f-parchment-light);
   color: var(--f-accent-burgundy);
   border-radius: 50%;
   padding: 4px 8px;
@@ -714,13 +735,13 @@ html[data-theme="dark"] .board-card-content {
   min-width: 20px;
   text-align: center;
   margin-left: 8px;
-  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+  box-shadow: inset 1px 1px 3px var(--f-shadow-light);
 }
 
 html[data-theme="dark"] .filter-btn .filter-count {
-  background: #23180f;
-  color: #ffd700;
-  box-shadow: inset 1px 1px 3px rgba(255,255,255,0.1);
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
+  box-shadow: inset 1px 1px 3px var(--f-shadow-dark);
 }
 
 /* Adjust filter buttons */
@@ -839,4 +860,24 @@ html[data-theme="dark"] .account-icon {
   height: 32px;
   border-radius: 50%;
   object-fit: cover;
+}
+
+.header-search-btn {
+  margin-left: auto;
+}
+
+/* When a modal is active, make the board-zoom-button inactive */
+.modal.active, .fantasy-modal.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 999; /* Ensure modal is on top */
+}
+
+/* When a modal is active, make the board-zoom-button inactive */
+.modal.active ~ #board-container .board-zoom-button,
+.fantasy-modal.active ~ #board-container .board-zoom-button {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: default;
 }
