@@ -1,6 +1,6 @@
-import postgres from 'postgres';
-import path from 'path';
-import dotenv from 'dotenv';
+const path = require('path');
+const dotenv = require('dotenv');
+const postgres = require('postgres');
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ const config = {
 
 const environment = process.env.NODE_ENV || 'development';
 
-export default {
+module.exports = {
   sql,
   config: config[environment]['postgres'],
   isUsingSQLite: false
