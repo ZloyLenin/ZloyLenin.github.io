@@ -1,0 +1,106 @@
+.fantasy-handbook-container {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+.fantasy-handbook-sidebar {
+    width: 280px;
+    flex-shrink: 0;
+}
+
+.fantasy-handbook-content {
+    flex-grow: 1;
+    min-width: 0; /* Prevents flex item from overflowing */
+}
+
+.fantasy-handbook-section {
+    margin-bottom: 32px;
+}
+
+.fantasy-handbook-section:last-child {
+    margin-bottom: 0;
+}
+
+.fantasy-handbook-section p {
+    color: var(--f-accent-brown);
+    font-family: 'Crimson Pro', serif;
+    line-height: 1.6;
+    margin: 16px 0;
+}
+
+html[data-theme="dark"] .fantasy-handbook-section p {
+    color: var(--f-accent-gold);
+}
+
+/* Sidebar styles */
+.fantasy-handbook-categories {
+    background: var(--f-parchment-light);
+    border: 2px solid var(--f-border-light);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 4px 4px 16px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-handbook-categories {
+    background: var(--f-parchment-dark);
+    border-color: var(--f-border-dark);
+    box-shadow: 4px 4px 16px var(--f-shadow-dark);
+}
+
+.fantasy-handbook-categories .fantasy-board-item {
+    cursor: pointer;
+    transition: var(--f-transition);
+}
+
+.fantasy-handbook-categories .fantasy-board-item:hover {
+    transform: translateX(4px);
+    background: rgba(212, 180, 131, 0.25);
+}
+
+html[data-theme="dark"] .fantasy-handbook-categories .fantasy-board-item:hover {
+    background: rgba(212, 175, 55, 0.18);
+}
+
+.fantasy-handbook-categories .fantasy-board-item i {
+    font-size: 1.2em;
+    color: var(--f-accent-burgundy);
+    width: 24px;
+    text-align: center;
+}
+
+html[data-theme="dark"] .fantasy-handbook-categories .fantasy-board-item i {
+    color: var(--f-accent-gold);
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+    .fantasy-handbook-container {
+        flex-direction: column;
+    }
+
+    .fantasy-handbook-sidebar {
+        width: 100%;
+    }
+
+    .fantasy-handbook-categories {
+        margin-bottom: 24px;
+    }
+}
+
+@media (max-width: 768px) {
+    .fantasy-handbook-container {
+        padding: 0 8px;
+    }
+
+    .fantasy-handbook-section {
+        margin-bottom: 24px;
+    }
+
+    .fantasy-handbook-categories {
+        padding: 16px;
+    }
+} 

@@ -1,0 +1,422 @@
+.note {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 18px var(--f-shadow-light), 0 1.5px 6px rgba(0,0,0,0.10);
+  border-radius: 14px;
+  border: 2px solid var(--f-border-light);
+  background: var(--f-parchment-light);
+  padding: 14px 18px 16px 18px;
+  min-width: 180px;
+  min-height: 140px;
+  max-width: 800px;
+  transition: box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+html[data-theme="dark"] .note {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: 0 4px 18px #0d0901, 0 1.5px 6px rgba(0,0,0,0.20);
+}
+
+.note-body {
+  flex: 1 1 auto;
+  min-height: 40px;
+  user-select: text !important;
+  cursor: pointer !important;
+  outline: none !important;
+  pointer-events: auto !important;
+  color: var(--f-accent-brown);
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .note-body {
+  color: #ffe9b3;
+}
+
+.note-body[contenteditable="true"] {
+  user-select: text !important;
+  cursor: text !important;
+  outline: none !important;
+  pointer-events: auto !important;
+}
+
+.note .spell-name,
+.note .item-name,
+.note .monster-name {
+  white-space: normal !important;
+  overflow-wrap: break-word !important;
+  text-overflow: unset !important;
+  font-size: 1.08em;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--f-accent-burgundy) !important;
+  font-family: 'Uncial Antiqua', serif;
+}
+
+html[data-theme="dark"] .note .spell-name,
+html[data-theme="dark"] .note .item-name,
+html[data-theme="dark"] .note .monster-name {
+  color: #ffd700 !important;
+}
+
+.note-title {
+  font-family: 'Uncial Antiqua', serif;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--f-accent-burgundy) !important;
+  flex: 1;
+  min-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 1.2;
+  user-select: text;
+}
+
+html[data-theme="dark"] .note-title {
+  color: #ffd700 !important;
+}
+
+.note-meta { 
+  font-size: 0.75rem; 
+  color: var(--f-accent-brown); 
+  margin-bottom: var(--space-1);
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .note-meta {
+  color: #ffe9b3;
+}
+
+.resize-handle { 
+  position: absolute; 
+  background: transparent; 
+  z-index: 10; 
+}
+
+.resize-n { top: -4px; left: 0; right: 0; height: 8px; cursor: n-resize; }
+.resize-e { top: 0; right: -4px; bottom: 0; width: 8px; cursor: e-resize; }
+.resize-s { bottom: -4px; left: 0; right: 0; height: 8px; cursor: s-resize; }
+.resize-w { top: 0; left: -4px; bottom: 0; width: 8px; cursor: w-resize; }
+.resize-nw { top: -4px; left: -4px; width: 8px; height: 8px; cursor: nw-resize; }
+.resize-ne { top: -4px; right: -4px; width: 8px; height: 8px; cursor: ne-resize; }
+.resize-sw { bottom: -4px; left: -4px; width: 8px; height: 8px; cursor: sw-resize; }
+.resize-se { bottom: -4px; right: -4px; width: 8px; height: 8px; cursor: se-resize; }
+
+.note.resizing { 
+  user-select: none; 
+  cursor: inherit; 
+}
+
+.note.resizing * { 
+  pointer-events: none; 
+}
+
+.note-source { 
+  font-size: 0.75rem; 
+  color: var(--f-accent-brown); 
+  text-align: right; 
+  margin-top: var(--space-2);
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .note-source {
+  color: #ffe9b3;
+}
+
+.note-del-btn { 
+  padding: var(--space-1); 
+  color: var(--f-accent-brown); 
+  opacity: 0; 
+  transition: var(--f-transition); 
+}
+
+html[data-theme="dark"] .note-del-btn {
+  color: #ffe9b3;
+}
+
+.note:hover .note-del-btn { 
+  opacity: 1; 
+}
+
+.note-del-btn:hover { 
+  color: #8B0000; 
+  background: none; 
+  box-shadow: none; 
+}
+
+html[data-theme="dark"] .note-del-btn:hover {
+  color: #b87333;
+}
+
+.note.dragging { 
+  opacity: 0.9; 
+  cursor: grabbing; 
+  box-shadow: 0 8px 32px var(--f-shadow-light); 
+  border-color: var(--f-accent-burgundy); 
+}
+
+html[data-theme="dark"] .note.dragging {
+  box-shadow: 0 8px 32px #0d0901;
+  border-color: #b87333;
+}
+
+/* Spell note specific styles */
+.note.spells { 
+  background: var(--f-parchment-light); 
+}
+
+html[data-theme="dark"] .note.spells {
+  background: #23180f;
+}
+
+.spell-level { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  width: 24px; 
+  height: 24px; 
+  border-radius: 50%; 
+  background: var(--f-accent-burgundy); 
+  color: var(--f-parchment-light); 
+  font-weight: bold; 
+  font-size: 0.75rem; 
+  margin-right: var(--space-2); 
+}
+
+html[data-theme="dark"] .spell-level {
+  background: #b87333;
+  color: #23180f;
+}
+
+.spell-school { 
+  color: var(--f-accent-brown); 
+  font-size: 0.9em; 
+  opacity: 0.8;
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .spell-school {
+  color: #ffe9b3;
+}
+
+.spell-components { 
+  display: flex; 
+  gap: 6px; 
+  margin: var(--space-2) 0; 
+  margin-bottom: 8px; 
+  flex-wrap: wrap; 
+  position: static; 
+  background: none; 
+  box-shadow: none; 
+  padding: 0; 
+  max-width: 100%; 
+  margin-left: 10px; 
+}
+
+.spell-component { 
+  padding: 0.125rem 0.375rem; 
+  border-radius: var(--radius-full); 
+  background: var(--f-accent-burgundy); 
+  color: var(--f-parchment-light); 
+  font-size: 0.75rem; 
+  font-weight: 500; 
+}
+
+html[data-theme="dark"] .spell-component {
+  background: #b87333;
+  color: #23180f;
+}
+
+.spell-description { 
+  font-size: 0.875rem; 
+  line-height: 1.5; 
+  color: var(--f-accent-brown); 
+  margin: var(--space-4) 0; 
+  white-space: pre-wrap; 
+  margin-top: 12px; 
+  padding: 8px; 
+  background: var(--f-parchment-light); 
+  border-radius: 6px;
+  font-family: 'Crimson Pro', serif;
+  border: 1px solid var(--f-border-light);
+}
+
+html[data-theme="dark"] .spell-description {
+  color: #ffe9b3;
+  background: #23180f;
+  border-color: #5d432c;
+}
+
+/* Styles for link mode */
+.note.link-mode {
+  cursor: pointer;
+  border-color: var(--f-accent-burgundy);
+  box-shadow: 0 0 0 2px var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .note.link-mode {
+  border-color: #b87333;
+  box-shadow: 0 0 0 2px #b87333;
+}
+
+.note.link-mode .note-title,
+.note.link-mode .note-body {
+  cursor: pointer;
+}
+
+/* === Кастомное контекстное меню для доски === */
+#customContextMenu {
+  position: fixed;
+  min-width: 170px;
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 10px;
+  box-shadow: 0 4px 18px var(--f-shadow-light);
+  padding: 10px 0;
+  z-index: 2000;
+  display: none;
+  animation: fadeIn 0.13s;
+}
+
+html[data-theme="dark"] #customContextMenu {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: 0 4px 18px #0d0901;
+}
+
+#customContextMenu button {
+  width: 100%;
+  background: none;
+  border: none;
+  color: var(--f-accent-burgundy);
+  font-size: 1rem;
+  padding: 10px 18px;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: background 0.13s, color 0.13s;
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] #customContextMenu button {
+  color: #b87333;
+}
+
+#customContextMenu button:hover {
+  background: var(--f-accent-burgundy);
+  color: var(--f-parchment-light);
+}
+
+html[data-theme="dark"] #customContextMenu button:hover {
+  background: #b87333;
+  color: #23180f;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  background: var(--f-parchment-light);
+  border-bottom: 1px solid var(--f-border-light);
+  cursor: move;
+}
+
+html[data-theme="dark"] .note-header {
+  background: #23180f;
+  border-bottom: 1px solid #5d432c;
+}
+
+.note-header .note-controls {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.note:hover .note-controls {
+  opacity: 1;
+}
+
+.note-copy-btn {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: var(--f-accent-burgundy);
+  opacity: 0.6;
+  transition: opacity 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+html[data-theme="dark"] .note-copy-btn {
+  color: #b87333;
+}
+
+.note-copy-btn:hover {
+  opacity: 1;
+}
+
+.note-copy-btn svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* Убрать двойную карточку/тень под заклинанием на доске */
+.note .note-card, 
+.note .note-card.board-size {
+  display: none !important;
+}
+
+.note-card {
+  min-width: 180px;
+}
+
+.note .note-card.board-size {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent !important;
+}
+
+/* Сбросить стили заметки для карточек */
+.note:has(.search-card),
+.note:has(.unified-card),
+.note:has(.compact-spell-card),
+.note:has(.compact-monster-card),
+.note:has(.compact-item-card) {
+  background: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-left: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: unset !important;
+  border-radius: 0 !important;
+}
+
+.note .delete-btn { 
+  opacity: 0; 
+  transition: opacity 0.2s; 
+  color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .note .delete-btn {
+  color: #b87333;
+}
+
+.note:hover .delete-btn { 
+  opacity: 1; 
+}

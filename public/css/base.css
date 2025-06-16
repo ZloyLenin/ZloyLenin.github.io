@@ -1,0 +1,116 @@
+.hidden { display: none !important; }
+
+body { margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; height: 100vh; overflow: hidden; line-height: 1.5; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+
+button { font-family: inherit; font-size: 0.875rem; font-weight: 500; padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); border: 1px solid var(--f-border-light); background: var(--f-parchment-light); color: var(--f-accent-brown); cursor: pointer; transition: all 0.2s ease; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); min-height: 2.5rem; }
+
+button:hover { background: var(--f-accent-burgundy); border-color: var(--f-accent-burgundy); color: var(--f-parchment-light); box-shadow: 0 2px 8px var(--f-shadow-light); }
+
+button:active { transform: translateY(1px); }
+
+/* Стили для источника в карточке */
+.note-source { font-size: 0.85em; color: var(--f-accent-brown); opacity: 0.8; margin-top: 8px; padding: 4px 6px; border-radius: 4px; background-color: rgba(139, 0, 0, 0.1); display: block; text-align: right; position: absolute; bottom: 8px; right: 8px; width: calc(100% - 16px); }
+
+/* Стили для источника в поисковых результатах */
+.account-button { background: var(--f-parchment-light); border: 1px solid var(--f-border-light); border-radius: var(--radius-md); padding: var(--space-2) var(--space-3); color: var(--f-accent-brown); display: flex; align-items: center; gap: var(--space-2); font-size: 0.875rem; transition: all 0.2s ease; cursor: pointer; height: 48px; position: relative; z-index: 1099; box-sizing: border-box; white-space: nowrap; min-width: auto; }
+
+.logout-button { width: 100%; padding: var(--space-3); color: var(--f-accent-burgundy); font-weight: 500; cursor: pointer; border-radius: var(--radius-md); transition: all 0.2s ease; margin: 0; display: flex; align-items: center; gap: var(--space-2); text-align: left; background: transparent; border: 1px solid transparent; }
+
+.search-header button { padding: var(--space-2); color: var(--f-accent-brown); transition: all 0.2s ease; }
+
+.search-body { display: flex; flex-direction: column; gap: var(--space-4); height: 100%; overflow: hidden; }
+
+.search-input-group { display: flex; gap: var(--space-2); margin-bottom: var(--space-4); padding-right: var(--space-2); }
+
+.result-item.hidden { display: none; }
+
+.search-results:has(.result-item:not(.hidden)) .result-item.hidden { display: none; }
+
+.note-body {
+  flex: 1;
+  font-size: 0.8em;
+  line-height: 1.4;
+  color: var(--f-accent-brown);
+  overflow-y: auto;
+  padding: 4px 6px;
+  margin: 0;
+  background: transparent;
+  border-radius: 4px;
+  box-sizing: border-box;
+  transition: box-shadow 0.2s ease;
+  margin-top: 8px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  outline: none;
+  border: none;
+  flex-grow: 1;
+}
+
+/* Стили для скроллбара */
+.note-body::-webkit-scrollbar { width: 6px; height: 6px; }
+
+.note-body::-webkit-scrollbar-track { background: transparent; border-radius: var(--radius-full); margin: 4px; }
+
+.note-body::-webkit-scrollbar-thumb { background: var(--f-border-light); border-radius: var(--radius-full); border: 2px solid transparent; background-clip: padding-box; }
+
+.note-body::-webkit-scrollbar-thumb:hover { background: var(--f-accent-brown); border: 2px solid transparent; background-clip: padding-box; }
+
+.note-body::-webkit-scrollbar-corner { background: transparent; }
+
+/* Стили для режима редактирования */
+.note-body:focus { outline: none; background: var(--f-parchment-light); box-shadow: inset 0 0 0 1px var(--f-accent-burgundy); }
+
+.note-body[contenteditable="true"]:focus { outline: none; background: var(--f-parchment-light); box-shadow: inset 0 0 0 1px var(--f-accent-burgundy); }
+
+.note-body.editing { background: var(--f-parchment-light); box-shadow: inset 0 0 0 1px var(--f-accent-burgundy),
+              0 0 0 1px var(--f-accent-burgundy); }
+
+/* Resize handles */
+/* .link-mode .note-body { pointer-events: none !important; } */
+
+/* Temporary drag line style */
+.note .note-actions button { background: none; border: none; color: var(--f-accent-burgundy); font-size: 1.2em; margin-left: 8px; cursor: pointer; }
+
+.note-title-input { font-size: 1em; font-weight: bold; background: transparent; border: none; color: var(--f-accent-brown); border-bottom: 1px dashed var(--f-accent-burgundy); }
+
+.note-title-input:focus { outline: none; }
+
+/* Highlight editable area when editing */
+.note-title.editing, .note-body.editing { outline: 2px solid var(--f-accent-burgundy); box-shadow: 0 0 8px var(--f-accent-burgundy); border-radius: 4px; background-color: var(--f-parchment-light); transition: box-shadow 0.3s ease, background-color 0.3s ease; }
+
+/* NEW: Специфичные стили для заклинаний */
+.note.spells .note-body { white-space: pre-wrap; line-height: 1.4; font-size: 0.9em; padding: 8px; position: relative; }
+
+.note.spells .note-body::before { content: ''; display: block; height: 1px; margin: 6px 0; background: var(--f-border-light); opacity: 0.3; }
+
+/* NEW: Стили для мета-информации */
+.link-popover.hidden { display: none; pointer-events: none; }
+
+.link-popover button { background: var(--f-parchment-light); border: none; color: var(--f-accent-brown); padding: 6px 12px; border-radius: 6px; cursor: pointer; }
+
+#diceRollForm button { background: var(--f-accent-burgundy); border: none; border-radius: var(--radius-md); color: var(--f-parchment-light); font-weight: 600; padding: var(--space-3); cursor: pointer; transition: all 0.2s ease; font-size: 1rem; }
+
+.note-title {
+  flex: 1;
+  font-size: 1em;
+  font-weight: 600;
+  color: var(--f-accent-brown) !important;
+  margin: 0;
+  padding: 2px 4px;
+  border-radius: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+}
+
+.note.link-mode .note-title {
+  color: var(--f-accent-brown) !important;
+}
+
+.note-title[contenteditable="true"] {
+  user-select: text !important;
+  background: var(--f-parchment-light);
+  box-shadow: inset 0 0 0 1px var(--f-accent-burgundy);
+}
+

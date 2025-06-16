@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Справочник - TTG Club</title>
+    <link rel="stylesheet" href="css/index-main.css">
+    <link rel="stylesheet" href="css/handbook.css">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600&family=Uncial+Antiqua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="fantasy-root">
+        <header class="fantasy-header">
+            <a href="index.html" class="fantasy-logo">TTG Club</a>
+            <div class="fantasy-search-bar">
+                <input type="text" class="fantasy-search-input" id="handbookSearch" placeholder="Поиск в справочнике...">
+                <i class="fa-solid fa-magnifying-glass"></i>
+            </div>
+            <div class="fantasy-header-controls">
+                <button class="fantasy-btn theme-toggle" id="themeToggleBtn">
+                    <div class="theme-icon">
+                        <i class="fa-solid fa-moon"></i>
+                    </div>
+                </button>
+            </div>
+        </header>
+
+        <main class="fantasy-main-content">
+            <div class="fantasy-handbook-container">
+                <aside class="fantasy-handbook-sidebar">
+                    <nav class="fantasy-handbook-categories">
+                        <h3 class="fantasy-section-title">Категории</h3>
+                        <ul class="fantasy-board-list" id="handbookCategories">
+                            <li class="fantasy-board-item active" data-category="basics">
+                                <div class="fantasy-board-content">
+                                    <i class="fa-solid fa-dice-d20"></i>
+                                    <span>Основы</span>
+                                </div>
+                            </li>
+                            <li class="fantasy-board-item" data-category="rules">
+                                <div class="fantasy-board-content">
+                                    <i class="fa-solid fa-book"></i>
+                                    <span>Правила</span>
+                                </div>
+                            </li>
+                            <li class="fantasy-board-item" data-category="magic">
+                                <div class="fantasy-board-content">
+                                    <i class="fa-solid fa-hat-wizard"></i>
+                                    <span>Магия</span>
+                                </div>
+                            </li>
+                            <li class="fantasy-board-item" data-category="equipment">
+                                <div class="fantasy-board-content">
+                                    <i class="fa-solid fa-shield-alt"></i>
+                                    <span>Снаряжение</span>
+                                </div>
+                            </li>
+                            <li class="fantasy-board-item" data-category="creatures">
+                                <div class="fantasy-board-content">
+                                    <i class="fa-solid fa-dragon"></i>
+                                    <span>Существа</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </nav>
+                </aside>
+
+                <section class="fantasy-handbook-content">
+                    <div class="fantasy-board-card" id="handbookContent">
+                        <!-- Content will be loaded here -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script>
+    // Handbook content data
+    const handbookData = {
+      basics: {
+        title: 'Основы',
+        icon: 'fa-dice-d20',
+        content: `<h3 class='fantasy-section-title'>Основы игры</h3>
+          <p>В этом разделе вы найдете базовые понятия, термины и структуру игры. Здесь описаны основные механики, роли игроков и ведущего, а также советы для новичков.</p>
+          <ul>
+            <li>Что такое ролевая игра?</li>
+            <li>Роли: игроки и мастер</li>
+            <li>Кубики и броски</li>
+            <li>Основные атрибуты персонажа</li>
+          </ul>`
+      },
+      rules: {
+        title: 'Правила',
+        icon: 'fa-book',
+        content: `<h3 class='fantasy-section-title'>Правила</h3>
+          <p>Здесь собраны основные правила, по которым ведется игра: порядок ходов, проверки, боевые действия, взаимодействие с окружением и многое другое.</p>
+          <ul>
+            <li>Порядок хода</li>
+            <li>Проверки навыков</li>
+            <li>Бой и инициатива</li>
+            <li>Смерть и спасброски</li>
+          </ul>`
+      },
+      magic: {
+        title: 'Магия',
+        icon: 'fa-hat-wizard',
+        content: `<h3 class='fantasy-section-title'>Магия</h3>
+          <p>В этом разделе описаны магические классы, заклинания, правила сотворения магии и взаимодействия с магическими предметами.</p>
+          <ul>
+            <li>Классы заклинателей</li>
+            <li>Механика заклинаний</li>
+            <li>Школы магии</li>
+            <li>Магические предметы</li>
+          </ul>`
+      },
+      equipment: {
+        title: 'Снаряжение',
+        icon: 'fa-shield-alt',
+        content: `<h3 class='fantasy-section-title'>Снаряжение</h3>
+          <p>Описание оружия, брони, инструментов, расходников и других предметов, которые могут пригодиться в приключениях.</p>
+          <ul>
+            <li>Оружие</li>
+            <li>Доспехи</li>
+            <li>Инструменты</li>
+            <li>Расходники</li>
+          </ul>`
+      },
+      creatures: {
+        title: 'Существа',
+        icon: 'fa-dragon',
+        content: `<h3 class='fantasy-section-title'>Существа</h3>
+          <p>Справочник по монстрам, животным и другим существам, встречающимся в мире игры.</p>
+          <ul>
+            <li>Монстры</li>
+            <li>Животные</li>
+            <li>Магические существа</li>
+            <li>NPC и их роли</li>
+          </ul>`
+      }
+    };
+
+    // Render content by category
+    function renderHandbookContent(category) {
+      const data = handbookData[category];
+      const contentDiv = document.getElementById('handbookContent');
+      if (!data) {
+        contentDiv.innerHTML = '<p>Раздел не найден.</p>';
+        return;
+      }
+      contentDiv.innerHTML = `
+        <h2 class="fantasy-board-title"><i class="fa-solid ${data.icon}"></i> ${data.title}</h2>
+        <div class="fantasy-handbook-section">${data.content}</div>
+      `;
+    }
+
+    // Category navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      renderHandbookContent('basics');
+      const cats = document.querySelectorAll('#handbookCategories .fantasy-board-item');
+      cats.forEach(cat => {
+        cat.addEventListener('click', function() {
+          cats.forEach(c => c.classList.remove('active'));
+          this.classList.add('active');
+          renderHandbookContent(this.dataset.category);
+        });
+      });
+      // Search functionality (simple filter)
+      document.getElementById('handbookSearch').addEventListener('input', function(e) {
+        const val = e.target.value.toLowerCase();
+        let found = false;
+        for (const key in handbookData) {
+          if (
+            handbookData[key].title.toLowerCase().includes(val) ||
+            handbookData[key].content.toLowerCase().includes(val)
+          ) {
+            renderHandbookContent(key);
+            document.querySelectorAll('#handbookCategories .fantasy-board-item').forEach(c => c.classList.remove('active'));
+            document.querySelector(`#handbookCategories .fantasy-board-item[data-category="${key}"]`).classList.add('active');
+            found = true;
+            break;
+          }
+        }
+        if (!found && val.length > 0) {
+          document.getElementById('handbookContent').innerHTML = '<p>Ничего не найдено.</p>';
+        }
+        if (!val) {
+          renderHandbookContent('basics');
+          document.querySelectorAll('#handbookCategories .fantasy-board-item').forEach(c => c.classList.remove('active'));
+          document.querySelector(`#handbookCategories .fantasy-board-item[data-category="basics"]`).classList.add('active');
+        }
+      });
+    });
+    </script>
+</body>
+</html> 

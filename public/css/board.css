@@ -1,0 +1,842 @@
+/* board.css - Рефакторинг для соответствия стилям index-main.css */
+
+@import 'variables.css'; /* Убедитесь, что переменные импортированы */
+
+:root {
+  /* Общие */
+  --f-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --f-ink-blot: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50,0 C60,20 80,30 100,50 C80,70 60,80 50,100 C40,80 20,70 0,50 C20,30 40,20 50,0' fill='currentColor'/%3E%3C/svg%3E");
+
+  /* Магическая тёмная тема (из index-main.css) */
+  --bg-primary: #1a120b;
+  --text-primary: #e0d6c3;
+  --heading-gold: #d4af37;
+  --copper-accent: #b87333; /* Это оранжевый для скроллбара */
+  --wood-border: #5d432c;
+  --checkbox-clay: #8d6e63;
+  --mahogany: #8b4513;
+  --deep-shadow: #0d0901;
+  --parchment-texture: repeating-linear-gradient(
+    0deg,
+    rgba(26, 18, 11, 0.9),
+    rgba(26, 18, 11, 0.9) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  --wood-grain: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%235d432c'/%3E%3Cpath d='M5 20 Q10 10 20 20 T35 20' stroke='%238b4513' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+}
+
+/* Общие стили для body и .fantasy-root (адаптировано из index-main.css) */
+body {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Crimson Text', serif; /* Или 'Crimson Pro' как в board.html */
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  border: none;
+  overflow-x: hidden; /* Prevent horizontal scrollbar */
+}
+
+html[data-theme="dark"] body {
+  background: #18120a; /* Fallback from parchment-texture, specific dark background */
+  color: #ffe9b3; /* Light text for dark theme */
+}
+
+/* Header styles (адаптировано из index-main.css) */
+header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--f-parchment-light);
+  border-bottom: 3px solid var(--f-border-light);
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+  min-height: 64px;
+  padding: 0 8px;
+  position: relative;
+  z-index: 10;
+  gap: 16px;
+  flex-wrap: wrap; /* Allow wrapping on smaller screens */
+  box-sizing: border-box;
+}
+
+html[data-theme="dark"] header {
+  background: #23180f;
+  border-bottom: 3px solid #5d432c;
+  box-shadow: 0 4px 12px #0d0901;
+}
+
+.logo {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 2em;
+  color: var(--f-accent-burgundy);
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px var(--f-shadow-light);
+  user-select: none;
+  flex-shrink: 0;
+  flex-basis: content;
+}
+
+html[data-theme="dark"] .logo {
+  color: #ffd700;
+  text-shadow: 0 0 5px #d4af37, 0 2px 3px #0d0901;
+}
+
+/* Main layout */
+main {
+  display: flex;
+  flex-grow: 1; /* Allow main to take up available space */
+  min-height: calc(100vh - 64px); /* Account for header height */
+  /* padding: 32px; */ /* Removed global padding, handled by child elements */
+  justify-content: center; /* Center content horizontally */
+}
+
+/* Sidebar styles */
+aside {
+  width: 320px;
+  background: var(--f-parchment-light);
+  border-right: 1px solid var(--f-border-light);
+  padding: 32px; /* Set padding back to 32px on all sides */
+  box-shadow: 4px 0 8px var(--f-shadow-light);
+  font-family: 'Crimson Pro', serif;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+html[data-theme="dark"] aside {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: 4px 0 8px #0d0901;
+}
+
+.sidebar-title {
+  font-family: 'Crimson Pro', serif; /* Use Crimson Pro as in index-main.css */
+  font-size: 1.1em;
+  color: var(--f-accent-burgundy);
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--f-border-light); /* Added border-bottom for consistency */
+  padding-bottom: 8px; /* Added padding-bottom for consistency */
+}
+
+html[data-theme="dark"] .sidebar-title {
+  color: #ffd700; /* Gold color for dark theme sidebar title */
+  border-color: #5d432c; /* Darker border for consistency */
+}
+
+/* Board container */
+#board-container {
+  flex-grow: 1;
+  position: relative;
+  background: var(--f-parchment-light);
+  padding: 0 32px 32px 32px; /* Added padding to board container */
+  overflow: auto; /* Enable scrolling for board content */
+}
+
+html[data-theme="dark"] #board-container {
+  background: #23180f; /* Match dark theme background */
+}
+
+/* Board styles */
+#board {
+  width: 100%;
+  height: 100%; /* Take full height of container */
+  background: var(--f-parchment-light); /* Light theme background */
+  position: relative; /* For absolutely positioned notes */
+}
+
+html[data-theme="dark"] #board {
+  background: #23180f; /* Dark theme background */
+}
+
+/* Buttons */
+.view-btn, .sidebar-btn, .account-button, .load-more-btn, #modalCloseBtn, #resetFilters, #applyFilters {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3; /* Light text color for buttons */
+  border: none;
+  border-radius: 12px;
+  font-family: 'Crimson Pro', serif;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .view-btn,
+html[data-theme="dark"] .sidebar-btn,
+html[data-theme="dark"] .account-button,
+html[data-theme="dark"] .load-more-btn,
+html[data-theme="dark"] #modalCloseBtn,
+html[data-theme="dark"] #resetFilters,
+html[data-theme="dark"] #applyFilters {
+  background: var(--copper-accent); /* Copper accent for dark theme buttons */
+  color: #ffe9b3 !important; /* Ensure light text */
+}
+
+.view-btn:hover, .sidebar-btn:hover, .account-button:hover, .load-more-btn:hover, #modalCloseBtn:hover, #resetFilters:hover, #applyFilters:hover {
+  background: #ffe9b3; /* Light background on hover */
+  color: var(--f-accent-burgundy) !important; /* Burgundy text on hover */
+  transform: translateY(-2px); /* Lift effect on hover */
+  box-shadow: none; /* Remove shadow on hover */
+}
+
+html[data-theme="dark"] .view-btn:hover,
+html[data-theme="dark"] .sidebar-btn:hover,
+html[data-theme="dark"] .account-button:hover,
+html[data-theme="dark"] .load-more-btn:hover,
+html[data-theme="dark"] #modalCloseBtn:hover,
+html[data-theme="dark"] #resetFilters:hover,
+html[data-theme="dark"] #applyFilters:hover {
+  background: #ffe9b3; /* Light background on hover for dark theme */
+  color: var(--copper-accent) !important; /* Copper accent text on hover for dark theme */
+}
+
+/* Search sidebar */
+.search-sidebar {
+  width: 380px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  background: var(--f-parchment-light);
+  border-left: 1px solid var(--f-border-light);
+  padding: 1rem;
+  display: none; /* Hidden by default */
+  flex-direction: column; /* Stack content vertically */
+  box-sizing: border-box;
+  box-shadow: -4px 0 8px var(--f-shadow-light);
+  z-index: 20; /* Ensure it's above other content */
+}
+
+html[data-theme="dark"] .search-sidebar {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: -4px 0 8px #0d0901;
+}
+
+.search-sidebar.active {
+  display: flex; /* Changed to flex for proper layout of content */
+}
+
+.search-input-wrapper {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 12px 48px 12px 20px; /* Increased right padding for search icon */
+  border: 2px solid var(--f-border-light);
+  border-radius: 3px 12px;
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1em;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+  box-sizing: border-box; /* Include padding in width */
+}
+
+html[data-theme="dark"] #searchInput {
+  border-color: var(--f-border-dark);
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
+  box-shadow: 2px 2px 8px var(--f-shadow-dark);
+}
+
+#searchInput:focus {
+  outline: none;
+  border-color: var(--f-accent-burgundy);
+  box-shadow: 3px 3px 12px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] #searchInput:focus {
+  border-color: var(--f-accent-gold);
+  box-shadow: 3px 3px 12px var(--f-shadow-dark);
+}
+
+.search-input-wrapper .icon-btn { /* For the clear search button */
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--f-accent-brown);
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+html[data-theme="dark"] .search-input-wrapper .icon-btn {
+  color: var(--f-accent-gold);
+}
+
+.search-input-wrapper .icon-btn:hover {
+  color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .search-input-wrapper .icon-btn:hover {
+  color: var(--f-accent-silver);
+}
+
+.search-all-tab-wrapper { /* Style for the "Все" tab wrapper */
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.search-tab-all {
+  flex: 1;
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  border: 2px solid var(--f-border-light);
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--f-transition);
+  text-align: center;
+}
+
+html[data-theme="dark"] .search-tab-all {
+  background: #23180f;
+  color: var(--f-accent-gold);
+  border-color: #5d432c;
+}
+
+.search-tab-all:hover {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  border-color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .search-tab-all:hover {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  border-color: var(--copper-accent);
+}
+
+.search-tab-all.active {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  border-color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .search-tab-all.active {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  border-color: var(--copper-accent);
+}
+
+/* Search tabs */
+.search-tabs {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+  gap: 8px;
+}
+
+.search-tab {
+  flex: 1; /* Allow tabs to grow and shrink */
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  border: 2px solid var(--f-border-light);
+  border-radius: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: var(--f-transition);
+  text-align: center;
+}
+
+html[data-theme="dark"] .search-tab {
+  background: #23180f;
+  color: var(--f-accent-gold);
+  border-color: #5d432c;
+}
+
+.search-tab:hover {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  border-color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .search-tab:hover {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  border-color: var(--copper-accent);
+}
+
+.search-tab.active {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  border-color: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .search-tab.active {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  border-color: var(--copper-accent);
+}
+
+.search-filters {
+  margin-bottom: 1rem;
+}
+
+.filter-btn {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Crimson Pro', serif;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+  width: 100%; /* Make filter button full width */
+}
+
+html[data-theme="dark"] .filter-btn {
+  background: var(--copper-accent);
+  color: #ffe9b3 !important;
+  box-shadow: 2px 2px 8px var(--deep-shadow);
+}
+
+.filter-btn:hover {
+  background: #ffe9b3;
+  color: var(--f-accent-burgundy) !important;
+}
+
+html[data-theme="dark"] .filter-btn:hover {
+  background: #ffe9b3;
+  color: var(--copper-accent) !important;
+}
+
+/* Search results */
+.search-results {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px; /* For scrollbar */
+}
+
+.search-results-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.search-pagination {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.7);
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  margin: auto;
+  padding: 20px;
+  border: 2px solid var(--f-border-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+  max-width: 500px;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+html[data-theme="dark"] .modal-content {
+  background: #23180f;
+  color: var(--f-accent-gold);
+  border-color: #5d432c;
+  box-shadow: 0 4px 12px #0d0901;
+}
+
+/* Floating buttons */
+.fantasy-fab-dice {
+  position: fixed !important; /* Override any other positioning */
+  right: 32px;
+  bottom: 32px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+  cursor: pointer;
+  transition: var(--f-transition);
+  border: none; /* Ensure no default border */
+}
+
+html[data-theme="dark"] .fantasy-fab-dice {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  box-shadow: 0 4px 12px var(--deep-shadow);
+}
+
+.fantasy-fab-dice:hover {
+  background: #ffe9b3;
+  color: var(--f-accent-burgundy);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-fab-dice:hover {
+  background: #ffe9b3;
+  color: var(--copper-accent);
+  box-shadow: 0 6px 20px var(--deep-shadow);
+}
+
+/* New styles for board-zoom-button */
+.board-zoom-button {
+  position: absolute;
+  top: 32px;
+  left: 32px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+  cursor: pointer;
+  transition: var(--f-transition);
+  border: none;
+  z-index: 5;
+}
+
+html[data-theme="dark"] .board-zoom-button {
+  background: var(--copper-accent);
+  color: #ffe9b3;
+  box-shadow: 0 4px 12px var(--deep-shadow);
+}
+
+.board-zoom-button:hover {
+  background: #ffe9b3;
+  color: var(--f-accent-burgundy);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .board-zoom-button:hover {
+  background: #ffe9b3;
+  color: var(--copper-accent);
+  box-shadow: 0 6px 20px var(--deep-shadow);
+}
+
+/* Scrollbar styles (unified) */
+::-webkit-scrollbar {
+  width: 12px;
+  background: var(--f-parchment-light);
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar {
+  background: #18120a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--f-accent-brown);
+  border-radius: 3px 12px;
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb {
+  background: var(--copper-accent); /* Changed to orange */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] ::-webkit-scrollbar-thumb:hover {
+  background: var(--mahogany); /* Darker orange on hover for dark theme */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 16px;
+  }
+
+  .logo {
+    width: auto;
+  }
+
+  aside {
+    width: 100%;
+    padding: 8px 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--f-border-light); /* Add border to bottom for mobile */
+  }
+
+  html[data-theme="dark"] aside {
+    border-bottom: 1px solid #5d432c;
+  }
+
+  main {
+    flex-direction: column;
+    padding: 16px; /* Adjust padding for smaller screens */
+  }
+
+  #board-container {
+    padding: 0 16px 16px 16px;
+  }
+
+  .search-sidebar {
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid var(--f-border-light);
+    padding: 16px; /* Adjust padding for smaller screens */
+  }
+
+  html[data-theme="dark"] .search-sidebar {
+    border-top: 1px solid #5d432c;
+  }
+
+  .view-btn, .sidebar-btn, .account-button, .filter-btn {
+    padding: 12px 16px;
+  }
+
+  .fantasy-fab-dice {
+    width: 48px;
+    height: 48px;
+    font-size: 1.4em;
+    right: 16px; /* Adjust position for smaller screens */
+    bottom: 16px;
+  }
+
+  .modal-content {
+    padding: 16px;
+    width: 95%; /* Make modal wider on small screens */
+  }
+
+  #searchInput {
+    padding: 10px 40px 10px 16px; /* Adjust padding for smaller screens */
+  }
+}
+
+/* Specific styles for board elements (cards, items, etc. - if applicable on board.html) */
+/* Assuming 'New note' and 'Adskoe vozmezdie' are cards on the board */
+.board-card { /* Generic class for items on the board, adjust as needed */
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 12px;
+  box-shadow: 4px 4px 16px var(--f-shadow-light);
+  padding: 16px;
+  transition: var(--f-transition);
+  position: absolute; /* Allows for drag and drop, adjust if using flex/grid */
+}
+
+html[data-theme="dark"] .board-card {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: 4px 4px 16px #0d0901;
+}
+
+.board-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 20px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .board-card:hover {
+  box-shadow: 0 6px 24px var(--deep-shadow);
+  border-color: var(--mahogany);
+}
+
+.board-card-title {
+  font-family: 'Uncial Antiqua', serif;
+  color: var(--f-accent-burgundy);
+  font-size: 1.2em;
+  margin: 0 0 8px 0;
+}
+
+html[data-theme="dark"] .board-card-title {
+  color: #ffd700;
+}
+
+.board-card-content {
+  font-family: 'Crimson Pro', serif;
+  color: var(--f-accent-brown);
+}
+
+html[data-theme="dark"] .board-card-content {
+  color: #ffe9b3;
+}
+
+/* Ensure icons within buttons use inherited color */
+.view-btn i, .sidebar-btn i, .account-button i, .load-more-btn i, #modalCloseBtn i, #resetFilters i, #applyFilters i,
+.fantasy-fab-dice i, .theme-toggle i {
+  color: inherit !important;
+  fill: currentColor !important;
+  transition: color 0.2s;
+}
+
+/* Specific styles for filter count span */
+.filter-btn .filter-count {
+  background: #ffe9b3;
+  color: var(--f-accent-burgundy);
+  border-radius: 50%;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  min-width: 20px;
+  text-align: center;
+  margin-left: 8px;
+  box-shadow: inset 1px 1px 3px rgba(0,0,0,0.2);
+}
+
+html[data-theme="dark"] .filter-btn .filter-count {
+  background: #23180f;
+  color: #ffd700;
+  box-shadow: inset 1px 1px 3px rgba(255,255,255,0.1);
+}
+
+/* Adjust filter buttons */
+.secondary-btn { /* For Reset Filters */
+  background: none;
+  border: 2px solid var(--f-accent-burgundy);
+  color: var(--f-accent-burgundy);
+  box-shadow: none;
+}
+html[data-theme="dark"] .secondary-btn {
+  border: 2px solid var(--copper-accent);
+  color: var(--copper-accent);
+}
+.secondary-btn:hover {
+  background: var(--f-accent-burgundy);
+  color: #ffe9b3 !important;
+}
+html[data-theme="dark"] .secondary-btn:hover {
+  background: var(--copper-accent);
+  color: #ffe9b3 !important;
+}
+
+.primary-btn {
+    padding: 8px 16px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s ease;/
+}
+
+/* Theme Toggle button */
+.theme-toggle {
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .theme-toggle {
+  background: #23180f;
+  border-color: #5d432c;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.05);
+  box-shadow: 4px 4px 12px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .theme-toggle:hover {
+  box-shadow: 4px 4px 12px #0d0901;
+}
+
+.theme-toggle .theme-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.theme-toggle .theme-icon svg {
+  display: block;
+  margin: auto;
+  width: 1.5em;
+  height: 1.5em;
+  color: inherit !important;
+  fill: currentColor !important;
+  transition: color 0.2s, fill 0.2s;
+}
+
+/* Account section */
+.account-section {
+  margin-top: auto; /* Push to bottom */
+  padding-top: 2rem;
+  border-top: 2px solid var(--f-border-light);
+  padding-bottom: 32px;
+  background-color: var(--f-parchment-light); /* Match aside background */
+}
+
+html[data-theme="dark"] .account-section {
+  border-color: #5d432c;
+  background-color: #23180f; /* Match aside background */
+}
+
+/* Account Initial Circle */
+.account-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e0d6c3; /* Light background for the initial circle */
+  color: #5C4033; /* Dark text for the initial */
+  font-weight: bold;
+}
+
+html[data-theme="dark"] .account-icon {
+  background: #2a2416; /* Dark background for the initial circle */
+  color: #d4af37; /* Gold text for the initial */
+}
+
+/* Avatar Image */
+.account-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}

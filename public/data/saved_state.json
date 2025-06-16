@@ -1,0 +1,45 @@
+{
+  "notes": [],
+  "connections": [
+    {
+      "from": "custom_1748264265330_akaj",
+      "to": "custom_1748264260500_enib"
+    },
+    {
+      "from": "custom_1748264261106_appn",
+      "to": "custom_1748264260500_enib"
+    },
+    {
+      "from": "custom_1748264459037_6hz4",
+      "to": "custom_1748264458700_kc2l"
+    },
+    {
+      "from": "custom_1748264458700_kc2l",
+      "to": "custom_1748264458339_m1nl"
+    },
+    {
+      "from": "custom_1748264638325_d0m6",
+      "to": "custom_1748264637940_gxj2"
+    },
+    {
+      "from": "custom_1748264637940_gxj2",
+      "to": "custom_1748264637510_v6qw"
+    },
+    {
+      "from": "custom_1748265216284_88qg",
+      "to": "custom_1748265215911_vv5w"
+    },
+    {
+      "from": "spells_кислотные-брызги-1748266696621_q3xl",
+      "to": "spells_танцующие-огоньки-1748266696621_cky3"
+    },
+    {
+      "from": "monsters_noname_afgj",
+      "to": "spells_танцующие-огоньки-1748266696621_cky3"
+    },
+    {
+      "from": "custom_1748285273834_a6ub",
+      "to": "custom_1748285276703_j6b1"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "notes": [],
+  "connections": [
+    {
+      "from": "spells_кислотные-брызги-1748289648117_kb2d",
+      "to": "custom_1748289658494_m3uz"
+    },
+    {
+      "from": "custom_1748329946193_aeyr",
+      "to": "items_кожаный-доспех_83ud"
+    },
+    {
+      "from": "custom_1748341534174_gw97",
+      "to": "custom_1748341857714_6px0"
+    },
+    {
+      "from": "custom_1748342623904_egwm",
+      "to": "custom_1748342702767_ripe"
+    },
+    {
+      "from": "custom_1748344994060_0a2u",
+      "to": "custom_1748344993772_g3i6"
+    },
+    {
+      "from": "custom_1748345024322_wxel",
+      "to": "custom_1748345032544_5twu"
+    },
+    {
+      "from": "custom_1748345377636_sv3o",
+      "to": "custom_1748345395245_qt0l"
+    },
+    {
+      "from": "custom_1748345507579_a343",
+      "to": "custom_1748345447977_1ygl"
+    }
+  ]
+}

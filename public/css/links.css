@@ -1,0 +1,57 @@
+.link-mode { cursor: crosshair !important; }
+
+.link-mode .note-title,
+#linksLayer path.temp-link { stroke-dasharray: 5,5; stroke: var(--accent); stroke-width: 2; opacity: 0.6; }
+
+#linksLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1; /* Ensure links layer is above the board but below notes */
+  pointer-events: none !important;
+}
+
+#linksLayer path {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: stroke;
+  transition: all 0.2s ease;
+}
+
+#linksLayer path:hover { stroke: #ef4444; stroke-width: 3; filter: drop-shadow(0 0 4px rgba(239, 68, 68, 0.4)); }
+
+#linksLayer path.temp-link { stroke-dasharray: 5,5; stroke: var(--accent); stroke-width: 2; opacity: 0.6; }
+
+/* Модальное окно */
+.modal { display: none; position: fixed; z-index: 2000; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s ease; }
+
+.modal.active { display: flex; opacity: 1; }
+
+/* Ensure only one modal is visible */
+.modal.active ~ .modal.active { display: none; }
+
+.modal-content { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: var(--space-6); width: min(600px, 90vw); max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg); transform: translateY(20px); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease; position: relative; }
+
+.modal.active .modal-content { transform: translateY(0); opacity: 1; }
+
+/* Clear previous modal content when new one opens */
+.modal:not(.active) .modal-content { transform: translateY(20px); opacity: 0; }
+
+.modal:not(.active) #modalContent { display: none; }
+
+#modalHeader { font-size: 1.25rem; font-weight: 600; color: var(--text-primary); margin-bottom: var(--space-4); padding-bottom: var(--space-4); border-bottom: 1px solid var(--border); }
+
+#modalContent { position: relative; color: var(--text-primary); line-height: 1.6; }
+
+#modalContent:empty { display: none; }
+
+/* Ensure dice roll form doesn't stack with other modals */
+.link-popover { position: absolute; background: var(--surface); border: 1px solid var(--accent); padding: 8px; border-radius: 4px; box-shadow: 0 0 6px var(--accent); pointer-events: auto; z-index: 10000; }
+
+.link-popover button:hover { background: #f87171; color: white; }
+

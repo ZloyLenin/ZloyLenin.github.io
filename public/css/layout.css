@@ -1,0 +1,325 @@
+header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  background: var(--f-parchment-light); 
+  padding: var(--space-4) var(--space-6); 
+  border-bottom: 3px solid var(--f-border-light); 
+  position: relative; 
+  z-index: 1000; 
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] header {
+  background: #23180f;
+  border-bottom: 3px solid #5d432c;
+  box-shadow: 0 4px 12px #0d0901;
+}
+
+.logo { 
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.25rem; 
+  font-weight: 600; 
+  color: var(--f-accent-burgundy); 
+  white-space: nowrap; 
+  text-shadow: 1px 1px 2px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .logo {
+  color: #ffd700;
+  text-shadow: 0 0 5px #d4af37, 0 2px 3px #0d0901;
+}
+
+.toolbar { 
+  display: flex; 
+  align-items: center; 
+  gap: var(--space-4); 
+  margin-left: auto; 
+}
+
+main { 
+  display: flex; 
+  height: calc(100vh - 64px); 
+  overflow: hidden; 
+}
+
+/* Боковая панель */
+aside { 
+  width: 240px; 
+  background: var(--f-parchment-light); 
+  padding: var(--space-4); 
+  box-shadow: 4px 4px 16px var(--f-shadow-light); 
+  z-index: 10; 
+  display: flex; 
+  flex-direction: column; 
+  height: calc(100vh - 64px); 
+  box-sizing: border-box; 
+  position: relative; 
+  overflow-y: auto; 
+  border-right: 2px solid var(--f-border-light);
+}
+
+html[data-theme="dark"] aside {
+  background: #23180f;
+  border-right: 2px solid #5d432c;
+  box-shadow: 4px 4px 16px #0d0901;
+}
+
+/* Панель поиска справа */
+#search-panel { 
+  position: fixed; 
+  right: 0; 
+  top: 64px; 
+  bottom: 0; 
+  width: 360px; 
+  background: var(--f-parchment-light); 
+  border-left: 2px solid var(--f-border-light); 
+  display: flex; 
+  flex-direction: column; 
+  padding: var(--space-4); 
+  transform: translateX(100%); 
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1); 
+  z-index: 100; 
+  box-sizing: border-box;
+  box-shadow: -4px 4px 16px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] #search-panel {
+  background: #23180f;
+  border-left: 2px solid #5d432c;
+  box-shadow: -4px 4px 16px #0d0901;
+}
+
+#search-panel:not(.hidden) { 
+  transform: translateX(0); 
+}
+
+.search-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding-bottom: var(--space-4); 
+  margin-bottom: var(--space-4); 
+  border-bottom: 2px solid var(--f-border-light); 
+}
+
+html[data-theme="dark"] .search-header {
+  border-bottom: 2px solid #5d432c;
+}
+
+.note-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  gap: var(--space-2); 
+  padding: 0 var(--space-1); 
+  margin-bottom: var(--space-1); 
+  flex-shrink: 0; 
+  user-select: none; 
+  min-height: 24px; 
+  background: var(--f-parchment-light);
+  border-bottom: 1px solid var(--f-border-light);
+}
+
+html[data-theme="dark"] .note-header {
+  background: #23180f;
+  border-bottom: 1px solid #5d432c;
+}
+
+.note-header .note-title[contenteditable="true"] {
+  user-select: text !important;
+}
+
+.note .note-header { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+}
+
+.dice-roll-header { 
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 1.25rem; 
+  font-weight: 600; 
+  color: var(--f-accent-burgundy); 
+  margin-bottom: var(--space-4); 
+  text-align: center; 
+  border-bottom: 2px solid var(--f-accent-burgundy); 
+  padding-bottom: var(--space-3); 
+}
+
+html[data-theme="dark"] .dice-roll-header {
+  color: #ffd700;
+  border-bottom: 2px solid #b87333;
+}
+
+.dice-input-group { 
+  display: flex; 
+  gap: var(--space-2); 
+  align-items: center; 
+}
+
+.dice-input-group input[type="number"] { 
+  flex: 1; 
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 3px 12px;
+  padding: 8px 12px;
+  color: var(--f-accent-brown);
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .dice-input-group input[type="number"] {
+  background: #23180f;
+  border-color: #5d432c;
+  color: #ffe9b3;
+}
+
+.dice-input-group select { 
+  flex: 2; 
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 3px 12px;
+  padding: 8px 12px;
+  color: var(--f-accent-brown);
+  font-family: 'Crimson Pro', serif;
+}
+
+html[data-theme="dark"] .dice-input-group select {
+  background: #23180f;
+  border-color: #5d432c;
+  color: #ffe9b3;
+}
+
+/* Карточки результатов поиска */
+.spell-header { display: flex; align-items: center; gap: 12px; margin-bottom: 8px; }
+
+.spell-title { flex-grow: 1; }
+
+.spell-name { font-weight: 600; font-size: 1.1em; }
+
+.component { padding: 4px 8px; border-radius: 12px; background: var(--surface-raised); font-size: 0.8em; text-transform: uppercase; }
+
+/* Модальное окно с деталями */
+.spell-detail { margin-bottom: 8px; padding: 6px; background: var(--surface-raised); border-radius: 6px; }
+
+.spell-detail label { font-weight: 600; margin-right: 8px; color: var(--accent); }
+
+.board { min-height: 100vh; overflow: scroll; -webkit-overflow-scrolling: touch; /* Инерционный скролл для iOS */}
+
+.board.drag-over { outline: 2px dashed var(--accent); background: #7f5af011; }
+
+.board[dragging] { cursor: grabbing; }
+
+.bottom-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* Monster Stat Block Styles */
+.monster-header { margin-bottom: 1em; border-bottom: 2px solid #922610; padding-bottom: 0.5em; }
+
+.monster-header h2 { font-family: 'Libre Baskerville', 'Lora', 'Calisto MT', 'Bookman Old Style', Bookman, 'Goudy Old Style', Garamond, 'Hoefler Text', 'Bitstream Charter', Georgia, serif; color: #922610; font-size: 1.8em; margin: 0; font-variant: small-caps; font-weight: bold; }
+
+.monster-type { font-style: italic; font-size: 0.9em; margin: 0.5em 0 0; color: #333; }
+
+.monster-stats { color: #333; }
+
+.stat-block { margin: 0.8em 0; padding: 0.5em 0; border-bottom: 1px solid #d3c9b7; }
+
+.stat-line { margin: 0.2em 0; }
+
+.stat-line label { font-weight: bold; margin-right: 0.5em; }
+
+.ability-scores {
+  display: flex;
+  justify-content: space-between;
+  margin: 1em 0 1.2em 0;
+  padding: 0.7em 0.5em;
+  background: linear-gradient(90deg, var(--surface-raised) 80%, var(--surface) 100%);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  flex-wrap: wrap;
+  gap: 8px;
+  box-shadow: 0 1px 4px rgba(127,90,240,0.04);
+}
+.ability {
+  text-align: center;
+  padding: 0.5em 1.1em;
+  flex: 1 1 80px;
+  background: var(--surface);
+  border-radius: 8px;
+  font-family: 'Noto Sans', 'Segoe UI', Arial, sans-serif;
+  font-size: 1.08em;
+  font-weight: 600;
+  color: var(--accent);
+  box-shadow: 0 1px 2px rgba(127,90,240,0.04);
+  border: 1px solid var(--border);
+  margin: 0 2px;
+  min-width: 70px;
+  transition: background 0.2s;
+}
+.ability label {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: var(--accent);
+  font-size: 0.93em;
+  letter-spacing: 0.04em;
+}
+@media (max-width: 600px) {
+  .ability-scores { flex-wrap: wrap; gap: 6px; }
+  .ability { min-width: 48px; font-size: 0.98em; padding: 0.4em 0.5em; }
+}
+
+.monster-features { margin: 1em 0; }
+
+.monster-features h3 { font-family: 'Libre Baskerville', Georgia, serif; border-bottom: 1px solid #922610; font-size: 1.2em; color: #922610; margin: 0.5em 0; padding-bottom: 0.2em; }
+
+.feature { margin: 0.5em 0; line-height: 1.4; }
+
+.feature strong { font-weight: bold; color: #922610; }
+
+.monster-fiction { font-style: italic; border-top: 2px solid #922610; margin-top: 1em; padding-top: 1em; }
+
+.monster-source { text-align: right; font-size: 0.8em; color: #666; margin-top: 1em; }
+
+/* --- DND 5e style for spells and items --- */
+.spell-header, .item-header { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: var(--space-2); }
+
+.spell-header h2, .item-header h2 { font-size: 1.6rem; font-weight: 700; margin: 0 0 var(--space-2) 0; color: var(--accent); }
+
+.unified-header { display: flex; flex-direction: column; align-items: flex-start; margin-bottom: var(--space-2); }
+
+/* --- Генераторы --- */
+.sidebar-section {
+  margin-bottom: 18px;
+}
+.sidebar-section-title {
+  font-weight: 600;
+  font-size: 1.08em;
+  cursor: pointer;
+  padding: 8px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+.sidebar-section-content {
+  display: none;
+  padding-left: 8px;
+  padding-bottom: 8px;
+}
+.sidebar-section.open .sidebar-section-content {
+  display: block;
+}
+.sidebar-section-title::after {
+  content: '▼';
+  font-size: 0.9em;
+  margin-left: 8px;
+  transition: transform 0.2s;
+}
+.sidebar-section.open .sidebar-section-title::after {
+  transform: rotate(-180deg);
+}
+

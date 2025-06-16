@@ -1,0 +1,55 @@
+{
+  "notes": [
+    {
+      "id": "custom_1748904002705_uo0h",
+      "type": "custom",
+      "custom": {
+        "title": "Новая заметка",
+        "body": ""
+      },
+      "pos": {
+        "x": 460.195,
+        "y": 314.977,
+        "width": 224.287,
+        "height": 213.2
+      }
+    },
+    {
+      "id": "custom_1748944911768_i52s",
+      "type": "custom",
+      "custom": {
+        "title": "Новая заметка",
+        "body": ""
+      },
+      "pos": {
+        "x": 809.453,
+        "y": 371,
+        "width": 200,
+        "height": 120
+      }
+    },
+    {
+      "id": "custom_1748945091019_sryx",
+      "type": "custom",
+      "custom": {
+        "title": "Новая заметка",
+        "body": ""
+      },
+      "pos": {
+        "x": 432.453,
+        "y": 597,
+        "width": 200,
+        "height": 120
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": "custom_1748904002705_uo0h",
+      "to": "custom_1748944911768_i52s"
+    }
+  ],
+  "boardScale": 1,
+  "currentPanX": 25,
+  "currentPanY": 8
+}

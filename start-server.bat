@@ -1,0 +1,3 @@
+@echo off
+echo Starting DM Screen server...
+node server.js 

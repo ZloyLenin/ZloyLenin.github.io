@@ -1,0 +1,163 @@
+/* Base theme variables */
+:root {
+  /* Light theme (default) */
+  --bg-color-light: #ffffff;
+  --surface-light: #f8f9fc;
+  --surface-raised-light: #ffffff;
+  --text-primary-light: #1a1b1e;
+  --text-secondary-light: #71717a;
+  --border-light: #e4e4e7;
+  --accent-light: #8B0000;  /* Burgundy for light theme */
+  --accent-hover-light: #a00000;
+
+  /* Dark theme */
+  --bg-color-dark: #18120a;  /* Dark background */
+  --surface-dark: #1f1f23;
+  --surface-raised-dark: #27272a;
+  --text-primary-dark: #fafafa;
+  --text-secondary-dark: #a1a1aa;
+  --border-dark: #3f3f46;
+  --accent-dark: #b87333;  /* Copper/orange for dark theme */
+  --accent-hover-dark: #a05a1c;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Border radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-all: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Common variables */
+  --radius: 8px;
+  --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --transition-all: all 0.2s ease-in-out;
+  
+  /* Default theme (dark) */
+  --bg-color: var(--bg-color-dark);
+  --surface: var(--surface-dark);
+  --surface-raised: var(--surface-raised-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --border: var(--border-dark);
+  --accent: var(--accent-dark);
+  --accent-hover: var(--accent-hover-dark);
+
+  /* Classic theme variables */
+  --primary: #7f5af0;
+  --primary-hover: #6b46c1;
+  --bg: #16161a;
+  --surface: #242629;
+  --text: #fffffe;
+  --text-secondary: #94a1b2;
+  --border: #383838;
+  --error: #ef4444;
+  --success: #10b981;
+  
+  /* Fantasy theme variables */
+  --f-bg-light: #f6ecd6;
+  --f-bg-dark: #2d2212;
+  --f-surface-light: #f3e3b6;
+  --f-surface-dark: #3a2c1a;
+  --f-border-light: #bfa16a;
+  --f-border-dark: #7a5a2e;
+  --f-accent-light: #a67c52;
+  --f-accent-dark: #e0c48f;
+  --f-title-font: 'Uncial Antiqua', serif;
+  --f-body-font: 'Crimson Pro', 'Bookman Old Style', serif;
+  --f-texture-light: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23a67c52' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --f-texture-dark: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0c48f' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --f-leather-light: #F5EED2;
+  --f-leather-dark: #2A2416;
+  --f-accent-light: #8B0000;
+  --f-accent-dark: #b87333;
+  --f-border-light: #D4B483;
+  --f-border-dark: #e0c48f;
+  --f-title-font: 'Uncial Antiqua', serif;
+  --f-body-font: 'Crimson Pro', 'Bookman Old Style', serif;
+  --f-texture-light: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23a67c52' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --f-texture-dark: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23e0c48f' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --f-btn-radius: 18px;
+  --f-btn-shadow: 0 2px 8px #a67c5233;
+  --f-btn-hover: #e0c48f;
+  --f-btn-hover-dark: #a67c52;
+  --f-btn-text-light: #7a5a2e;
+  --f-btn-text-dark: #fffbe6;
+  --f-card-radius: 22px;
+  --f-card-shadow: 0 6px 32px 0 rgba(80,60,20,0.18);
+  --f-card-shadow-dark: 0 6px 32px 0 rgba(40,20,10,0.28);
+  --f-card-border: 3px solid var(--f-border-light);
+  --f-card-border-dark: 3px solid var(--f-border-dark);
+  --f-link: #a67c52;
+  --f-link-dark: #e0c48f;
+  --f-scrollbar: #a67c52;
+  --f-scrollbar-dark: #e0c48f;
+  --f-parchment-light: #F5EED2;
+  --f-parchment-light-rgb: 245, 238, 210;
+  --f-accent-brown: #5C4033;
+  --f-accent-burgundy: #8B0000;
+  --f-shadow-light: rgba(92, 64, 51, 0.2);
+  --f-parchment-dark: #2A2416;
+  --f-parchment-dark-rgb: 42, 36, 22;
+  --f-accent-gold: #D4AF37;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-color: var(--bg-color-dark);
+  --surface: var(--surface-dark);
+  --surface-raised: var(--surface-raised-dark);
+  --text-primary: var(--text-primary-dark);
+  --text-secondary: var(--text-secondary-dark);
+  --border: var(--border-dark);
+  --accent: var(--accent-dark);
+  --accent-hover: var(--accent-hover-dark);
+}
+
+/* Light theme */
+[data-theme="light"] {
+  --bg-color: var(--bg-color-light);
+  --surface: var(--surface-light);
+  --surface-raised: var(--surface-raised-light);
+  --text-primary: var(--text-primary-light);
+  --text-secondary: var(--text-secondary-light);
+  --border: var(--border-light);
+  --accent: var(--accent-light);
+  --accent-hover: var(--accent-hover-light);
+}
+
+[data-theme="light"] .theme-icon.light { transform: translate(-50%, -50%) rotate(0); opacity: 1; }
+
+[data-theme="light"] .theme-icon.dark { transform: translate(-50%, -50%) rotate(-90deg); opacity: 0; }
+
+[data-theme="dark"] .compact-item-card .item-meta, [data-theme="dark"] .compact-item-card .item-name { color: #fff; }
+
+[data-theme="light"] .compact-item-card .item-meta, [data-theme="light"] .compact-item-card .item-name { color: #111; }
+
+/* Unified modal styles for all types */
+[data-theme="dark"] .compact-spell-card, [data-theme="dark"] .compact-item-card, [data-theme="dark"] .compact-monster-card, [data-theme="dark"] .unified-card { color: var(--text-primary); }
+
+/* Компактная карточка заклинания */
+[data-theme="dark"] .compact-item-card, [data-theme="dark"] .compact-item-card .item-meta, [data-theme="dark"] .compact-item-card .item-name { color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.45); }
+
+[data-theme="light"] .compact-item-card, [data-theme="light"] .compact-item-card .item-meta, [data-theme="light"] .compact-item-card .item-name { color: #222; text-shadow: 0 1px 2px rgba(255,255,255,0.08); }
+
+.theme-icon-light { opacity: 1 !important; z-index: 1; }
+.theme-icon-dark { opacity: 0 !important; z-index: 1; }
+html[data-theme="dark"] .theme-icon-light { opacity: 0 !important; }
+html[data-theme="dark"] .theme-icon-dark { opacity: 1 !important; }
+

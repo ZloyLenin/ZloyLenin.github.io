@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная — Ширма Мастера DnD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/index-main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="fantasy-root">
+
+  <!-- ШАПКА -->
+  <header class="fantasy-header">
+    <div class="fantasy-logo">
+      <i class="fa-solid fa-dragon"></i>
+      <span>GeekGang</span>
+    </div>
+    <div class="fantasy-search-bar">
+      <input type="text" class="fantasy-search-input" placeholder="Поиск заклинаний, предметов, монстров...">
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    <div class="fantasy-header-controls">
+      <button class="fantasy-btn" title="Справочник" onclick="window.location.href='handbook.html'">
+        <i class="fa-solid fa-book"></i>
+        <span>Справочник</span>
+      </button>
+      <button class="fantasy-account-btn fantasy-btn"><i class="fa-solid fa-user"></i></button>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main class="fantasy-main-content">
+    <div class="fantasy-main-grid">
+      <!-- Доски -->
+      <div class="fantasy-board-card">
+        <div class="fantasy-card-header">
+          <h2 class="fantasy-board-title">
+            <i class="fa-solid fa-scroll"></i>
+            <span>Доски заметок</span>
+          </h2>
+        </div>
+        <ul class="fantasy-board-list">
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-note-sticky"></i>
+              <span>Общая доска</span>
+            </div>
+            <div class="fantasy-board-actions">
+              <button class="fantasy-board-btn" title="Удалить"><i class="fa-solid fa-trash"></i></button>
+              <button class="fantasy-board-btn style-gear-btn" title="Выбрать стиль"><i class="fa-solid fa-gear"></i></button>
+            </div>
+          </li>
+        </ul>
+        <button class="fantasy-create-btn fantasy-btn">
+          <i class="fa-solid fa-plus"></i>
+          <span>Создать новую доску</span>
+        </button>
+      </div>
+
+      <!-- Персонажи -->
+      <div class="fantasy-board-card">
+        <div class="fantasy-card-header">
+          <h2 class="fantasy-board-title">
+            <i class="fa-solid fa-users"></i>
+            <span>Персонажи</span>
+          </h2>
+        </div>
+
+        <!-- Игровые персонажи -->
+        <div class="fantasy-character-section">
+          <h3 class="fantasy-section-title">Игровые персонажи</h3>
+          <ul class="fantasy-board-list">
+            <li class="fantasy-board-item">
+              <div class="fantasy-board-content">
+                <i class="fa-solid fa-user-ninja"></i>
+                <span>Персонаж 1</span>
+              </div>
+              <div class="fantasy-board-actions">
+                <button class="fantasy-board-btn" title="Удалить"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </li>
+          </ul>
+          <button class="fantasy-create-btn fantasy-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Создать персонажа</span>
+          </button>
+        </div>
+
+        <div class="fantasy-divider"></div>
+
+        <!-- Неигровые персонажи (NPC) -->
+        <div class="fantasy-character-section">
+          <h3 class="fantasy-section-title">Неигровые персонажи</h3>
+          <ul class="fantasy-board-list">
+            <li class="fantasy-board-item">
+              <div class="fantasy-board-content">
+                <i class="fa-solid fa-crown"></i>
+                <span>NPC 1</span>
+              </div>
+              <div class="fantasy-board-actions">
+                <button class="fantasy-board-btn" title="Удалить"><i class="fa-solid fa-trash"></i></button>
+              </div>
+            </li>
+          </ul>
+          <button class="fantasy-create-btn fantasy-btn">
+            <i class="fa-solid fa-plus"></i>
+            <span>Создать NPC</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Творения -->
+      <div class="fantasy-board-card fantasy-creations-card">
+        <div class="fantasy-card-header">
+          <h2 class="fantasy-board-title">
+            <i class="fa-solid fa-feather-pointed"></i>
+            <span>Творения</span>
+          </h2>
+        </div>
+        <ul class="fantasy-board-list">
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-hat-wizard"></i>
+              <span>Заклинания</span>
+            </div>
+          </li>
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-pastafarianism"></i>
+              <span>Монстры</span>
+            </div>
+          </li>
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-ring"></i>
+              <span>Магические предметы</span>
+            </div>
+          </li>
+          <!-- <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-scroll"></i>
+              <span>Артефакты</span>
+            </div>
+          </li> -->
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-flask"></i>
+              <span>Зелья</span>
+            </div>
+          </li>
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-map"></i>
+              <span>Локации</span>
+            </div>
+          </li>
+          <li class="fantasy-board-item">
+            <div class="fantasy-board-content">
+              <i class="fa-solid fa-hand-fist"></i>
+              <span>Способности</span>
+            </div>
+          </li>
+        </ul>
+        <!-- <button class="fantasy-create-btn fantasy-btn">
+          <i class="fa-solid fa-plus"></i>
+          <span>Создать творение</span>
+        </button> -->
+      </div>
+    </div>
+  </main>
+
+  <!-- НИЖНИЕ КОНТРОЛЫ -->
+  <div class="fantasy-bottom-controls">
+    <button id="themeToggleBtn" class="theme-toggle fantasy-btn" title="Переключить тему">
+      <span class="theme-icon"></span>
+    </button>
+  </div>
+
+  <!-- ПЛАВАЮЩАЯ КНОПКА ДАЙСОВ -->
+  <button class="fantasy-fab-dice fantasy-btn">
+    <i class="fa-solid fa-dice-d20"></i>
+  </button>
+
+  <script type="module" src="scripts/mainIndex.js"></script>
+  <script type="module" src="scripts/style.js"></script>
+  <script type="module" src="scripts/theme.js"></script>
+
+  <script type="module">
+    import { initStyle, setStyle } from './scripts/style.js';
+    import { initTheme } from './scripts/theme.js';
+    window.addEventListener('DOMContentLoaded', () => {
+      initStyle();
+      initTheme();
+      // --- Style gear modal logic ---
+      const gearBtn = document.querySelector('.style-gear-btn');
+      const styleModal = document.getElementById('styleModal');
+      const closeStyleModal = document.getElementById('closeStyleModal');
+      const styleBtns = document.querySelectorAll('.style-select-btn');
+      if (gearBtn && styleModal) {
+        gearBtn.onclick = (e) => {
+          e.stopPropagation();
+          styleModal.classList.add('active');
+        };
+      }
+      if (closeStyleModal && styleModal) {
+        closeStyleModal.onclick = () => styleModal.classList.remove('active');
+      }
+      styleBtns.forEach(btn => {
+        btn.onclick = () => {
+          setStyle(btn.dataset.style);
+          styleModal.classList.remove('active');
+        };
+      });
+      // Закрытие по клику вне модалки
+      styleModal.addEventListener('mousedown', (e) => {
+        if (e.target === styleModal) styleModal.classList.remove('active');
+      });
+    });
+  </script>
+
+</body>
+</html>

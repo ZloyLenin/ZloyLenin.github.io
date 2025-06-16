@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/account.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script type="module" src="scripts/style.js"></script>
+</head>
+<body id="accountRoot" class="fantasy-root">
+  <header class="universal-header">
+    <div class="logo" id="mainLogo" style="font-size:2em;font-weight:600;cursor:pointer;">GeekGang</div>
+    <div class="header-controls">
+      <button class="view-btn fantasy-btn" onclick="window.location.href='index.html'" title="На главную">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span>На главную</span>
+      </button>
+      <button class="view-btn fantasy-btn" id="settingsButton" title="Настройки">
+        <i class="fa-solid fa-cog"></i>
+      </button>
+    </div>
+  </header>
+  <main class="fantasy-main-content">
+    <div class="fantasy-main-grid" style="justify-content:center;">
+      <div class="fantasy-board-card fantasy-profile-card">
+        <div class="fantasy-profile-avatar">
+          <label class="avatar-label">
+            <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+            <img id="avatarImg" src="" alt="Аватар" style="display:none;" />
+            <span class="avatar-stub"><i class="fa-solid fa-user"></i></span>
+          </label>
+        </div>
+        <div class="fantasy-profile-info">
+          <div class="fantasy-profile-name" id="userName">Имя пользователя</div>
+          <div class="fantasy-profile-email" id="userEmail">user@example.com</div>
+          <div class="fantasy-profile-created" id="userCreated">Аккаунт создан: —</div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <button class="fantasy-fab-dice fantasy-btn" id="diceFabBtn" title="Бросить дайсы">
+    <i class="fa-solid fa-dice-d20"></i>
+  </button>
+  <div class="fantasy-bottom-controls">
+    <button id="themeToggleBtn" class="theme-toggle fantasy-btn" title="Переключить тему">
+      <span class="theme-icon"></span>
+    </button>
+  </div>
+  <div class="fantasy-modal" id="settingsModal">
+    <div class="fantasy-modal-content" id="settingsMainPage">
+      <button class="fantasy-modal-close" id="modalClose">&times;</button>
+      <h2 class="fantasy-profile-name">Настройки профиля</h2>
+      <div class="fantasy-profile-email">Вы можете изменить никнейм или перейти к управлению аккаунтом.</div>
+      <div style="margin-top:24px; text-align:center; display:flex; flex-direction:column; gap:16px;">
+        <button class="fantasy-btn" id="changeNickBtn">
+          <i class="fa-solid fa-pen"></i> Изменить никнейм
+        </button>
+        <button class="fantasy-btn" id="accountManageBtn">
+          <i class="fa-solid fa-user-gear"></i> Управление аккаунтом
+        </button>
+      </div>
+    </div>
+    <div class="fantasy-modal-content" id="changeNicknamePage" style="display:flex; flex-direction:column; gap:16px;">
+      <button class="fantasy-modal-close" id="modalCloseNick">&times;</button>
+      <h2 class="fantasy-profile-name">Изменение никнейма</h2>
+      <div class="fantasy-profile-email">Введите новый никнейм:</div>
+      <form id="modalProfileForm" class="fantasy-profile-form" >
+        <input type="text" id="modalNicknameInput" class="fantasy-form-input" placeholder="Введите новый никнейм" maxlength="20">
+        <button type="submit" class="fantasy-btn">Сохранить ник</button>
+        <div class="fantasy-save-msg" id="modalSaveMsg">Сохранено!</div>
+      </form>
+      <button class="fantasy-btn" id="backToSettingsNickBtn">← Назад к настройкам</button>
+    </div>
+    <div class="fantasy-modal-content" id="accountManagePage" style="display:flex; flex-direction:column; gap:16px;">
+      <button class="fantasy-modal-close" id="modalClose2">&times;</button>
+      <h2 class="fantasy-profile-name">Управление аккаунтом</h2>
+      <div class="fantasy-profile-email">Здесь опции управления вашим аккаунтом.</div>
+      <div style="text-align:center; display:flex; flex-direction:column; gap:16px;">
+        <button class="fantasy-btn" id="logoutBtn">
+          <i class="fa-solid fa-right-from-bracket"></i> Выйти из аккаунта
+        </button>
+        <button class="fantasy-btn" id="deleteAccountBtn">
+          <i class="fa-solid fa-user-minus"></i> Удалить аккаунт
+        </button>
+      </div>
+      <button class="fantasy-btn" id="backToSettingsBtn">← Назад к настройкам</button>
+    </div>
+  </div>
+<script type="module" src="scripts/style.js"></script>
+<script type="module" src="scripts/theme.js"></script>
+<script type="module">
+  import { initStyle, setStyle } from './scripts/style.js';
+  import { initTheme } from './scripts/theme.js';
+  import { loadUserProfile } from './scripts/auth.js';
+
+  // Функция для сохранения аватара в localStorage
+  function saveAvatarToStorage(imageData) {
+    localStorage.setItem('userAvatar', imageData);
+  }
+
+  // Функция для загрузки аватара из localStorage
+  function loadAvatarFromStorage() {
+    const avatarData = localStorage.getItem('userAvatar');
+    if (avatarData) {
+      const avatarImg = document.getElementById('avatarImg');
+      avatarImg.src = avatarData;
+      avatarImg.style.display = 'block';
+      document.querySelector('.avatar-stub').style.display = 'none';
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', async () => {
+    // Initialize theme and style
+    initTheme();
+    initStyle();
+    
+    const user = await loadUserProfile();
+    // Если пользователь не авторизован, ничего не делаем
+    if (!user) return;
+    // Данные уже подставляются в loadUserProfile, но можно продублировать:
+    if (user.username) document.getElementById('userName').textContent = user.username;
+    if (user.email) document.getElementById('userEmail').textContent = user.email;
+    if (user.created) document.getElementById('userCreated').textContent = `Аккаунт создан: ${new Date(user.created).toLocaleDateString()}`;
+
+    // Загружаем сохраненный аватар при загрузке страницы
+    loadAvatarFromStorage();
+
+    // Обработчик выбора файла аватара
+    const avatarInput = document.getElementById('avatarInput');
+    avatarInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const avatarImg = document.getElementById('avatarImg');
+          avatarImg.src = e.target.result;
+          avatarImg.style.display = 'block';
+          document.querySelector('.avatar-stub').style.display = 'none';
+          // Сохраняем аватар в localStorage
+          saveAvatarToStorage(e.target.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  });
+
+  // --- Модальное окно настроек ---
+  const settingsBtn = document.getElementById('settingsButton');
+  const settingsModal = document.getElementById('settingsModal');
+  const modalClose = document.getElementById('modalClose');
+  const modalClose2 = document.getElementById('modalClose2');
+  const accountManageBtn = document.getElementById('accountManageBtn');
+  const accountManagePage = document.getElementById('accountManagePage');
+  const settingsMainPage = document.getElementById('settingsMainPage');
+  const backToSettingsBtn = document.getElementById('backToSettingsBtn');
+  const logoutBtn = document.getElementById('logoutBtn');
+  const deleteAccountBtn = document.getElementById('deleteAccountBtn');
+
+  // --- Логика смены ника в модалке ---
+  const changeNickBtn = document.getElementById('changeNickBtn');
+  const changeNicknamePage = document.getElementById('changeNicknamePage');
+  const backToSettingsNickBtn = document.getElementById('backToSettingsNickBtn');
+  const modalNicknameInput = document.getElementById('modalNicknameInput');
+  const modalProfileForm = document.getElementById('modalProfileForm');
+  const modalSaveMsg = document.getElementById('modalSaveMsg');
+
+  if (changeNickBtn) {
+    changeNickBtn.addEventListener('click', () => {
+      settingsMainPage.style.display = 'none';
+      changeNicknamePage.style.display = 'flex';
+      modalNicknameInput.focus();
+    });
+  }
+  if (backToSettingsNickBtn) {
+    backToSettingsNickBtn.onclick = () => {
+      changeNicknamePage.style.display = 'none';
+      settingsMainPage.style.display = '';
+      modalProfileForm.style.display = ''; // Reset form display
+      modalSaveMsg.classList.remove('visible'); // Hide save message
+      modalNicknameInput.value = ''; // Clear input
+    };
+  }
+
+  if (modalProfileForm && modalNicknameInput && modalSaveMsg) {
+    modalProfileForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const newNick = modalNicknameInput.value.trim();
+      if (newNick) {
+        document.getElementById('userName').textContent = newNick;
+        modalSaveMsg.textContent = 'Сохранено!';
+        modalSaveMsg.classList.add('visible');
+        setTimeout(() => {
+          modalSaveMsg.classList.remove('visible');
+          // Do not hide the form, allow user to continue editing or go back
+        }, 1200);
+        // Можно добавить сохранение ника в localStorage или на сервер
+      }
+    });
+  }
+
+  if (settingsBtn && settingsModal) {
+    settingsBtn.addEventListener('click', () => {
+      settingsModal.style.display = 'flex';
+      settingsMainPage.style.display = '';
+      accountManagePage.style.display = 'none';
+      changeNicknamePage.style.display = 'none'; // Ensure nickname page is hidden initially
+    });
+  }
+  if (modalClose) modalClose.onclick = () => settingsModal.style.display = 'none';
+  if (modalClose2) modalClose2.onclick = () => settingsModal.style.display = 'none';
+  if (document.getElementById('modalCloseNick')) document.getElementById('modalCloseNick').onclick = () => settingsModal.style.display = 'none';
+  if (accountManageBtn) accountManageBtn.onclick = () => {
+    settingsMainPage.style.display = 'none';
+    accountManagePage.style.display = '';
+  };
+  if (backToSettingsBtn) backToSettingsBtn.onclick = () => {
+    accountManagePage.style.display = 'none';
+    settingsMainPage.style.display = '';
+  };
+  // Закрытие по клику вне окна
+  settingsModal.addEventListener('mousedown', e => {
+    if (e.target === settingsModal) settingsModal.style.display = 'none';
+  });
+  // TODO: Реализовать логику выхода и удаления аккаунта
+  if (logoutBtn) logoutBtn.onclick = () => alert('Выход из аккаунта (реализуйте свою логику)');
+  if (deleteAccountBtn) deleteAccountBtn.onclick = () => {
+    if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
+      alert('Аккаунт удалён (реализуйте свою логику)');
+    }
+  };
+
+  // Клик по логотипу всегда ведёт на главную
+  document.getElementById('mainLogo').onclick = () => window.location.href = 'index.html';
+
+  function parseDiceFormula(formula) {
+    const match = formula.match(/(\d*)d(\d+)([+-]\d+)?/i);
+    if (!match) return null;
+    const count = parseInt(match[1] || '1', 10);
+    const die = parseInt(match[2], 10);
+    const mod = match[3] ? parseInt(match[3], 10) : 0;
+    return { count, die, mod };
+  }
+  function showDiceModal() {
+    let modal = document.getElementById('fantasy-dice-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'fantasy-dice-modal';
+      modal.style.position = 'fixed';
+      modal.style.left = 0;
+      modal.style.top = 0;
+      modal.style.width = '100vw';
+      modal.style.height = '100vh';
+      modal.style.background = 'rgba(0,0,0,0.35)';
+      modal.style.display = 'flex';
+      modal.style.alignItems = 'center';
+      modal.style.justifyContent = 'center';
+      modal.style.zIndex = 2000;
+      modal.innerHTML = `
+        <div class="fantasy-modal-content" style="min-width: 340px; text-align: center; position: relative; padding: 36px 48px; border-radius: 22px; box-shadow: 0 6px 32px 0 rgba(80,60,20,0.18);">
+          <h2 class="fantasy-modal-title" style="font-family: 'Uncial Antiqua', serif; font-size: 2em; margin-bottom: 18px;"><i class="fa-solid fa-dice-d20"></i> Бросок кости</h2>
+          <div style="margin-bottom: 12px;">
+            <select id="dice-type" style="font-size:1.1em;padding:6px 12px;border-radius:8px;">
+              <option value="d4">d4</option>
+              <option value="d6">d6</option>
+              <option value="d8">d8</option>
+              <option value="d10">d10</option>
+              <option value="d12">d12</option>
+              <option value="d20" selected>d20</option>
+              <option value="d100">d100</option>
+            </select>
+            <input id="dice-count" type="number" min="1" max="20" value="1" style="width:48px;font-size:1.1em;margin-left:8px;border-radius:8px;padding:6px;">
+            <input id="dice-mod" type="number" value="0" style="width:48px;font-size:1.1em;margin-left:8px;border-radius:8px;padding:6px;">
+          </div>
+          <div style="margin-bottom: 8px;">или формула: <input id="dice-formula" type="text" placeholder="2d6+3" style="width:90px;font-size:1.1em;border-radius:8px;padding:6px;"></div>
+          <div id="dice-result" style="font-size: 1.5em; margin-bottom: 18px;">🎲</div>
+          <button id="roll-again" class="fantasy-btn" style="margin-bottom:12px;"><i class="fa-solid fa-dice"></i> Бросить</button><br>
+          <button id="close-dice-modal" class="fantasy-btn">Закрыть</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      const rollAgainBtn = modal.querySelector('#roll-again');
+      const closeDiceModalBtn = modal.querySelector('#close-dice-modal');
+      const diceTypeSelect = modal.querySelector('#dice-type');
+      const diceCountInput = modal.querySelector('#dice-count');
+      const diceModInput = modal.querySelector('#dice-mod');
+      const diceFormulaInput = modal.querySelector('#dice-formula');
+      const diceResult = modal.querySelector('#dice-result');
+      function roll() {
+        let formula = diceFormulaInput.value.trim();
+        if (!formula) {
+          const type = diceTypeSelect.value;
+          const count = parseInt(diceCountInput.value, 10) || 1;
+          const mod = parseInt(diceModInput.value, 10) || 0;
+          formula = `${count}${type}${mod ? (mod > 0 ? '+' + mod : mod) : ''}`;
+        }
+        const parsed = parseDiceFormula(formula);
+        if (!parsed) {
+          diceResult.textContent = 'Ошибка формулы';
+          return;
+        }
+        let total = 0;
+        let rolls = [];
+        for (let i = 0; i < parsed.count; i++) {
+          const val = Math.floor(Math.random() * parsed.die) + 1;
+          rolls.push(val);
+          total += val;
+        }
+        total += parsed.mod;
+        diceResult.textContent = `${rolls.join(' + ')}${parsed.mod ? (parsed.mod > 0 ? ' + ' : ' - ') + Math.abs(parsed.mod) : ''} = ${total}`;
+      }
+      rollAgainBtn.onclick = roll;
+      closeDiceModalBtn.onclick = () => modal.remove();
+      diceTypeSelect.onchange = () => { diceFormulaInput.value = ''; };
+      diceCountInput.oninput = () => { diceFormulaInput.value = ''; };
+      diceModInput.oninput = () => { diceFormulaInput.value = ''; };
+      diceFormulaInput.oninput = () => {};
+      modal.addEventListener('mousedown', (e) => {
+        if (e.target === modal) modal.remove();
+      });
+    }
+  }
+  const fabDice = document.getElementById('diceFabBtn');
+  if (fabDice) fabDice.onclick = showDiceModal;
+</script>
+</body>
+</html> 

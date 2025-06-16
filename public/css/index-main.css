@@ -1,0 +1,855 @@
+@import 'variables.css';
+
+:root {
+  /* Светлая тема */
+  --f-parchment-light: #F5EED2;
+  --f-accent-brown: #5C4033;
+  --f-accent-burgundy: #8B0000;
+  --f-border-light: #D4B483;
+  --f-shadow-light: rgba(92, 64, 51, 0.2);
+  
+  /* Темная тема */
+  --f-parchment-dark: #2A2416;
+  --f-accent-gold: #D4AF37;
+  --f-accent-silver: #C0C0C0;
+  --f-border-dark: #4A3C2A;
+  --f-shadow-dark: rgba(212, 175, 55, 0.2);
+  
+  /* Общие */
+  --f-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --f-ink-blot: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50,0 C60,20 80,30 100,50 C80,70 60,80 50,100 C40,80 20,70 0,50 C20,30 40,20 50,0' fill='currentColor'/%3E%3C/svg%3E");
+
+  /* --- Магическая тёмная тема --- */
+  --bg-primary: #1a120b;
+  --text-primary: #e0d6c3;
+  --heading-gold: #d4af37;
+  --copper-accent: #b87333;
+  --wood-border: #5d432c;
+  --checkbox-clay: #8d6e63;
+  --mahogany: #8b4513;
+  --deep-shadow: #0d0901;
+  --parchment-texture: repeating-linear-gradient(
+    0deg,
+    rgba(26, 18, 11, 0.9),
+    rgba(26, 18, 11, 0.9) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  --wood-grain: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='40' height='40' fill='%235d432c'/%3E%3Cpath d='M5 20 Q10 10 20 20 T35 20' stroke='%238b4513' stroke-width='2' fill='none'/%3E%3C/svg%3E");
+}
+
+body, .fantasy-root {
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: 'Crimson Text', serif;
+  background: var(--parchment-texture, #fff);
+  color: var(--text-primary, #222);
+  border: none;
+}
+
+.fantasy-root {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  background: var(--parchment-texture, #fff);
+  color: var(--text-primary, #222);
+  box-shadow: none;
+  border: none;
+  padding: 0;
+}
+
+.fantasy-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  z-index: 100;
+  margin: 0;
+  border-radius: 0;
+  box-sizing: border-box;
+}
+
+.fantasy-main-content {
+  margin-top: 72px;
+}
+
+/* Удаляем маркеры-гвозди */
+li:not(:has(input))::before, html[data-theme="dark"] li:not(:has(input))::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Убираем двойной скролл */
+html, body, .fantasy-root {
+  overflow-x: hidden;
+  overflow-y: auto;
+  height: 100%;
+}
+
+/* Общий скроллбар для всей страницы */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  width: 12px;
+  background: var(--f-parchment-light);
+}
+
+html[data-theme="dark"] html::-webkit-scrollbar,
+html[data-theme="dark"] body::-webkit-scrollbar {
+  background: var(--f-parchment-dark);
+}
+
+html::-webkit-scrollbar-thumb,
+body::-webkit-scrollbar-thumb {
+  background: var(--f-accent-brown);
+  border-radius: 3px 12px;
+}
+
+html[data-theme="dark"] html::-webkit-scrollbar-thumb,
+html[data-theme="dark"] body::-webkit-scrollbar-thumb {
+  background: var(--f-accent-gold);
+}
+
+html::-webkit-scrollbar-thumb:hover,
+body::-webkit-scrollbar-thumb:hover {
+  background: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] html::-webkit-scrollbar-thumb:hover,
+html[data-theme="dark"] body::-webkit-scrollbar-thumb:hover {
+  background: var(--f-accent-silver);
+}
+
+/* Body styles */
+body {
+  min-height: 100vh;
+  display: flex; /* Сделаем body flex-контейнером */
+  flex-direction: column; /* Элементы body будут располагаться по вертикали */
+  font-family: 'Uncial Antiqua', serif;
+}
+
+.fantasy-root {
+  background: var(--f-parchment-light);
+  background-image: var(--f-texture-light);
+  height: 100%; /* Убедимся, что fantasy-root занимает всю доступную высоту */
+  color: var(--f-accent-brown);
+  transition: var(--f-transition);
+  display: flex; /* Сделаем fantasy-root flex-контейнером */
+  flex-direction: column;
+}
+
+html[data-theme="dark"] .fantasy-root {
+  background: #18120a;
+  color: #ffe9b3;
+}
+
+/* Header styles */
+.fantasy-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--f-parchment-light);
+  border-bottom: 3px solid var(--f-border-light);
+  box-shadow: 0 4px 12px var(--f-shadow-light);
+  min-height: 64px;
+  padding: 0 8px;
+  position: relative;
+  z-index: 10;
+  flex-wrap: wrap;
+  gap: 16px;
+  box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+html[data-theme="dark"] .fantasy-header {
+  background: #23180f;
+  border-bottom: 3px solid #5d432c;
+  box-shadow: 0 4px 12px #0d0901;
+}
+
+.fantasy-logo {
+  font-family: 'Uncial Antiqua', serif;
+  font-size: 2em;
+  color: var(--f-accent-burgundy);
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 4px var(--f-shadow-light);
+  user-select: none;
+  flex-shrink: 0; /* Предотвращает сжатие логотипа */
+  flex-basis: content; /* Занимает ровно столько места, сколько требуется контенту */
+}
+
+html[data-theme="dark"] .fantasy-logo {
+  color: #ffd700;
+  text-shadow: 0 0 5px #d4af37, 0 2px 3px #0d0901;
+}
+
+.fantasy-search-bar {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 400px; /* Give it a base width */
+  max-width: 700px; /* Limit maximum width */
+  min-width: 200px; /* Ensure a minimum width for readability */
+  position: relative;
+  /* min-width: 0; */ /* No longer needed due to flex-basis */
+  /* overflow: hidden; */ /* No longer needed due to flex-basis and flex-shrink */
+}
+
+.fantasy-search-input {
+  width: 100%;
+  padding: 12px 20px;
+  border: 2px solid var(--f-border-light);
+  border-radius: 3px 12px;
+  background: var(--f-parchment-light);
+  color: var(--f-accent-brown);
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.1em;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-search-input {
+  border-color: var(--f-border-dark);
+  background: var(--f-parchment-dark);
+  color: var(--f-accent-gold);
+  box-shadow: 2px 2px 8px var(--f-shadow-dark);
+}
+
+.fantasy-search-input:focus {
+  outline: none;
+  border-color: var(--f-accent-burgundy);
+  box-shadow: 3px 3px 12px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-search-input:focus {
+  border-color: var(--f-accent-gold);
+  box-shadow: 3px 3px 12px var(--f-shadow-dark);
+}
+
+.fantasy-header-controls {
+  display: flex;
+  gap: 8px;
+  /* margin-left: auto; */
+  flex-shrink: 1; /* Allow shrinking */
+  /* flex-basis: content; */ /* Removed to allow more flexible sizing */
+}
+
+/* Main Layout styles */
+.fantasy-main-layout {
+  display: flex;
+  flex-grow: 1; /* Позволяет main занимать оставшееся пространство */
+  height: 100%; /* Занимаем всю высоту, чтобы боковая панель и контент растягивались */
+}
+
+/* Main content styles */
+.fantasy-main-content {
+  flex-grow: 1;
+  padding: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.fantasy-main-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+/* Card styles */
+.fantasy-board-card {
+  background: var(--f-parchment-light);
+  border: 2px solid var(--f-border-light);
+  border-radius: 12px;
+  box-shadow: 4px 4px 16px var(--f-shadow-light);
+  padding: 24px;
+  transition: var(--f-transition);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 500px;
+  overflow: hidden;
+}
+
+.fantasy-board-card .fantasy-board-list {
+  flex-grow: 1; /* Allow the list to take up available space */
+  overflow-y: auto; /* Enable vertical scrolling */
+  padding-right: 8px; /* Add some padding for the scrollbar */
+}
+
+.fantasy-creations-card {
+  grid-column: span 2; /* Make the creations card span two columns */
+}
+
+html[data-theme="dark"] .fantasy-board-card {
+  background: #23180f;
+  border-color: #5d432c;
+  box-shadow: 4px 4px 16px #0d0901;
+}
+
+.fantasy-board-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 6px 6px 20px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-board-card:hover {
+  box-shadow: 0 6px 24px var(--deep-shadow);
+  border-color: var(--mahogany);
+}
+
+.fantasy-board-title {
+  font-family: 'Uncial Antiqua', serif;
+  color: var(--f-accent-burgundy);
+  font-size: 1.8em;
+  margin: 0 0 16px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-shadow: 1px 1px 2px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-board-title {
+  color: #ffd700;
+  text-shadow: 0 0 5px #d4af37, 0 2px 3px #0d0901;
+}
+
+@keyframes glow {
+  0% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+  50% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.8), 0 0 20px rgba(212, 175, 55, 0.4); }
+  100% { text-shadow: 0 0 5px rgba(212, 175, 55, 0.5); }
+}
+
+.fantasy-board-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 24px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fantasy-board-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--f-parchment-light);
+  border: 1px solid var(--f-border-light);
+  border-radius: 12px;
+  transition: var(--f-transition);
+  cursor: pointer;
+  justify-content: space-between;
+}
+
+html[data-theme="dark"] .fantasy-board-item {
+  background: #2a2112;
+  border-color: #5d432c;
+  color: #ffe9b3;
+}
+
+.fantasy-board-item:hover {
+  transform: translateX(4px);
+  background: rgba(212, 180, 131, 0.25); /* мягкий светлый оттенок, var(--f-border-light) с прозрачностью */
+  color: var(--f-accent-brown);
+}
+
+html[data-theme="dark"] .fantasy-board-item:hover {
+  background: rgba(212, 175, 55, 0.18); /* мягкий золотой с прозрачностью */
+  color: #ffe9b3;
+}
+
+/* Button styles */
+.fantasy-btn {
+  background: var(--f-accent-burgundy);
+  border: none;
+  border-radius: 12px;
+  color: var(--f-parchment-light);
+  font-family: 'Crimson Pro', serif;
+  font-weight: 600;
+  padding: 12px 24px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: var(--f-transition);
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-btn {
+  background: #b87333;
+  color: #ffe9b3;
+  /* border: 2px solid #5d432c; */
+  border: none;
+  box-shadow: 2px 2px 8px #0d0901;
+}
+
+.fantasy-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: none;
+  border-color: inherit;
+}
+
+html[data-theme="dark"] .fantasy-btn:hover {
+  background: #8b4513;
+  color: #ffd700;
+  border-color: inherit;
+  box-shadow: none;
+}
+
+/* --- FAB Dice Button --- */
+.fantasy-fab-dice {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  padding: 0;
+  font-size: 1.8em;
+  background: var(--f-accent-burgundy);
+  color: var(--f-parchment-light);
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 4px 4px 16px var(--f-shadow-light);
+  z-index: 100;
+}
+
+.fantasy-fab-dice i.fa-dice-d20 {
+  color: inherit !important;
+  font-size: 1em !important;
+  filter: none;
+}
+
+.fantasy-fab-dice:hover {
+  background: #a05a1c;
+  color: var(--f-parchment-light);
+}
+
+html[data-theme="dark"] .fantasy-fab-dice {
+  background: var(--f-accent-gold);
+  color: #23180f;
+}
+
+html[data-theme="dark"] .fantasy-fab-dice:hover {
+  background: #a05a1c;
+  color: #23180f;
+}
+
+/* Bottom controls styles */
+.fantasy-bottom-controls {
+  position: fixed;
+  bottom: 32px;
+  left: 32px;
+  display: flex;
+  gap: 12px;
+  z-index: 100;
+}
+
+.fantasy-bottom-controls .fantasy-btn {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  box-shadow: 4px 4px 16px var(--f-shadow-light);
+}
+
+html[data-theme="dark"] .fantasy-bottom-controls .fantasy-btn {
+  box-shadow: 4px 4px 16px #0d0901;
+}
+
+.fantasy-bottom-controls .fantasy-btn:hover {
+  transform: translateY(-4px) scale(1.1);
+  box-shadow: 6px 6px 20px #0d0901;
+}
+
+/* Scrollbar styles */
+.fantasy-root ::-webkit-scrollbar {
+  width: 12px;
+  background: var(--f-parchment-light);
+}
+
+html[data-theme="dark"] .fantasy-root ::-webkit-scrollbar {
+  background: var(--f-parchment-dark);
+}
+
+.fantasy-root ::-webkit-scrollbar-thumb {
+  background: var(--f-accent-brown);
+  border-radius: 3px 12px;
+}
+
+html[data-theme="dark"] .fantasy-root ::-webkit-scrollbar-thumb {
+  background: var(--f-accent-gold);
+}
+
+.fantasy-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--f-accent-burgundy);
+}
+
+html[data-theme="dark"] .fantasy-root ::-webkit-scrollbar-thumb:hover {
+  background: var(--f-accent-silver);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .fantasy-header {
+    flex-direction: column;
+    padding: 8px 16px; /* Adjust padding for smaller screens */
+    gap: 8px;
+    justify-content: center;
+  }
+
+  .fantasy-logo {
+    width: auto; /* Логотип занимает минимально необходимую ширину */
+  }
+
+  .fantasy-search-bar {
+    width: 100%;
+    margin: 0;
+  }
+
+  .fantasy-header-controls {
+    width: 100%; /* Устанавливаем ширину 100% */
+    justify-content: center;
+  }
+
+  .fantasy-main-content {
+    padding: 16px;
+  }
+
+  .fantasy-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .fantasy-board-card {
+    padding: 16px;
+  }
+  
+  .fantasy-btn {
+    padding: 12px 16px; /* Уменьшаем горизонтальный padding для кнопок */
+  }
+} 
+
+.fantasy-search-bar {
+  position: relative;
+}
+
+.fantasy-search-bar .fa-magnifying-glass {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--f-accent-brown);
+  pointer-events: none;
+}
+
+html[data-theme="dark"] .fantasy-search-bar .fa-magnifying-glass {
+  color: var(--f-accent-gold);
+}
+
+.fantasy-board-item {
+  justify-content: space-between;
+}
+
+.fantasy-board-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-grow: 1;
+}
+
+.fantasy-board-actions {
+  flex-shrink: 0;
+  margin-left: 12px;
+}
+
+.fantasy-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.fantasy-divider {
+  height: 1px;
+  background: var(--f-border-light);
+  margin: 24px 0;
+}
+
+html[data-theme="dark"] .fantasy-divider {
+  background: #5d432c;
+}
+
+/* Модифицированные стили */
+.fantasy-search-input {
+  padding: 12px 48px 12px 20px;
+}
+
+.fantasy-main-grid {
+  gap: 24px;
+}
+
+.fantasy-board-card {
+  padding: 20px;
+}
+
+.fantasy-board-title {
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .fantasy-board-card {
+    padding: 12px;
+  }
+  
+  .fantasy-main-content {
+    padding: 12px;
+  }
+  
+  .fantasy-board-item {
+    padding: 10px 14px;
+  }
+  
+  .fantasy-search-input {
+    padding: 10px 40px 10px 16px;
+  }
+}
+
+/* Board item button styles */
+.fantasy-board-btn {
+  background: none;
+  border: 2px solid #8B0000;
+  color: #8B0000;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.fantasy-board-btn:hover {
+  background: #a00000;
+  color: #ffe9b3;
+  border-color: #a00000;
+}
+html[data-theme="dark"] .fantasy-board-btn {
+  border-color: #b87333;
+  color: #b87333;
+}
+html[data-theme="dark"] .fantasy-board-btn:hover {
+  background: #a05a1c;
+  color: #ffe9b3;
+  border-color: #a05a1c;
+}
+
+/* Character section styles */
+.fantasy-character-section {
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--f-border-light); /* Subtle visual separation */
+}
+
+html[data-theme="dark"] .fantasy-character-section {
+  border-color: var(--f-border-dark);
+}
+
+.fantasy-character-section:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.fantasy-section-title {
+  font-family: 'Crimson Pro', serif;
+  font-size: 1.3em;
+  color: var(--f-accent-brown);
+  margin: 0 0 16px 0;
+  border-bottom: 1px solid var(--f-border-light);
+  padding-bottom: 8px;
+}
+
+html[data-theme="dark"] .fantasy-section-title {
+  color: #ffd700;
+  border-color: #5d432c;
+}
+
+.fantasy-character-section .fantasy-board-list {
+  margin-bottom: 16px;
+}
+
+.fantasy-character-section .fantasy-create-btn {
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .fantasy-character-section {
+    margin-bottom: 16px;
+  }
+
+  .fantasy-section-title {
+    font-size: 1.1em;
+    margin-bottom: 12px;
+  }
+}
+
+/* --- Theme Toggle Button --- */
+.theme-toggle {
+  background: var(--f-accent-burgundy);
+  color: var(--f-parchment-light);
+  transition: background 0.2s, color 0.2s;
+}
+.theme-toggle .theme-icon svg {
+  color: inherit !important;
+  fill: currentColor !important;
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+  margin: auto;
+  transition: color 0.2s, fill 0.2s;
+}
+.theme-toggle:hover {
+  background: #a05a1c;
+  color: var(--f-parchment-light);
+}
+html[data-theme="dark"] .theme-toggle {
+  background: var(--f-accent-gold);
+  color: #23180f;
+}
+html[data-theme="dark"] .theme-toggle:hover {
+  background: #a05a1c;
+  color: #23180f;
+}
+
+/* --- Заголовки --- */
+.fantasy-board-title,
+.fantasy-section-title,
+.fantasy-logo {
+  color: #8B0000;
+  text-shadow: none !important;
+}
+html[data-theme="dark"] .fantasy-board-title,
+html[data-theme="dark"] .fantasy-section-title,
+html[data-theme="dark"] .fantasy-logo {
+  color: #b87333;
+  text-shadow: none !important;
+}
+
+/* --- Кнопки: инверсия цветов при наведении и корректные цвета для тёмной темы --- */
+.fantasy-btn, .fantasy-fab-dice, .theme-toggle {
+  background: #8B0000;
+  color: #ffe9b3;
+  transition: background 0.2s, color 0.2s;
+}
+.fantasy-btn:hover, .fantasy-fab-dice:hover, .theme-toggle:hover {
+  background: #ffe9b3;
+  color: #8B0000 !important;
+}
+html[data-theme="dark"] .fantasy-btn, html[data-theme="dark"] .fantasy-fab-dice, html[data-theme="dark"] .theme-toggle {
+  background: #b87333;
+  color: #ffe9b3 !important;
+}
+html[data-theme="dark"] .fantasy-btn:hover, html[data-theme="dark"] .fantasy-fab-dice:hover, html[data-theme="dark"] .theme-toggle:hover {
+  background: #ffe9b3;
+  color: #b87333 !important;
+}
+
+/* --- Иконки внутри кнопок --- */
+.fantasy-btn i,
+.fantasy-fab-dice i,
+.theme-toggle i,
+.fantasy-btn svg,
+.fantasy-fab-dice svg,
+.theme-toggle svg {
+  color: inherit !important;
+  fill: currentColor !important;
+  transition: color 0.2s;
+}
+
+/* --- Центровка иконки темы --- */
+.theme-toggle .theme-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.theme-toggle .theme-icon svg {
+  display: block;
+  margin: auto;
+  width: 1.5em;
+  height: 1.5em;
+}
+
+/* --- Кнопки с мусоркой и лупой --- */
+.fantasy-board-btn {
+  background: none;
+  border: 2px solid #8B0000;
+  color: #8B0000;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1em;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.fantasy-board-btn:hover {
+  background: #a00000;
+  color: #ffe9b3;
+  border-color: #a00000;
+}
+html[data-theme="dark"] .fantasy-board-btn {
+  border-color: #b87333;
+  color: #b87333;
+}
+html[data-theme="dark"] .fantasy-board-btn:hover {
+  background: #a05a1c;
+  color: #ffe9b3;
+  border-color: #a05a1c;
+}
+
+.fantasy-search-bar .fa-magnifying-glass {
+  color: #8B0000;
+  transition: color 0.2s;
+}
+.fantasy-search-bar .fa-magnifying-glass:hover {
+  color: #5C4033;
+}
+html[data-theme="dark"] .fantasy-search-bar .fa-magnifying-glass {
+  color: #b87333;
+}
+html[data-theme="dark"] .fantasy-search-bar .fa-magnifying-glass:hover {
+  color: #a05a1c;
+}
+
+/* --- Модальное окно: смена темы --- */
+.modal-content, .fantasy-modal-content {
+  background: #f5eed2;
+  color: #8B0000;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(80,60,20,0.25), 0 1.5px 8px #a67c5233;
+  transition: background 0.2s, color 0.2s;
+}
+.modal-content h2, .modal-content h3, .fantasy-modal-content h2, .fantasy-modal-content h3 {
+  color: #8B0000;
+}
+html[data-theme="dark"] .modal-content, html[data-theme="dark"] .fantasy-modal-content {
+  background: #23180f;
+  color: #ffe9b3;
+}
+html[data-theme="dark"] .modal-content h2, html[data-theme="dark"] .modal-content h3,
+html[data-theme="dark"] .fantasy-modal-content h2, html[data-theme="dark"] .fantasy-modal-content h3 {
+  color: #d4af37 !important;
+}

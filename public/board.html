@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ширма Мастера DnD</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Pro:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/fantasy.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/search.css" />
+  <link rel="stylesheet" href="css/note.css" />
+  <link rel="stylesheet" href="css/links.css" />
+  <link rel="stylesheet" href="css/entities.css" />
+  <link rel="stylesheet" href="css/unified.css" />
+  <link rel="stylesheet" href="css/board.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script>
+    // Применяем тему из localStorage при загрузке страницы
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
+</head>
+<body class="fantasy-root">
+  <header>
+    <div class="logo"></div>
+    <button id="searchViewBtn" class="view-btn" style="margin-left: auto;">Поиск</button>
+  </header>
+  <main>
+    <aside>
+      <div class="sidebar-title">Инструменты:</div>
+      <div class="tools-group">
+        <button id="mainMenuBtn" class="sidebar-btn">Главное меню</button>
+        <button id="linkModeBtn" title="Режим связей" class="sidebar-btn">Режим связей</button>
+        <button id="clearBoardBtn" title="Очистить доску" class="sidebar-btn">🗑️ Очистить</button>
+      </div>
+      <div class="filter-group"></div>
+      <div class="filter-group" id="filterOptions"></div>
+      <div class="account-section">
+        <div class="bottom-controls">
+          <button id="themeToggleBtn" class="theme-toggle" title="Переключить тему">
+            <span class="theme-icon"></span>
+          </button>
+          <button class="account-button" id="accountBtn">
+            <img class="account-avatar" id="userAvatar" src="" alt="Аватар" style="display:none;">
+            <span class="account-icon" id="userInitial">U</span>
+            <span>Аккаунт</span>
+          </button>
+        </div>
+      </div>
+    </aside>
+    <section id="board-container" class="active-view">
+      <button id="resetZoomBtn" title="Сбросить зум" class="board-zoom-button"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <div id="board">
+        <svg id="linksLayer"></svg>
+      </div>
+    </section>
+    <aside id="search-sidebar" class="search-sidebar">
+      <div class="search-sidebar-header">
+        <div class="search-input-wrapper">
+          <input type="text" id="searchInput" placeholder="Поиск..." />
+          <button id="clearSearch" class="icon-btn" title="Очистить поиск">×</button>
+        </div>
+        <button id="closeSearchSidebar" class="icon-btn" title="Закрыть">×</button>
+      </div>
+
+      <div class="search-all-tab-wrapper">
+        <button class="search-tab search-tab-all active" data-type="all">Все</button>
+      </div>
+      <div class="search-tabs">
+        <button class="search-tab" data-type="spells">Заклинания</button>
+        <button class="search-tab" data-type="monsters">Монстры</button>
+        <button class="search-tab" data-type="items">Снаряжение</button>
+        <button class="search-tab" data-type="artifacts">Магические предметы</button>
+      </div>
+
+      <div class="search-filters">
+        <button id="showFilters" class="filter-btn">
+          Фильтры
+          <span class="filter-count"></span>
+        </button>
+      </div>
+
+      <div class="search-results">
+        <div id="searchResultsList" class="search-results-list"></div>
+        <div class="search-pagination">
+          <button id="loadMoreResults" class="load-more-btn">Загрузить еще</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Модальное окно фильтров -->
+    <div id="filtersModal" class="modal fantasy-modal">
+      <div class="modal-content fantasy-modal-content">
+        <div class="modal-header">
+          <h3>Фильтры</h3>
+          <button class="icon-btn close-modal" title="Закрыть">×</button>
+        </div>
+        <div class="modal-body">
+          <form id="filtersContent"></form>
+        </div>
+        <div class="modal-footer">
+          <button id="resetFilters" class="secondary-btn">Сбросить</button>
+          <button id="applyFilters" class="primary-btn">Применить</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Модальное окно -->
+  <div id="modal" class="modal fantasy-modal">
+    <div class="modal-content fantasy-modal-content">
+      <div id="modalHeader"></div>
+      <div id="modalContent"></div>
+      <div class="modal-actions">
+        <button id="modalCloseBtn">Закрыть</button>
+      </div>
+    </div>
+  </div>
+  <button id="diceRollBtn" title="Бросить кубы" aria-label="Бросить кубы" class="fantasy-fab-dice">🎲</button>
+
+  <!-- data scripts -->
+  <script type="module" src="data/spells.js"></script>
+  <script type="module" src="data/monsters.js"></script>
+  <script type="module" src="data/items.js"></script>
+  <script type="module" src="data/artifacts.js"></script>
+
+  <!-- Ждём загрузки данных и только потом инициализируем поиск -->
+  <script>
+    function waitForDataAndInitSearch(retry = 0) {
+      if (
+        window.allSpells && window.allMonsters &&
+        window.allItems && window.allArt
+      ) {
+        import('./scripts/search.js').then(mod => {
+          mod.initSearch();
+        });
+      } else if (retry < 20) {
+        setTimeout(() => waitForDataAndInitSearch(retry + 1), 100);
+      } else {
+        console.error('Данные для поиска не загрузились!');
+      }
+    }
+    waitForDataAndInitSearch();
+  </script>
+
+  <!-- модули с defer для правильного порядка загрузки -->
+  <script type="module" src="scripts/database.js"></script>
+  <script type="module" src="scripts/scripts.js"></script>
+  <script type="module" src="scripts/boardPage.js"></script>
+  <script type="module" src="scripts/compactCard.js"></script>
+  <script type="module" src="scripts/style.js"></script>
+
+  <script type="module">
+    import { initStyle } from './scripts/style.js';
+    import { initTheme } from './scripts/theme.js';
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize theme and style
+      initTheme();
+      initStyle();
+      
+      // Update page title based on board name
+      const boardName = new URLSearchParams(window.location.search).get('name') || 'Без названия';
+      document.title = boardName + ' - Ширма Мастера';
+
+      // Кнопка аккаунта открывает личный кабинет
+      const accountBtn = document.getElementById('accountBtn');
+      if (accountBtn) {
+        accountBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          window.location.href = 'account.html';
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
+ 
