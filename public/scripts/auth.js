@@ -27,11 +27,6 @@ function updateUserInterface(userData) {
     }
 }
 
-// Загрузка профиля пользователя
-export async function loadUserProfile() {
-    return currentUser;
-}
-
 // Управление выпадающим меню аккаунта
 export function toggleMenu() {
     try {
@@ -66,6 +61,12 @@ document.addEventListener('click', (event) => {
 document.addEventListener('DOMContentLoaded', () => {
     updateUserInterface(currentUser);
 });
+
+/*
+// Загрузка профиля пользователя
+export async function loadUserProfile() {
+    return currentUser;
+}
 
 // Функция регистрации
 export async function register() {
@@ -157,4 +158,5 @@ export async function login() {
 // Делаем функции доступными глобально для использования в HTML
 window.register = register;
 window.login = login;
-window.logout = logout; 
+window.logout = logout;
+*/ 

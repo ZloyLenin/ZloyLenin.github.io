@@ -12,14 +12,14 @@ app.use(cors());
 app.use(express.json());
 
 // Подключение маршрутов авторизации
-const authRoutes = require('./routes/auth');
-const auth = require('./middleware/auth');
+// const authRoutes = require('./routes/auth');
+// const auth = require('./middleware/auth');
 
 // Статические файлы
 app.use(express.static('public'));
 
 // API маршруты
-app.use('/api/auth', authRoutes);
+// app.use('/api/auth', authRoutes);
 app.use('/api/boards', require('./routes/boards'));
 
 // Создаем директорию data, если она не существует
