@@ -2,10 +2,32 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const cors = require('cors');
+const db = require('./config/db');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Инициализация таблиц при запуске
+async function initDatabase() {
+  try {
+    // Создание таблицы boards если её нет
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS boards (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        content TEXT DEFAULT '{}',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    console.log('Таблица boards готова');
+  } catch (error) {
+    console.error('Ошибка инициализации базы данных:', error);
+    process.exit(1);
+  }
+}
 
 // Middleware
 app.use(cors());
@@ -87,6 +109,8 @@ app.use((req, res) => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на http://localhost:${PORT}`);
-}); 
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
+  });
+});

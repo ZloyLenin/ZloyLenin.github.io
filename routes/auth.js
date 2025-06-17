@@ -5,7 +5,13 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const auth = require('../middleware/auth');
 
-// Регистрация
+// Важно: JWT_SECRET должен быть установлен в окружении
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET missing');
+  process.exit(1);
+}
+
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -31,12 +37,13 @@ router.post('/register', async (req, res) => {
 
     const token = jwt.sign(
       { id: result.rows[0].id },
-      process.env.JWT_SECRET || 'your-secret-key',
+      JWT_SECRET, // Используем переменную из окружения
       { expiresIn: '24h' }
     );
 
     res.status(201).json({ token });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
