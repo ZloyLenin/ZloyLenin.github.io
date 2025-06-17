@@ -224,44 +224,15 @@
   });
   // Реализация выхода из аккаунта
   if (logoutBtn) {
-    logoutBtn.onclick = async () => {
-      try {
-        await logout();
-        // После успешного выхода перенаправляем на страницу авторизации
-        window.location.href = 'auth.html';
-      } catch (error) {
-        console.error('Ошибка при выходе из аккаунта:', error);
-        alert('Произошла ошибка при выходе из аккаунта. Пожалуйста, попробуйте снова.');
-      }
+    logoutBtn.onclick = () => {
+      window.location.href = 'index.html';
     };
   }
   // Реализация удаления аккаунта
   if (deleteAccountBtn) {
-    deleteAccountBtn.onclick = async () => {
+    deleteAccountBtn.onclick = () => {
       if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-        try {
-          const token = localStorage.getItem('token');
-          const response = await fetch('/api/auth/delete', {
-            method: 'DELETE',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-
-          if (!response.ok) {
-            throw new Error('Ошибка при удалении аккаунта');
-          }
-
-          // Очищаем локальное хранилище
-          localStorage.removeItem('token');
-          localStorage.removeItem('userAvatar');
-          
-          // Перенаправляем на страницу авторизации
-          window.location.href = 'auth.html';
-        } catch (error) {
-          console.error('Ошибка при удалении аккаунта:', error);
-          alert('Произошла ошибка при удалении аккаунта. Пожалуйста, попробуйте снова.');
-        }
+        window.location.href = 'index.html';
       }
     };
   }
