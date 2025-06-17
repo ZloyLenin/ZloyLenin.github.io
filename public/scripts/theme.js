@@ -44,7 +44,7 @@ const sunSVG = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmln
 </svg>`;
 
 // Theme management functions
-function setTheme(theme) {
+export function setTheme(theme) {
   // Set theme on html element
   document.documentElement.setAttribute('data-theme', theme);
   
@@ -58,12 +58,18 @@ function setTheme(theme) {
   updateThemeIcon(theme);
 }
 
-function updateThemeIcon(theme) {
+export function updateThemeIcon(theme) {
+  console.log('updateThemeIcon called with theme:', theme);
   const themeBtns = document.querySelectorAll('.theme-toggle');
+  console.log('Found theme toggle buttons:', themeBtns.length);
   themeBtns.forEach(btn => {
     const iconSpan = btn.querySelector('.theme-icon');
     if (iconSpan) {
+      console.log('Found theme icon span for button:', btn);
       iconSpan.innerHTML = theme === 'dark' ? moonSVG : sunSVG;
+      console.log('Set innerHTML of theme icon span.');
+    } else {
+      console.log('Theme icon span not found for button:', btn);
     }
   });
 }

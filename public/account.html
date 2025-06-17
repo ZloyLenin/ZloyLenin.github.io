@@ -9,7 +9,7 @@
   <script type="module" src="scripts/style.js"></script>
 </head>
 <body id="accountRoot" class="fantasy-root">
-  <header class="universal-header">
+  <header class="fantasy-header">
     <a href="index.html" class="fantasy-logo" id="mainLogo">
       <i class="fa-solid fa-dragon"></i>
       <span>GeekGang</span>
@@ -21,9 +21,6 @@
       </button>
       <button class="view-btn fantasy-btn" id="settingsButton" title="Настройки">
         <i class="fa-solid fa-cog"></i>
-      </button>
-      <button id="themeToggleBtn" class="theme-toggle fantasy-btn" title="Переключить тему">
-        <span class="theme-icon"></span>
       </button>
     </div>
   </header>
@@ -96,9 +93,9 @@
 <script type="module" src="scripts/style.js"></script>
 <script type="module" src="scripts/theme.js"></script>
 <script type="module">
-  import { initStyle, setStyle } from './scripts/style.js';
-  import { initTheme } from './scripts/theme.js';
-  import { loadUserProfile, logout } from './scripts/auth.js';
+  import { initStyle } from './scripts/style.js';
+  import { initTheme, updateThemeIcon } from './scripts/theme.js';
+  // import { loadUserProfile, logout } from './scripts/auth.js'; // Auth is commented out
 
   // Функция для сохранения аватара в localStorage
   function saveAvatarToStorage(imageData) {
@@ -120,14 +117,15 @@
     // Initialize theme and style
     initTheme();
     initStyle();
+    updateThemeIcon(document.documentElement.getAttribute('data-theme'));
     
-    const user = await loadUserProfile();
-    // Если пользователь не авторизован, ничего не делаем
-    if (!user) return;
-    // Данные уже подставляются в loadUserProfile, но можно продублировать:
-    if (user.username) document.getElementById('userName').textContent = user.username;
-    if (user.email) document.getElementById('userEmail').textContent = user.email;
-    if (user.created) document.getElementById('userCreated').textContent = `Аккаунт создан: ${new Date(user.created).toLocaleDateString()}`;
+    // const user = await loadUserProfile(); // Auth is commented out
+    // // Если пользователь не авторизован, ничего не делаем
+    // if (!user) return;
+    // // Данные уже подставляются в loadUserProfile, но можно продублировать:
+    // if (user.username) document.getElementById('userName').textContent = user.username;
+    // if (user.email) document.getElementById('userEmail').textContent = user.email;
+    // if (user.created) document.getElementById('userCreated').textContent = `Аккаунт создан: ${new Date(user.created).toLocaleDateString()}`;
 
     // Загружаем сохраненный аватар при загрузке страницы
     loadAvatarFromStorage();

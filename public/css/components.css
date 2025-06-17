@@ -33,57 +33,57 @@ to { opacity: 1; transform: translateY(0); }
 
 /* Theme toggle button */
 .theme-toggle {
-  background: var(--surface-raised);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-full);
   width: 48px;
   height: 48px;
-  padding: var(--space-2);
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: var(--transition-all);
+  transition: var(--f-transition);
   position: relative;
-  margin: 0 var(--space-2);
+  margin: 0;
   flex-shrink: 0;
 }
 
-.theme-toggle:hover {
-  background: var(--accent);
-  border-color: var(--accent);
+/* Theme-specific styles */
+[data-theme="light"] .theme-toggle {
+  background: var(--f-accent-burgundy);
+  border: 2px solid var(--f-accent-burgundy);
   color: white;
+  box-shadow: 2px 2px 8px var(--f-shadow-light);
+}
+
+[data-theme="light"] .theme-toggle:hover {
+  background: white;
+  border-color: white;
+  color: var(--f-accent-burgundy);
+  box-shadow: 3px 3px 12px var(--f-shadow-light);
+}
+
+[data-theme="dark"] .theme-toggle {
+  background: var(--f-parchment-dark);
+  border: 2px solid var(--f-border-dark);
+  color: var(--f-accent-gold);
+  box-shadow: 2px 2px 8px var(--f-shadow-dark);
+}
+
+[data-theme="dark"] .theme-toggle:hover {
+  background: var(--f-accent-gold);
+  border-color: var(--f-accent-gold);
+  color: var(--f-parchment-dark);
+  box-shadow: 3px 3px 12px var(--f-shadow-dark);
 }
 
 .theme-icon {
-  width: 24px;
-  height: 24px;
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   vertical-align: middle;
   transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-/* Theme-specific styles */
-[data-theme="light"] .theme-toggle {
-  background: var(--surface-raised-light);
-  border-color: var(--border-light);
-}
-
-[data-theme="light"] .theme-toggle:hover {
-  background: var(--accent-light);
-  border-color: var(--accent-light);
-}
-
-[data-theme="dark"] .theme-toggle {
-  background: var(--surface-raised-dark);
-  border-color: var(--border-dark);
-}
-
-[data-theme="dark"] .theme-toggle:hover {
-  background: var(--accent-dark);
-  border-color: var(--accent-dark);
 }
 
 /* Theme icon animations */
