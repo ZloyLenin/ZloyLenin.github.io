@@ -11,6 +11,16 @@ const PORT = process.env.PORT || 3000;
 // Инициализация таблиц при запуске
 async function initDatabase() {
   try {
+     await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
     // Создание таблицы boards если её нет
     await db.query(`
       CREATE TABLE IF NOT EXISTS boards (
