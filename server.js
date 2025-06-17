@@ -31,44 +31,28 @@ app.get('/board.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'board.html'));
 });
 
-// Эндпоинт для сохранения состояния (защищенный)
-app.post('/save-state', auth, async (req, res) => {
+// Сохранение состояния доски
+app.post('/save-state', async (req, res) => {
   try {
-    const state = req.body;
-    const filePath = path.join(dataDir, `state_${req.user.id}.json`);
-    
-    // Создаем директорию, если она не существует
-    await fs.mkdir(dataDir, { recursive: true });
-    
-    // Сохраняем состояние
-    await fs.writeFile(filePath, JSON.stringify(state, null, 2));
+    const { state } = req.body;
+    // Здесь можно добавить сохранение в базу данных
     res.json({ success: true });
   } catch (error) {
-    console.error('Ошибка сохранения состояния:', error);
-    res.status(500).json({ 
-      error: 'Ошибка сохранения состояния',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    res.status(500).json({ error: 'Ошибка при сохранении состояния' });
   }
 });
 
-// Эндпоинт для загрузки состояния (защищенный)
-app.get('/load-state', auth, async (req, res) => {
+// Эндпоинт для загрузки состояния
+app.get('/load-state', async (req, res) => {
   try {
-    const filePath = path.join(dataDir, `state_${req.user.id}.json`);
-    const data = await fs.readFile(filePath, 'utf8');
-    res.json(JSON.parse(data));
+    // Возвращаем пустое состояние
+    res.json({ notes: [], connections: [] });
   } catch (error) {
-    if (error.code === 'ENOENT') {
-      // Если файл не существует, возвращаем пустое состояние
-      res.json({ notes: [], connections: [] });
-    } else {
-      console.error('Ошибка загрузки состояния:', error);
-      res.status(500).json({ 
-        error: 'Ошибка загрузки состояния',
-        details: process.env.NODE_ENV === 'development' ? error.message : undefined
-      });
-    }
+    console.error('Ошибка загрузки состояния:', error);
+    res.status(500).json({ 
+      error: 'Ошибка загрузки состояния',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
