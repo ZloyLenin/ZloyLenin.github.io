@@ -9,9 +9,12 @@
   <script type="module" src="scripts/style.js"></script>
 </head>
 <body id="accountRoot" class="fantasy-root">
-  <header class="universal-header">
-    <div class="logo" id="mainLogo" style="font-size:2em;font-weight:600;cursor:pointer;">GeekGang</div>
-    <div class="header-controls">
+ <header class="fantasy-header">
+    <a href="index.html" class="fantasy-logo" id="mainLogo">
+      <i class="fa-solid fa-dragon"></i>
+      <span>GeekGang</span>
+    </a>
+    <div class="fantasy-header-controls">
       <button class="view-btn fantasy-btn" onclick="window.location.href='index.html'" title="На главную">
         <i class="fa-solid fa-arrow-left"></i>
         <span>На главную</span>
@@ -90,8 +93,8 @@
 <script type="module" src="scripts/style.js"></script>
 <script type="module" src="scripts/theme.js"></script>
 <script type="module">
-  import { initStyle, setStyle } from './scripts/style.js';
-  import { initTheme } from './scripts/theme.js';
+  import { initStyle } from './scripts/style.js';
+  import { initTheme, updateThemeIcon } from './scripts/theme.js';
   import { loadUserProfile, logout, deleteAccount } from './scripts/auth.js';
 
   // Функция для сохранения аватара в localStorage
@@ -114,7 +117,8 @@
     // Initialize theme and style
     initTheme();
     initStyle();
-    
+    updateThemeIcon(document.documentElement.getAttribute('data-theme'));
+
     const user = await loadUserProfile();
     // Если пользователь не авторизован, ничего не делаем
     if (!user) return;
@@ -226,7 +230,7 @@
   // Логика выхода и удаления аккаунта
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
-      if (confirm("Вы уыерену, что хотите выйти из аккаунта?")) {
+      if (confirm("Вы уверены, что хотите выйти из аккаунта?")) {
         await logout();
       }
     });
