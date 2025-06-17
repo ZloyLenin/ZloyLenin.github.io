@@ -16,7 +16,11 @@
     "json5": "^2.2.3",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.0",
+<<<<<<< HEAD
     "postgres": "^3.4.7"
+=======
+    "sqlite3": "^5.1.6"
+>>>>>>> parent of c33ff57 (BD)
   },
   "devDependencies": {
     "nodemon": "^3.1.10"
