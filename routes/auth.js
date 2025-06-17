@@ -125,6 +125,33 @@ router.post('/logout', (req, res) => {
   res.status(200).json({ success: true });
 });
 
+router.post('/verify-password', auth, async (req, res) => {
+  try {
+    const { password } = req.body;
+    const userId = req.user.id;
+    
+    const result = await db.query(
+      'SELECT password FROM users WHERE id = $1',
+      [userId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+    const user = result.rows[0];
+    const isValid = await bcrypt.compare(password, user.password);
+    
+    if (!isValid) {
+      return res.status(401).json({ error: 'Неверный пароль' });
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
 // Удаление аккаунта пользователя
 router.delete('/delete', auth, async (req, res) => {
   try {

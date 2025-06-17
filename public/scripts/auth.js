@@ -249,6 +249,49 @@ export async function login() {
     }
 }
 
+export async function deleteAccount(password) {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Требуется авторизация');
+
+    try {
+        // Проверка пароля перед удалением
+        const verifyResponse = await fetch('/api/auth/verify-password', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password })
+        });
+
+        if (!verifyResponse.ok) {
+            const errorData = await verifyResponse.json();
+            throw new Error(errorData.error || 'Неверный пароль');
+        }
+
+        // Удаление аккаунта
+        const deleteResponse = await fetch('/api/auth/delete', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!deleteResponse.ok) {
+            const errorData = await deleteResponse.json();
+            throw new Error(errorData.error || 'Ошибка удаления');
+        }
+
+        // Очистка данных
+        localStorage.removeItem('token');
+        localStorage.removeItem('userAvatar');
+        return true;
+    } catch (error) {
+        console.error('Account deletion error:', error);
+        throw error;
+    }
+}
+
 // Делаем функции доступными глобально для использования в HTML
 window.register = register;
 window.login = login;

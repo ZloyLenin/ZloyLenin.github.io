@@ -223,7 +223,7 @@
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
 
-  // TODO: Реализовать логику выхода и удаления аккаунта
+  // Логика выхода и удаления аккаунта
   if (logoutBtn) {
     logoutBtn.addEventListener('click', async () => {
       if (confirm("Вы уыерену, что хотите выйти из аккаунта?")) {
@@ -233,15 +233,15 @@
   }
 
   if (deleteAccountBtn) deleteAccountBtn.addEventListener('click', async () => {
-    if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-       try {
-            await deleteAccount();
-            alert('Ваш аккаунт был успешно удалён');
-            window.location.href = '/auth.html';
-          } catch (error) {
-            console.error('Delete account error:', error);
-            alert('Не удалось удалить аккаунт');
-          }
+    const password = prompt('Для подтверждения удаления введите ваш пароль:');
+    if (!password) return;
+    
+    try {
+      await deleteAccount(password);
+      alert('Ваш аккаунт был успешно удалён');
+      window.location.href = '/auth.html';
+    } catch (error) {
+      alert('Ошибка: ' + error.message);
     }
   });
 
