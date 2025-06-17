@@ -32,7 +32,7 @@ async function initSearch() {
     closeSidebar: document.getElementById('closeSearchSidebar'),
     tabs: document.querySelectorAll('.search-tab'),
     showFilters: document.getElementById('showFilters'),
-    filterCount: document.querySelector('#showFilters .filter-count'),
+    filterCount: document.querySelector('.filter-count'),
     resultsList: document.getElementById('searchResultsList'),
     loadMore: document.getElementById('loadMoreResults'),
     filtersModal: document.getElementById('filtersModal'),

@@ -10,10 +10,7 @@
 </head>
 <body id="accountRoot" class="fantasy-root">
   <header class="universal-header">
-    <a href="index.html" class="fantasy-logo">
-        <i class="fa-solid fa-dragon"></i>
-        <span>GeekGang</span>
-    </a>
+    <div class="logo" id="mainLogo" style="font-size:2em;font-weight:600;cursor:pointer;">GeekGang</div>
     <div class="header-controls">
       <button class="view-btn fantasy-btn" onclick="window.location.href='index.html'" title="На главную">
         <i class="fa-solid fa-arrow-left"></i>
@@ -95,7 +92,7 @@
 <script type="module">
   import { initStyle, setStyle } from './scripts/style.js';
   import { initTheme } from './scripts/theme.js';
-  import { loadUserProfile } from './scripts/auth.js';
+  import { loadUserProfile, logout } from './scripts/auth.js';
 
   // Функция для сохранения аватара в localStorage
   function saveAvatarToStorage(imageData) {
@@ -225,13 +222,49 @@
   settingsModal.addEventListener('mousedown', e => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
-  // TODO: Реализовать логику выхода и удаления аккаунта
-  if (logoutBtn) logoutBtn.onclick = () => alert('Выход из аккаунта (реализуйте свою логику)');
-  if (deleteAccountBtn) deleteAccountBtn.onclick = () => {
-    if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-      alert('Аккаунт удалён (реализуйте свою логику)');
-    }
-  };
+  // Реализация выхода из аккаунта
+  if (logoutBtn) {
+    logoutBtn.onclick = async () => {
+      try {
+        await logout();
+        // После успешного выхода перенаправляем на страницу авторизации
+        window.location.href = 'auth.html';
+      } catch (error) {
+        console.error('Ошибка при выходе из аккаунта:', error);
+        alert('Произошла ошибка при выходе из аккаунта. Пожалуйста, попробуйте снова.');
+      }
+    };
+  }
+  // Реализация удаления аккаунта
+  if (deleteAccountBtn) {
+    deleteAccountBtn.onclick = async () => {
+      if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
+        try {
+          const token = localStorage.getItem('token');
+          const response = await fetch('/api/auth/delete', {
+            method: 'DELETE',
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+          });
+
+          if (!response.ok) {
+            throw new Error('Ошибка при удалении аккаунта');
+          }
+
+          // Очищаем локальное хранилище
+          localStorage.removeItem('token');
+          localStorage.removeItem('userAvatar');
+          
+          // Перенаправляем на страницу авторизации
+          window.location.href = 'auth.html';
+        } catch (error) {
+          console.error('Ошибка при удалении аккаунта:', error);
+          alert('Произошла ошибка при удалении аккаунта. Пожалуйста, попробуйте снова.');
+        }
+      }
+    };
+  }
 
   // Клик по логотипу всегда ведёт на главную
   document.getElementById('mainLogo').onclick = () => window.location.href = 'index.html';

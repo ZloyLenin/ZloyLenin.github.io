@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-const postgres = require('postgres');
-=======
 const { Pool } = require('pg');
->>>>>>> parent of c33ff57 (BD)
 
 const pool = new Pool({
   user: process.env.DB_USER || 'postgres',
@@ -13,9 +9,5 @@ const pool = new Pool({
 });
 
 module.exports = {
-<<<<<<< HEAD
-  query: (text, params) => sql.query(text, params)
-=======
   query: (text, params) => pool.query(text, params)
->>>>>>> parent of c33ff57 (BD)
 }; 

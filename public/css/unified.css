@@ -1,77 +1,13 @@
-.unified-modal {
-  background: var(--f-parchment-light);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 4px 12px var(--f-shadow-light);
-  padding: var(--space-6);
-  margin: var(--space-4) 0;
-  max-width: 600px;
-  color: var(--f-accent-brown);
-  font-size: 1rem;
-  position: relative;
-  z-index: 1;
-  margin-bottom: 0;
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-  overflow-wrap: break-word;
-  box-sizing: border-box;
-  font-family: 'Crimson Pro', serif;
-  transition: var(--f-transition);
-}
+.unified-modal { background: var(--surface); /* border: 2px solid var(--accent); */
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-md); padding: var(--space-6); margin: var(--space-4) 0; max-width: 600px; color: var(--text-primary); font-size: 1rem; position: relative; z-index: 1; /* max-height: 70vh; */
+  /* overflow-y: auto; */
+  margin-bottom: 0; display: flex; flex-direction: column; gap: var(--space-4); overflow-wrap: break-word; box-sizing: border-box; }
 
-html[data-theme="dark"] .unified-modal {
-  background: var(--f-parchment-dark);
-  box-shadow: 0 4px 12px var(--f-shadow-dark);
-  color: var(--f-accent-gold);
-}
+.unified-header h2 { font-size: 1.6rem; font-weight: 700; margin: 0 0 var(--space-2) 0; color: var(--accent); }
 
-.unified-header h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin: 0 0 var(--space-2) 0;
-  color: var(--f-accent-burgundy);
-  font-family: 'Uncial Antiqua', serif;
-  text-shadow: 1px 1px 2px var(--f-shadow-light);
-  transition: var(--f-transition);
-}
+.unified-meta { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: var(--space-2); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
 
-html[data-theme="dark"] .unified-header h2 {
-  color: var(--f-accent-gold);
-  text-shadow: 0 0 5px var(--f-accent-gold), 0 2px 3px var(--f-shadow-dark);
-}
-
-.unified-meta {
-  font-size: 1.1rem;
-  color: var(--f-accent-brown);
-  margin-bottom: var(--space-2);
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  font-family: 'Crimson Pro', serif;
-}
-
-html[data-theme="dark"] .unified-meta {
-  color: var(--f-accent-silver);
-}
-
-.meta-label {
-  background: var(--f-parchment-light);
-  border-radius: 6px;
-  padding: 2px 8px;
-  font-size: 0.98em;
-  color: var(--f-accent-burgundy);
-  font-weight: 600;
-  margin-right: 4px;
-  display: inline-block;
-  font-family: 'Crimson Pro', serif;
-  transition: var(--f-transition);
-}
-
-html[data-theme="dark"] .meta-label {
-  background: var(--f-parchment-dark);
-  color: var(--f-accent-gold);
-}
+.meta-label { background: var(--surface-raised); border-radius: 6px; padding: 2px 8px; font-size: 0.98em; color: var(--accent); font-weight: 600; margin-right: 4px; display: inline-block; }
 
 .unified-blocks {
   display: grid;
@@ -83,7 +19,7 @@ html[data-theme="dark"] .meta-label {
 }
 
 .unified-detail {
-  background: var(--f-parchment-light);
+  background: var(--surface-raised);
   border-radius: var(--radius-md);
   padding: 12px 16px;
   margin-bottom: 0;
@@ -93,18 +29,11 @@ html[data-theme="dark"] .meta-label {
   display: flex;
   align-items: center;
   gap: 8px;
-  border-bottom: 1px solid var(--f-border-light);
-  box-shadow: 0 1px 4px var(--f-shadow-light);
+  border-bottom: 1px solid var(--border);
+  box-shadow: 0 1px 4px rgba(127,90,240,0.04);
   word-break: break-word;
   overflow-wrap: break-word;
-  transition: var(--f-transition);
-  font-family: 'Crimson Pro', serif;
-}
-
-html[data-theme="dark"] .unified-detail {
-  background: var(--f-parchment-dark);
-  border-bottom: 1px solid var(--f-border-dark);
-  box-shadow: 0 1px 4px var(--f-shadow-dark);
+  transition: background 0.2s;
 }
 
 .unified-detail:last-child {
@@ -113,53 +42,20 @@ html[data-theme="dark"] .unified-detail {
 
 .unified-detail label {
   font-weight: 600;
-  color: var(--f-accent-burgundy);
+  color: var(--accent);
   margin-right: 6px;
   white-space: nowrap;
-  font-family: 'Crimson Pro', serif;
-}
-
-html[data-theme="dark"] .unified-detail label {
-  color: var(--f-accent-gold);
 }
 
 .unified-detail i {
-  color: var(--f-accent-burgundy);
+  color: var(--accent);
   margin-right: 6px;
   font-size: 1.1em;
 }
 
-html[data-theme="dark"] .unified-detail i {
-  color: var(--f-accent-gold);
-}
+.unified-description { background: var(--surface-raised); border-radius: var(--radius-md); padding: var(--space-3); margin-top: var(--space-2); margin-bottom: var(--space-2); font-size: 1.05rem; line-height: 1.6; }
 
-.unified-description {
-  background: var(--f-parchment-light);
-  border-radius: var(--radius-md);
-  padding: var(--space-3);
-  margin-top: var(--space-2);
-  margin-bottom: var(--space-2);
-  font-size: 1.05rem;
-  line-height: 1.6;
-  font-family: 'Crimson Pro', serif;
-  transition: var(--f-transition);
-}
-
-html[data-theme="dark"] .unified-description {
-  background: var(--f-parchment-dark);
-}
-
-.unified-source {
-  font-size: 0.95em;
-  color: var(--f-accent-brown);
-  margin-top: var(--space-2);
-  text-align: right;
-  font-family: 'Crimson Pro', serif;
-}
-
-html[data-theme="dark"] .unified-source {
-  color: var(--f-accent-silver);
-}
+.unified-source { font-size: 0.95em; color: var(--text-secondary); margin-top: var(--space-2); text-align: right; }
 
 .unified-modal { padding: var(--space-3); max-width: 98vw; }
 
@@ -167,41 +63,17 @@ html[data-theme="dark"] .unified-source {
 .compact-spell-card, .compact-item-card, .compact-monster-card, .unified-card {
   padding: 16px 18px 20px 18px;
   border-radius: 10px;
-  background: var(--f-parchment-light);
-  border: 1px solid var(--f-border-light);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
   margin-bottom: 10px;
-  box-shadow: 0 1px 4px var(--f-shadow-light);
-  color: var(--f-accent-brown);
+  box-shadow: 0 1px 4px rgba(127,90,240,0.04);
+  color: var(--text-primary);
   position: relative;
   max-width: 100%;
-  transition: var(--f-transition);
-  font-family: 'Crimson Pro', serif;
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.12s;
 }
 
-html[data-theme="dark"] .compact-spell-card,
-html[data-theme="dark"] .compact-item-card,
-html[data-theme="dark"] .compact-monster-card,
-html[data-theme="dark"] .unified-card {
-  background: var(--f-parchment-dark);
-  border: 1px solid var(--f-border-dark);
-  box-shadow: 0 1px 4px var(--f-shadow-dark);
-  color: var(--f-accent-gold);
-}
-
-.compact-spell-card:hover, .compact-item-card:hover, .compact-monster-card:hover, .unified-card:hover {
-  box-shadow: 0 2px 8px var(--f-shadow-light);
-  border-color: var(--f-accent-burgundy);
-  transform: translateY(-1px) scale(1.01);
-  z-index: 2;
-}
-
-html[data-theme="dark"] .compact-spell-card:hover,
-html[data-theme="dark"] .compact-item-card:hover,
-html[data-theme="dark"] .compact-monster-card:hover,
-html[data-theme="dark"] .unified-card:hover {
-  box-shadow: 0 2px 8px var(--f-shadow-dark);
-  border-color: var(--f-accent-gold);
-}
+.compact-spell-card:hover, .compact-item-card:hover, .compact-monster-card:hover, .unified-card:hover { box-shadow: 0 2px 8px rgba(127,90,240,0.08); border-color: var(--accent); transform: translateY(-1px) scale(1.01); z-index: 2; }
 
 /* Стилизованный скроллбар для модалок и поиска */
 .compact-spell-card.unified-card {
@@ -213,47 +85,23 @@ html[data-theme="dark"] .unified-card:hover {
   max-height: 110px;
   overflow: hidden;
   border-radius: 8px;
-  box-shadow: 0 1px 4px var(--f-shadow-light);
-  font-family: 'Crimson Pro', serif;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
 }
-
-html[data-theme="dark"] .compact-spell-card.unified-card {
-  box-shadow: 0 1px 4px var(--f-shadow-dark);
-}
-
 .unified-card {
   padding: 16px 18px 20px 18px;
   border-radius: 10px;
-  background: var(--f-parchment-light);
-  border: 1px solid var(--f-border-light);
+  background: var(--surface-raised);
+  border: 1px solid var(--border);
   margin-bottom: 10px;
-  box-shadow: 0 1px 4px var(--f-shadow-light);
-  color: var(--f-accent-brown);
+  box-shadow: 0 1px 4px rgba(127,90,240,0.04);
+  color: var(--text-primary);
   position: relative;
   max-width: 220px;
-  transition: var(--f-transition);
+  transition: box-shadow 0.15s, border-color 0.15s, transform 0.12s;
   max-height: 140px;
-  font-family: 'Crimson Pro', serif;
 }
 
-html[data-theme="dark"] .unified-card {
-  background: var(--f-parchment-dark);
-  border: 1px solid var(--f-border-dark);
-  box-shadow: 0 1px 4px var(--f-shadow-dark);
-  color: var(--f-accent-gold);
-}
-
-.unified-card:hover {
-  box-shadow: 0 2px 8px var(--f-shadow-light);
-  border-color: var(--f-accent-burgundy);
-  transform: translateY(-1px) scale(1.01);
-  z-index: 2;
-}
-
-html[data-theme="dark"] .unified-card:hover {
-  box-shadow: 0 2px 8px var(--f-shadow-dark);
-  border-color: var(--f-accent-gold);
-}
+.unified-card:hover { box-shadow: 0 2px 8px rgba(127,90,240,0.08); border-color: var(--accent); transform: translateY(-1px) scale(1.01); z-index: 2; }
 
 .note .unified-card,
 .note .compact-spell-card,
@@ -269,18 +117,7 @@ html[data-theme="dark"] .unified-card:hover {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-family: 'Crimson Pro', serif;
 }
-
-html[data-theme="dark"] .note .unified-card,
-html[data-theme="dark"] .note .compact-spell-card,
-html[data-theme="dark"] .note .compact-item-card,
-html[data-theme="dark"] .note .compact-monster-card {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
-
 .note .unified-card,
 .note .compact-spell-card,
 .note .compact-item-card,
@@ -296,27 +133,5 @@ html[data-theme="dark"] .note .compact-monster-card {
 .unified-modal .spell-blocks,
 .unified-modal .item-blocks {
   grid-template-columns: 1fr !important;
-}
-
-/* Scrollbar styles for modals (re-using common scrollbar styles from board.css) */
-.unified-modal::-webkit-scrollbar {
-  width: 12px;
-  background: var(--f-parchment-light);
-}
-html[data-theme="dark"] .unified-modal::-webkit-scrollbar {
-  background: var(--f-parchment-dark);
-}
-.unified-modal::-webkit-scrollbar-thumb {
-  background: var(--f-accent-brown);
-  border-radius: 3px 12px;
-}
-html[data-theme="dark"] .unified-modal::-webkit-scrollbar-thumb {
-  background: var(--f-accent-gold);
-}
-.unified-modal::-webkit-scrollbar-thumb:hover {
-  background: var(--f-accent-burgundy);
-}
-html[data-theme="dark"] .unified-modal::-webkit-scrollbar-thumb:hover {
-  background: var(--f-accent-silver);
 }
 

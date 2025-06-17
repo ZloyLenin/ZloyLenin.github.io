@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "nodemon server.js",
-    "preinstall": "npm install --target_arch=x64 --target_platform=linux sqlite3"
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^3.0.2",
@@ -16,11 +15,7 @@
     "json5": "^2.2.3",
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.16.0",
-<<<<<<< HEAD
-    "postgres": "^3.4.7"
-=======
     "sqlite3": "^5.1.6"
->>>>>>> parent of c33ff57 (BD)
   },
   "devDependencies": {
     "nodemon": "^3.1.10"

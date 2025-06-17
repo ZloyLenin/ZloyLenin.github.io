@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Авторизация - Ширма Мастера</title>
     <link rel="stylesheet" href="css/variables.css" />
+    <link rel="stylesheet" href="css/fantasy.css" />
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/layout.css" />
     <link rel="stylesheet" href="css/components.css" />
@@ -12,7 +13,6 @@
     <link rel="stylesheet" href="css/note.css" />
     <link rel="stylesheet" href="css/entities.css" />
     <link rel="stylesheet" href="css/unified.css" />
-    <link rel="stylesheet" href="css/index-main.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script>
         // Применяем тему из localStorage при загрузке страницы
@@ -20,22 +20,30 @@
         document.documentElement.setAttribute('data-theme', savedTheme);
     </script>
     <style>
+        :root {
+            --primary: #7f5af0;
+            --primary-hover: #6b46c1;
+            --bg: #16161a;
+            --surface: #242629;
+            --text: #fffffe;
+            --text-secondary: #94a1b2;
+            --border: #383838;
+            --error: #ef4444;
+            --success: #10b981;
+            --radius: 8px;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+
         body {
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            background: var(--f-parchment-light);
-            color: var(--f-accent-brown);
-            font-family: 'Crimson Text', serif;
+            background: var(--bg);
+            color: var(--text);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] body {
-            background: var(--f-parchment-dark);
-            color: var(--f-accent-gold);
         }
 
         .container {
@@ -45,32 +53,16 @@
         }
 
         .auth-form {
-            background: var(--f-parchment-light);
+            background: var(--surface);
             padding: 2rem;
-            border-radius: 12px;
-            border: 2px solid var(--f-border-light);
-            box-shadow: 4px 4px 16px var(--f-shadow-light);
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .auth-form {
-            background: var(--f-parchment-dark);
-            border-color: var(--f-border-dark);
-            box-shadow: 4px 4px 16px var(--f-shadow-dark);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
         }
 
         .auth-form h2 {
             margin: 0 0 1.5rem;
-            font-size: 1.8em;
-            font-family: 'Uncial Antiqua', serif;
-            color: #8B0000; /* Directly use burgundy from index-main.css */
-            text-shadow: 1px 1px 2px var(--f-shadow-light);
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .auth-form h2 {
-            color: #b87333; /* Directly use copper from index-main.css */
-            text-shadow: 0 0 5px var(--f-accent-gold), 0 2px 3px var(--deep-shadow);
+            font-size: 1.5rem;
+            font-weight: 600;
         }
 
         .form-group {
@@ -80,126 +72,76 @@
         .form-group label {
             display: block;
             margin-bottom: 0.5rem;
-            color: var(--f-accent-brown);
+            color: var(--text-secondary);
             font-size: 0.875rem;
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .form-group label {
-            color: var(--f-accent-gold);
         }
 
         .form-group input {
             width: 100%;
             padding: 0.75rem;
-            border: 2px solid var(--f-border-light);
-            border-radius: 12px;
-            background: var(--f-parchment-light);
-            color: var(--f-accent-brown);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            background: var(--bg);
+            color: var(--text);
             font-size: 1rem;
             box-sizing: border-box;
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .form-group input {
-            border-color: var(--f-border-dark);
-            background: var(--f-parchment-dark);
-            color: var(--f-accent-gold);
         }
 
         .form-group input:focus {
             outline: none;
-            border-color: var(--f-accent-burgundy);
-            box-shadow: 0 0 0 3px var(--f-shadow-light);
-        }
-
-        html[data-theme="dark"] .form-group input:focus {
-            border-color: var(--f-accent-gold);
-            box-shadow: 0 0 0 3px var(--f-shadow-dark);
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(127, 90, 240, 0.2);
         }
 
         button {
             width: 100%;
             padding: 0.75rem;
             border: none;
-            border-radius: 12px;
-            background: #8B0000; /* Directly use burgundy from index-main.css */
-            color: var(--f-parchment-light);
+            border-radius: var(--radius);
+            background: var(--primary);
+            color: white;
             font-size: 1rem;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--f-transition);
-            box-shadow: 2px 2px 8px var(--f-shadow-light);
-        }
-
-        html[data-theme="dark"] button {
-            background: #b87333; /* Directly use copper from index-main.css */
-            color: var(--f-parchment-dark);
-            box-shadow: 2px 2px 8px var(--f-shadow-dark);
+            transition: background-color 0.2s;
         }
 
         button:hover {
-            transform: translateY(-2px);
-            background: var(--f-parchment-light);
-            color: #8B0000 !important; /* Invert colors as per index-main.css */
-        }
-
-        html[data-theme="dark"] button:hover {
-            background: var(--f-parchment-dark);
-            color: #b87333 !important; /* Invert colors as per index-main.css */
+            background: var(--primary-hover);
         }
 
         .message {
             margin-top: 1rem;
             padding: 0.75rem;
-            border-radius: 12px;
+            border-radius: var(--radius);
             font-size: 0.875rem;
-            border: 1px solid;
-            transition: var(--f-transition);
         }
 
         .error {
             background: rgba(239, 68, 68, 0.1);
             color: var(--error);
-            border-color: var(--error);
         }
 
         .success {
             background: rgba(16, 185, 129, 0.1);
             color: var(--success);
-            border-color: var(--success);
         }
 
         .switch-form {
             margin-top: 1rem;
             text-align: center;
-            color: var(--f-accent-brown);
+            color: var(--text-secondary);
             font-size: 0.875rem;
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .switch-form {
-            color: var(--f-accent-gold);
         }
 
         .switch-form a {
-            color: #8B0000; /* Directly use burgundy from index-main.css */
+            color: var(--primary);
             text-decoration: none;
             cursor: pointer;
-            transition: var(--f-transition);
-        }
-
-        html[data-theme="dark"] .switch-form a {
-            color: #b87333; /* Directly use copper from index-main.css */
         }
 
         .switch-form a:hover {
-            color: var(--f-accent-brown);
             text-decoration: underline;
-        }
-
-        html[data-theme="dark"] .switch-form a:hover {
-            color: var(--f-accent-silver);
         }
 
         #register-form {
@@ -228,9 +170,9 @@
                 <label for="reg-password">Пароль</label>
                 <input type="password" id="reg-password" required>
             </div>
-            <button onclick="register()" id="regBtn">Зарегистрироваться</button>
+            <button onclick="register()" id="regBtn"></button>
             <div id="reg-message"></div>
-            <div class="switch-form" id="regSwitchForm">Уже есть аккаунт? <a onclick="switchForm('login')">Войти</a></div>
+            <div class="switch-form" id="regSwitchForm"></div>
         </div>
         <div id="login-form" class="auth-form">
             <h2>Вход</h2>
@@ -242,9 +184,9 @@
                 <label for="login-password">Пароль</label>
                 <input type="password" id="login-password" required>
             </div>
-            <button onclick="login()" id="loginBtn">Войти</button>
+            <button onclick="login()" id="loginBtn"></button>
             <div id="login-message"></div>
-            <div class="switch-form" id="loginSwitchForm">Нет аккаунта? <a onclick="switchForm('register')">Зарегистрироваться</a></div>
+            <div class="switch-form" id="loginSwitchForm"></div>
         </div>
     </div>
 </div>
@@ -260,6 +202,33 @@ window.addEventListener('DOMContentLoaded', () => {
   initTheme();
   initStyle();
 });
+
+function renderAuthUIByStyle() {
+  const style = document.documentElement.dataset.style || 'classic';
+  const authContainer = document.getElementById('authContainer');
+  const regForm = document.getElementById('register-form');
+  const loginForm = document.getElementById('login-form');
+  const regBtn = document.getElementById('regBtn');
+  const loginBtn = document.getElementById('loginBtn');
+  const regSwitchForm = document.getElementById('regSwitchForm');
+  const loginSwitchForm = document.getElementById('loginSwitchForm');
+
+    authContainer.className = '';
+    regForm.className = 'auth-form';
+    loginForm.className = 'auth-form';
+    regBtn.className = '';
+    loginBtn.className = '';
+    regBtn.textContent = 'Зарегистрироваться';
+    loginBtn.textContent = 'Войти';
+    regSwitchForm.className = 'switch-form';
+    regSwitchForm.innerHTML = 'Уже есть аккаунт? <a onclick="switchForm(\'login\')">Войти</a>';
+    loginSwitchForm.className = 'switch-form';
+    loginSwitchForm.innerHTML = 'Нет аккаунта? <a onclick="switchForm(\'register\')">Зарегистрироваться</a>';
+}
+
+// Listen for style changes
+window.addEventListener('DOMContentLoaded', renderAuthUIByStyle);
+window.addEventListener('storage', renderAuthUIByStyle);
 
 // Функция для переключения между формами
 function switchForm(form) {
