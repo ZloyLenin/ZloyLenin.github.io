@@ -88,10 +88,10 @@ function updateStyleElements(style) {
 // Initialize style
 export function initStyle() {
   // For auth page, always use classic style
-  // if (window.location.pathname.includes('auth.html')) {
-  //   setStyle('classic');
-  //   return;
-  // }
+  if (window.location.pathname.includes('auth.html')) {
+    setStyle('classic');
+    return;
+  }
   
   // For other pages, load saved style or default to classic
   const savedStyle = localStorage.getItem('style') || 'classic';

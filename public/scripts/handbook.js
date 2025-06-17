@@ -112,4 +112,4 @@ export function initHandbookPage() {
       document.querySelector(`#handbookCategories .fantasy-board-item[data-category="basics"]`).classList.add('active');
     }
   });
-} 
+}

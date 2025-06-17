@@ -204,33 +204,14 @@ window.bindSpellComponentTooltips = function bindSpellComponentTooltips() {
   });
 }
 function positionTooltip(e, tooltipDiv) {
-  const offsetX = 15; // Смещение вправо от курсора
-  const offsetY = 15; // Смещение вниз от курсора
-  const padding = 8; // Отступ от краев окна
-
+  const padding = 8;
   const rect = tooltipDiv.getBoundingClientRect();
-  let left = e.clientX + offsetX;
-  let top = e.clientY + offsetY;
-
-  // Не вылезать за правый край окна
-  if (left + rect.width > window.innerWidth - padding) {
-    left = window.innerWidth - rect.width - padding;
-  }
-
-  // Не вылезать за нижний край окна. Если вылезает, размещаем над курсором
-  if (top + rect.height > window.innerHeight - padding) {
-    top = e.clientY - rect.height - offsetY;
-    // Если и так вылезает за верхний край (маловероятно для всплывашек), просто прижимаем к верхнему отступу
-    if (top < padding) {
-        top = padding;
-    }
-  }
-
-  // Не вылезать за левый край окна (если смещено слишком вправо изначально)
-  if (left < padding) {
-      left = padding;
-  }
-
+  let left = e.clientX - rect.width / 2;
+  let top = e.clientY + padding;
+  // Не вылезать за края окна
+  if (left < padding) left = padding;
+  if (left + rect.width > window.innerWidth - padding) left = window.innerWidth - rect.width - padding;
+  if (top + rect.height > window.innerHeight - padding) top = e.clientY - rect.height - padding;
   tooltipDiv.style.position = 'fixed';
   tooltipDiv.style.left = left + 'px';
   tooltipDiv.style.top = top + 'px';

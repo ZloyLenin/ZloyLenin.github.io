@@ -9,7 +9,7 @@
   <script type="module" src="scripts/style.js"></script>
 </head>
 <body id="accountRoot" class="fantasy-root">
-  <header class="fantasy-header">
+ <header class="fantasy-header">
     <a href="index.html" class="fantasy-logo" id="mainLogo">
       <i class="fa-solid fa-dragon"></i>
       <span>GeekGang</span>
@@ -95,7 +95,7 @@
 <script type="module">
   import { initStyle } from './scripts/style.js';
   import { initTheme, updateThemeIcon } from './scripts/theme.js';
-  // import { loadUserProfile, logout } from './scripts/auth.js'; // Auth is commented out
+  import { loadUserProfile, logout, deleteAccount } from './scripts/auth.js';
 
   // Функция для сохранения аватара в localStorage
   function saveAvatarToStorage(imageData) {
@@ -118,14 +118,14 @@
     initTheme();
     initStyle();
     updateThemeIcon(document.documentElement.getAttribute('data-theme'));
-    
-    // const user = await loadUserProfile(); // Auth is commented out
-    // // Если пользователь не авторизован, ничего не делаем
-    // if (!user) return;
-    // // Данные уже подставляются в loadUserProfile, но можно продублировать:
-    // if (user.username) document.getElementById('userName').textContent = user.username;
-    // if (user.email) document.getElementById('userEmail').textContent = user.email;
-    // if (user.created) document.getElementById('userCreated').textContent = `Аккаунт создан: ${new Date(user.created).toLocaleDateString()}`;
+
+    const user = await loadUserProfile();
+    // Если пользователь не авторизован, ничего не делаем
+    if (!user) return;
+    // Данные уже подставляются в loadUserProfile, но можно продублировать:
+    if (user.username) document.getElementById('userName').textContent = user.username;
+    if (user.email) document.getElementById('userEmail').textContent = user.email;
+    if (user.created) document.getElementById('userCreated').textContent = `Аккаунт создан: ${new Date(user.created).toLocaleDateString()}`;
 
     // Загружаем сохраненный аватар при загрузке страницы
     loadAvatarFromStorage();
@@ -226,20 +226,28 @@
   settingsModal.addEventListener('mousedown', e => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
-  // Реализация выхода из аккаунта
+
+  // Логика выхода и удаления аккаунта
   if (logoutBtn) {
-    logoutBtn.onclick = () => {
-      window.location.href = 'index.html';
-    };
-  }
-  // Реализация удаления аккаунта
-  if (deleteAccountBtn) {
-    deleteAccountBtn.onclick = () => {
-      if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-        window.location.href = 'index.html';
+    logoutBtn.addEventListener('click', async () => {
+      if (confirm("Вы уверены, что хотите выйти из аккаунта?")) {
+        await logout();
       }
-    };
+    });
   }
+
+  if (deleteAccountBtn) deleteAccountBtn.addEventListener('click', async () => {
+    const password = prompt('Для подтверждения удаления введите ваш пароль:');
+    if (!password) return;
+    
+    try {
+      await deleteAccount(password);
+      alert('Ваш аккаунт был успешно удалён');
+      window.location.href = '/auth.html';
+    } catch (error) {
+      alert('Ошибка: ' + error.message);
+    }
+  });
 
   // Клик по логотипу всегда ведёт на главную
   document.getElementById('mainLogo').onclick = () => window.location.href = 'index.html';

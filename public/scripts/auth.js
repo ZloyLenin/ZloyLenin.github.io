@@ -1,11 +1,50 @@
-// Упрощенная версия без авторизации
-let currentUser = {
-    username: 'Гость',
-    email: 'guest@example.com',
-    created: new Date().toISOString()
-};
+// Функции для работы с аутентификацией
+let currentUser = null;
 
-// Функция для обновления интерфейса
+// Проверка токена при загрузке страницы
+export async function checkAuth() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        if (window.location.pathname !== '/auth.html') {
+            window.location.href = '/auth.html';
+        }
+        return false;
+    }
+
+    try {
+        const response = await fetch('/api/auth/verify', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Token invalid');
+        }
+
+        const userData = await response.json();
+        currentUser = userData;
+        
+        // Если мы на странице auth.html и токен валидный, перенаправляем на board.html
+        if (window.location.pathname === '/auth.html') {
+            window.location.href = '/board.html';
+            return false;
+        }
+        
+        updateUserInterface(userData);
+        return true;
+    } catch (error) {
+        console.error('Auth error:', error);
+        localStorage.removeItem('token');
+        if (window.location.pathname !== '/auth.html') {
+            window.location.href = '/auth.html';
+        }
+        return false;
+    }
+}
+
+// Обновление интерфейса после успешной аутентификации
 function updateUserInterface(userData) {
     const userInitial = document.getElementById('userInitial');
     const userAvatar = document.getElementById('userAvatar');
@@ -13,17 +52,74 @@ function updateUserInterface(userData) {
     const userEmail = document.getElementById('userEmail');
     const userCreated = document.getElementById('userCreated');
 
-    if (userInitial && userData.username) {
-        userInitial.textContent = userData.username.charAt(0).toUpperCase();
-        userInitial.style.display = 'inline-block';
+    if (userData.avatarUrl && userAvatar) {
+        userAvatar.src = userData.avatarUrl;
+        userAvatar.style.display = 'inline-block';
+        if (userInitial) userInitial.style.display = 'none';
+    } else {
+        if (userAvatar) userAvatar.style.display = 'none';
+        if (userInitial && userData.username) {
+            userInitial.textContent = userData.username.charAt(0).toUpperCase();
+            userInitial.style.display = 'inline-block';
+        }
     }
     if (userNameInMenu) userNameInMenu.textContent = userData.username || '';
     if (userEmail && userData.email) {
         userEmail.textContent = userData.email;
     }
-    if (userCreated) {
-        const created = new Date(userData.created);
+    if (userCreated && (userData.created_at || userData.created)) {
+        const created = new Date(userData.created_at || userData.created);
         userCreated.textContent = `Создан: ${created.toLocaleDateString()}`;
+    }
+}
+
+// Загрузка профиля пользователя
+export async function loadUserProfile() {
+    const token = localStorage.getItem('token');
+    if (!token) return null;
+
+    try {
+        const response = await fetch('/api/auth/profile', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (response.ok) {
+            const user = await response.json();
+            const userInitial = document.getElementById('userInitial');
+            const userName = document.getElementById('userName');
+            const userEmail = document.getElementById('userEmail');
+            const userCreated = document.getElementById('userCreated');
+            if (userInitial && user.username) userInitial.textContent = user.username[0].toUpperCase();
+            if (userName && user.username) userName.textContent = user.username;
+            if (userEmail && user.email) userEmail.textContent = user.email;
+            if (userCreated && user.created) userCreated.textContent = `Создан: ${new Date(user.created).toLocaleDateString()}`;
+            return user;
+        } else {
+            throw new Error('Failed to load profile');
+        }
+    } catch (error) {
+        console.error('Error loading profile:', error);
+        return null;
+    }
+}
+
+// Выход из системы
+export async function logout() {
+    try {
+        const token = localStorage.getItem('token');
+        await fetch('/api/auth/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    } catch (error) {
+        console.error('Logout error:', error);
+    } finally {
+        localStorage.removeItem('token');
+        window.location.href = '/auth.html';
     }
 }
 
@@ -35,7 +131,13 @@ export function toggleMenu() {
             console.error('Menu not found');
             return;
         }
+
         menu.classList.toggle('active');
+        
+        console.log('Menu visibility:', {
+            display: menu.style.display,
+            hasActiveClass: menu.classList.contains('active')
+        });
     } catch (error) {
         console.error('Error in toggleMenu:', error);
     }
@@ -57,16 +159,8 @@ document.addEventListener('click', (event) => {
     }
 });
 
-// Инициализация при загрузке страницы
-document.addEventListener('DOMContentLoaded', () => {
-    updateUserInterface(currentUser);
-});
-
-/*
-// Загрузка профиля пользователя
-export async function loadUserProfile() {
-    return currentUser;
-}
+// Проверяем аутентификацию при загрузке страницы
+document.addEventListener('DOMContentLoaded', checkAuth);
 
 // Функция регистрации
 export async function register() {
@@ -155,8 +249,50 @@ export async function login() {
     }
 }
 
+export async function deleteAccount(password) {
+    const token = localStorage.getItem('token');
+    if (!token) throw new Error('Требуется авторизация');
+
+    try {
+        // Проверка пароля перед удалением
+        const verifyResponse = await fetch('/api/auth/verify-password', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ password })
+        });
+
+        if (!verifyResponse.ok) {
+            const errorData = await verifyResponse.json();
+            throw new Error(errorData.error || 'Неверный пароль');
+        }
+
+        // Удаление аккаунта
+        const deleteResponse = await fetch('/api/auth/delete', {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!deleteResponse.ok) {
+            const errorData = await deleteResponse.json();
+            throw new Error(errorData.error || 'Ошибка удаления');
+        }
+
+        // Очистка данных
+        localStorage.removeItem('token');
+        localStorage.removeItem('userAvatar');
+        return true;
+    } catch (error) {
+        console.error('Account deletion error:', error);
+        throw error;
+    }
+}
+
 // Делаем функции доступными глобально для использования в HTML
 window.register = register;
 window.login = login;
-window.logout = logout;
-*/ 
+window.logout = logout; 

@@ -2,24 +2,56 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const cors = require('cors');
+const db = require('./config/db');
 require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Инициализация таблиц при запуске
+async function initDatabase() {
+  try {
+     await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        username VARCHAR(50) UNIQUE NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    // Создание таблицы boards если её нет
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS boards (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        content TEXT DEFAULT '{}',
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    
+    console.log('Таблица boards готова');
+  } catch (error) {
+    console.error('Ошибка инициализации базы данных:', error);
+    process.exit(1);
+  }
+}
 
 // Middleware
 app.use(cors());
 app.use(express.json());
 
 // Подключение маршрутов авторизации
-// const authRoutes = require('./routes/auth');
-// const auth = require('./middleware/auth');
+const authRoutes = require('./routes/auth');
+const auth = require('./middleware/auth');
 
 // Статические файлы
 app.use(express.static('public'));
 
 // API маршруты
-// app.use('/api/auth', authRoutes);
+app.use('/api/auth', authRoutes);
 app.use('/api/boards', require('./routes/boards'));
 
 // Создаем директорию data, если она не существует
@@ -31,28 +63,44 @@ app.get('/board.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'board.html'));
 });
 
-// Сохранение состояния доски
-app.post('/save-state', async (req, res) => {
+// Эндпоинт для сохранения состояния (защищенный)
+app.post('/save-state', auth, async (req, res) => {
   try {
-    const { state } = req.body;
-    // Здесь можно добавить сохранение в базу данных
+    const state = req.body;
+    const filePath = path.join(dataDir, `state_${req.user.id}.json`);
+    
+    // Создаем директорию, если она не существует
+    await fs.mkdir(dataDir, { recursive: true });
+    
+    // Сохраняем состояние
+    await fs.writeFile(filePath, JSON.stringify(state, null, 2));
     res.json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: 'Ошибка при сохранении состояния' });
+    console.error('Ошибка сохранения состояния:', error);
+    res.status(500).json({ 
+      error: 'Ошибка сохранения состояния',
+      details: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
   }
 });
 
-// Эндпоинт для загрузки состояния
-app.get('/load-state', async (req, res) => {
+// Эндпоинт для загрузки состояния (защищенный)
+app.get('/load-state', auth, async (req, res) => {
   try {
-    // Возвращаем пустое состояние
-    res.json({ notes: [], connections: [] });
+    const filePath = path.join(dataDir, `state_${req.user.id}.json`);
+    const data = await fs.readFile(filePath, 'utf8');
+    res.json(JSON.parse(data));
   } catch (error) {
-    console.error('Ошибка загрузки состояния:', error);
-    res.status(500).json({ 
-      error: 'Ошибка загрузки состояния',
-      details: process.env.NODE_ENV === 'development' ? error.message : undefined
-    });
+    if (error.code === 'ENOENT') {
+      // Если файл не существует, возвращаем пустое состояние
+      res.json({ notes: [], connections: [] });
+    } else {
+      console.error('Ошибка загрузки состояния:', error);
+      res.status(500).json({ 
+        error: 'Ошибка загрузки состояния',
+        details: process.env.NODE_ENV === 'development' ? error.message : undefined
+      });
+    }
   }
 });
 
@@ -71,6 +119,8 @@ app.use((req, res) => {
 });
 
 // Запуск сервера
-app.listen(PORT, () => {
-  console.log(`Сервер запущен на http://localhost:${PORT}`);
-}); 
+initDatabase().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Сервер запущен на http://localhost:${PORT}`);
+  });
+});

@@ -4,7 +4,7 @@ import { getState as getBoardState, addNote, removeNote, addConnection, removeCo
 import { linkMode, handleDragStart, handleDragOver, handleDrop, makeDraggable, makeResizable, setLinkMode } from './dragDrop.js';
 import { redrawLinks, initLinksSystem, getLinkMode } from './links.js';
 import { showDiceRoller } from './diceRoller.js';
-// import { checkAuth, loadUserProfile, toggleMenu, logout } from './auth.js';
+import { checkAuth, loadUserProfile, toggleMenu, logout } from './auth.js';
 import { initTheme } from './theme.js';
 import { initSearch, performSearch } from './search.js';
 
@@ -127,17 +127,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   try {
     initTheme();
     console.log('Theme initialized');
-    // if (!checkAuth()) {
-    //   console.log('Auth check failed, returning');
-    //   return;
-    // }
+    if (!checkAuth()) {
+      console.log('Auth check failed, returning');
+      return;
+    }
     console.log('Auth check passed');
-    // const user = await loadUserProfile();
-    // if (!user) {
-    //   console.log('User profile not loaded, returning');
-    //   return;
-    // }
-    console.log('User profile loaded');
+    const user = await loadUserProfile();
+    if (!user) {
+      console.log('User profile not loaded, returning');
+      return;
+    }
+    console.log('User profile loaded', user);
     if (window.location.pathname.endsWith('board.html')) {
       console.log('On board.html, UI init deferred to window.initBoardUI');
       return;

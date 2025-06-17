@@ -84,10 +84,10 @@ export function toggleTheme() {
 // Initialize theme
 export function initTheme() {
   // For auth page, always use light theme
-  // if (window.location.pathname.includes('auth.html')) {
-  //   setTheme('light');
-  //   return;
-  // }
+  if (window.location.pathname.includes('auth.html')) {
+    setTheme('light');
+    return;
+  }
   
   // For other pages, load saved theme or default to dark
   const savedTheme = localStorage.getItem('theme') || 'dark';

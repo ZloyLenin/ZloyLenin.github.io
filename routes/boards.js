@@ -1,94 +1,134 @@
 const express = require('express');
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
-
 const router = express.Router();
-const dbPath = path.join(__dirname, '../data/boards.sqlite');
+const db = require('../config/db'); // Используем PostgreSQL подключение
 
-// Инициализация базы и таблицы
-const db = new sqlite3.Database(dbPath, (err) => {
-  if (err) {
-    console.error('Ошибка подключения к SQLite:', err.message);
-  } else {
-    db.run(`CREATE TABLE IF NOT EXISTS boards (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      content TEXT DEFAULT '{}',
-      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-      updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
-    )`);
+// Все эндпоинты переведены на async/await и PostgreSQL синтаксис
+
+// Получить список досок
+router.get('/', async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT id, name, created_at, updated_at FROM boards ORDER BY created_at DESC'
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error('Ошибка при получении списка досок:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
 
-// Получить список досок
-router.get('/', (req, res) => {
-  db.all('SELECT id, name, created_at, updated_at FROM boards ORDER BY created_at DESC', [], (err, rows) => {
-    if (err) return res.status(500).json({ error: err.message });
-    res.json(rows);
-  });
-});
-
 // Получить доску по id
-router.get('/:id', (req, res) => {
-  db.get('SELECT * FROM boards WHERE id = ?', [req.params.id], (err, row) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (!row) return res.status(404).json({ error: 'Доска не найдена' });
+router.get('/:id', async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT * FROM boards WHERE id = $1',
+      [req.params.id]
+    );
     
-    // Parse the content JSON string
-    try {
-      row.content = JSON.parse(row.content);
-      // Гарантируем, что есть notes и connections
-      if (!Array.isArray(row.content.notes)) row.content.notes = [];
-      if (!Array.isArray(row.content.connections)) row.content.connections = [];
-    } catch (parseErr) {
-      console.error('Error parsing board content:', parseErr);
-      row.content = { notes: [], connections: [] };
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Доска не найдена' });
     }
     
-    res.json(row);
-  });
+    const board = result.rows[0];
+    try {
+      board.content = JSON.parse(board.content);
+      // Гарантируем наличие нужных полей
+      if (!Array.isArray(board.content.notes)) board.content.notes = [];
+      if (!Array.isArray(board.content.connections)) board.content.connections = [];
+    } catch (parseErr) {
+      console.error('Ошибка парсинга содержимого доски:', parseErr);
+      board.content = { notes: [], connections: [] };
+    }
+    
+    res.json(board);
+  } catch (error) {
+    console.error('Ошибка при получении доски:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
 // Получить содержимое доски (content)
-router.get('/:id/content', (req, res) => {
-  db.get('SELECT content FROM boards WHERE id = ?', [req.params.id], (err, row) => {
-    if (err) return res.status(500).json({ error: err.message });
-    if (!row) return res.status(404).json({ error: 'Доска не найдена' });
-    res.json({ content: row.content });
-  });
+router.get('/:id/content', async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT content FROM boards WHERE id = $1',
+      [req.params.id]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Доска не найдена' });
+    }
+    
+    res.json({ content: result.rows[0].content });
+  } catch (error) {
+    console.error('Ошибка при получении содержимого доски:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
 // Создать новую доску
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { name } = req.body;
-  if (!name) return res.status(400).json({ error: 'Имя доски обязательно' });
-  db.run('INSERT INTO boards (name) VALUES (?)', [name], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    db.get('SELECT * FROM boards WHERE id = ?', [this.lastID], (err, row) => {
-      if (err) return res.status(500).json({ error: err.message });
-      res.status(201).json(row);
-    });
-  });
+  
+  if (!name) {
+    return res.status(400).json({ error: 'Имя доски обязательно' });
+  }
+  
+  try {
+    const result = await db.query(
+      'INSERT INTO boards (name) VALUES ($1) RETURNING *',
+      [name]
+    );
+    
+    res.status(201).json(result.rows[0]);
+  } catch (error) {
+    console.error('Ошибка при создании доски:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
 // Сохранить содержимое доски (content)
-router.post('/:id/content', (req, res) => {
+router.post('/:id/content', async (req, res) => {
   const { content } = req.body;
-  if (typeof content !== 'string') return res.status(400).json({ error: 'content должен быть строкой (JSON)' });
-  db.run('UPDATE boards SET content = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?', [content, req.params.id], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: 'Доска не найдена' });
+  
+  if (typeof content !== 'string') {
+    return res.status(400).json({ error: 'content должен быть строкой (JSON)' });
+  }
+  
+  try {
+    const result = await db.query(
+      'UPDATE boards SET content = $1, updated_at = CURRENT_TIMESTAMP WHERE id = $2 RETURNING *',
+      [content, req.params.id]
+    );
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Доска не найдена' });
+    }
+    
     res.json({ success: true });
-  });
+  } catch (error) {
+    console.error('Ошибка при сохранении содержимого доски:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
 // Удалить доску
-router.delete('/:id', (req, res) => {
-  db.run('DELETE FROM boards WHERE id = ?', [req.params.id], function(err) {
-    if (err) return res.status(500).json({ error: err.message });
-    if (this.changes === 0) return res.status(404).json({ error: 'Доска не найдена' });
+router.delete('/:id', async (req, res) => {
+  try {
+    const result = await db.query(
+      'DELETE FROM boards WHERE id = $1 RETURNING *',
+      [req.params.id]
+    );
+    
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: 'Доска не найдена' });
+    }
+    
     res.json({ success: true });
-  });
+  } catch (error) {
+    console.error('Ошибка при удалении доски:', error);
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
 });
 
-module.exports = router; 
+module.exports = router;

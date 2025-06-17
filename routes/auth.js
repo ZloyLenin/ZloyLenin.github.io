@@ -1,4 +1,3 @@
-/*
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
@@ -6,7 +5,13 @@ const jwt = require('jsonwebtoken');
 const db = require('../config/db');
 const auth = require('../middleware/auth');
 
-// Регистрация
+// Важно: JWT_SECRET должен быть установлен в окружении
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  console.error('FATAL: JWT_SECRET missing');
+  process.exit(1);
+}
+
 router.post('/register', async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -32,12 +37,13 @@ router.post('/register', async (req, res) => {
 
     const token = jwt.sign(
       { id: result.rows[0].id },
-      process.env.JWT_SECRET || 'your-secret-key',
+      JWT_SECRET, // Используем переменную из окружения
       { expiresIn: '24h' }
     );
 
     res.status(201).json({ token });
   } catch (error) {
+    console.error('Registration error:', error);
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 });
@@ -79,6 +85,24 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Получение профиля пользователя
+router.get('/profile', auth, async (req, res) => {
+  try {
+    const result = await db.query(
+      'SELECT id, username, email, created_at FROM users WHERE id = $1',
+      [req.user.id]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+
+    res.json(result.rows[0]);
+  } catch (error) {
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
 // Верификация токена
 router.get('/verify', auth, async (req, res) => {
   try {
@@ -97,5 +121,47 @@ router.get('/verify', auth, async (req, res) => {
   }
 });
 
-module.exports = router;
-*/ 
+router.post('/logout', (req, res) => {
+  res.status(200).json({ success: true });
+});
+
+router.post('/verify-password', auth, async (req, res) => {
+  try {
+    const { password } = req.body;
+    const userId = req.user.id;
+    
+    const result = await db.query(
+      'SELECT password FROM users WHERE id = $1',
+      [userId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+    const user = result.rows[0];
+    const isValid = await bcrypt.compare(password, user.password);
+    
+    if (!isValid) {
+      return res.status(401).json({ error: 'Неверный пароль' });
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Ошибка сервера' });
+  }
+});
+
+// Удаление аккаунта пользователя
+router.delete('/delete', auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    // Удаляем пользователя
+    await db.query('DELETE FROM users WHERE id = $1', [userId]);
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ error: 'Ошибка при удалении аккаунта' });
+  }
+});
+
+module.exports = router; 
