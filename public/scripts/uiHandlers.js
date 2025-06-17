@@ -1,6 +1,6 @@
 import { handleDragStart, handleDragOver, handleDrop, makeDraggable, makeResizable } from './dragDrop.js';
 import { getState as getBoardState, addNote, removeNote, saveBoardContent, restoreNoteFromState } from './boardState.js';
-import { logout } from './auth.js';
+// import { logout } from './auth.js';
 import { handleNoteLinkStart, handleNoteLinkUpdate, handleNoteLinkEnd, getLinkMode, setLinkMode } from './links.js';
 
 let linkMode = false;
@@ -1621,6 +1621,6 @@ function createSearchSidebar() {
 function addSearchSidebarButton() {
   // УДАЛЕНО: устаревшая реализация кнопки боковой панели поиска
 }
-
 // Вызвать при инициализации UI
 // УДАЛЕНО: вызов addSearchSidebarButton();
+
