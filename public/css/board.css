@@ -444,7 +444,7 @@ html[data-theme="dark"] .filter-btn:hover {
 
 /* Modal styles */
 .modal {
-  display: flex;
+  display: none;
   position: fixed;
   z-index: 1000;
   left: 0;
