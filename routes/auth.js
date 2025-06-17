@@ -121,6 +121,10 @@ router.get('/verify', auth, async (req, res) => {
   }
 });
 
+router.post('/logout', (req, res) => {
+  res.status(200).json({ success: true });
+});
+
 // Удаление аккаунта пользователя
 router.delete('/delete', auth, async (req, res) => {
   try {

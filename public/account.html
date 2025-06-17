@@ -92,7 +92,7 @@
 <script type="module">
   import { initStyle, setStyle } from './scripts/style.js';
   import { initTheme } from './scripts/theme.js';
-  import { loadUserProfile } from './scripts/auth.js';
+  import { loadUserProfile, logout, deleteAccount } from './scripts/auth.js';
 
   // Функция для сохранения аватара в localStorage
   function saveAvatarToStorage(imageData) {
@@ -222,13 +222,28 @@
   settingsModal.addEventListener('mousedown', e => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
+
   // TODO: Реализовать логику выхода и удаления аккаунта
-  if (logoutBtn) logoutBtn.onclick = () => alert('Выход из аккаунта (реализуйте свою логику)');
-  if (deleteAccountBtn) deleteAccountBtn.onclick = () => {
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      if (confirm("Вы уыерену, что хотите выйти из аккаунта?")) {
+        await logout();
+      }
+    });
+  }
+
+  if (deleteAccountBtn) deleteAccountBtn.addEventListener('click', async () => {
     if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-      alert('Аккаунт удалён (реализуйте свою логику)');
+       try {
+            await deleteAccount();
+            alert('Ваш аккаунт был успешно удалён');
+            window.location.href = '/auth.html';
+          } catch (error) {
+            console.error('Delete account error:', error);
+            alert('Не удалось удалить аккаунт');
+          }
     }
-  };
+  });
 
   // Клик по логотипу всегда ведёт на главную
   document.getElementById('mainLogo').onclick = () => window.location.href = 'index.html';

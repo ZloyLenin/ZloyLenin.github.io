@@ -792,12 +792,12 @@ html[data-theme="dark"] .theme-toggle:hover {
 }
 
 .theme-toggle .theme-icon svg {
-  display: block;
-  margin: auto;
-  width: 1.5em;
-  height: 1.5em;
   color: inherit !important;
   fill: currentColor !important;
+  width: 1.5em;
+  height: 1.5em;
+  display: block;
+  margin: auto;
   transition: color 0.2s, fill 0.2s;
 }
 
