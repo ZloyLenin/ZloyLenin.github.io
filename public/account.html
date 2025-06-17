@@ -92,7 +92,7 @@
 <script type="module">
   import { initStyle, setStyle } from './scripts/style.js';
   import { initTheme } from './scripts/theme.js';
-  import { loadUserProfile, logout } from './scripts/auth.js';
+  import { loadUserProfile } from './scripts/auth.js';
 
   // Функция для сохранения аватара в localStorage
   function saveAvatarToStorage(imageData) {
@@ -222,20 +222,13 @@
   settingsModal.addEventListener('mousedown', e => {
     if (e.target === settingsModal) settingsModal.style.display = 'none';
   });
-  // Реализация выхода из аккаунта
-  if (logoutBtn) {
-    logoutBtn.onclick = () => {
-      window.location.href = 'index.html';
-    };
-  }
-  // Реализация удаления аккаунта
-  if (deleteAccountBtn) {
-    deleteAccountBtn.onclick = () => {
-      if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
-        window.location.href = 'index.html';
-      }
-    };
-  }
+  // TODO: Реализовать логику выхода и удаления аккаунта
+  if (logoutBtn) logoutBtn.onclick = () => alert('Выход из аккаунта (реализуйте свою логику)');
+  if (deleteAccountBtn) deleteAccountBtn.onclick = () => {
+    if (confirm('Вы уверены, что хотите удалить аккаунт? Это действие необратимо!')) {
+      alert('Аккаунт удалён (реализуйте свою логику)');
+    }
+  };
 
   // Клик по логотипу всегда ведёт на главную
   document.getElementById('mainLogo').onclick = () => window.location.href = 'index.html';
