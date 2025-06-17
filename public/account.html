@@ -10,17 +10,20 @@
 </head>
 <body id="accountRoot" class="fantasy-root">
   <header class="universal-header">
-    <div class="fantasy-logo" id="mainLogo">
+    <a href="index.html" class="fantasy-logo" id="mainLogo">
       <i class="fa-solid fa-dragon"></i>
       <span>GeekGang</span>
-    </div>
-    <div class="header-controls">
+    </a>
+    <div class="fantasy-header-controls">
       <button class="view-btn fantasy-btn" onclick="window.location.href='index.html'" title="На главную">
         <i class="fa-solid fa-arrow-left"></i>
         <span>На главную</span>
       </button>
       <button class="view-btn fantasy-btn" id="settingsButton" title="Настройки">
         <i class="fa-solid fa-cog"></i>
+      </button>
+      <button id="themeToggleBtn" class="theme-toggle fantasy-btn" title="Переключить тему">
+        <span class="theme-icon"></span>
       </button>
     </div>
   </header>

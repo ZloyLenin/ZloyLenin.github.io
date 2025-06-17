@@ -161,3 +161,29 @@
 html[data-theme="dark"] .theme-icon-light { opacity: 0 !important; }
 html[data-theme="dark"] .theme-icon-dark { opacity: 1 !important; }
 
+/* Logo styles */
+.fantasy-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.5em;
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.fantasy-logo i {
+    font-size: 1.2em;
+}
+
+.fantasy-logo span {
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Header controls */
+.fantasy-header-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+

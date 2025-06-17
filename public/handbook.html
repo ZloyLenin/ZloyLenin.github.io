@@ -21,10 +21,12 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
             </div>
             <div class="fantasy-header-controls">
-                <button class="fantasy-btn theme-toggle" id="themeToggleBtn">
-                    <div class="theme-icon">
-                        <i class="fa-solid fa-moon"></i>
-                    </div>
+                <button class="fantasy-btn" title="Справочник">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Справочник</span>
+                </button>
+                <button id="themeToggleBtn" class="theme-toggle fantasy-btn" title="Переключить тему">
+                    <span class="theme-icon"></span>
                 </button>
             </div>
         </header>
@@ -76,6 +78,13 @@
                 </section>
             </div>
         </main>
+    </div>
+
+    <!-- НИЖНИЕ КОНТРОЛЫ -->
+    <div class="fantasy-bottom-controls">
+        <button class="fantasy-fab-dice fantasy-btn" id="diceFabBtn" title="Бросить дайсы">
+            <i class="fa-solid fa-dice-d20"></i>
+        </button>
     </div>
 
     <script src="js/theme.js"></script>
